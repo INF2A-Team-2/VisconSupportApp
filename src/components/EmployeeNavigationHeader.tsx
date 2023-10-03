@@ -6,7 +6,7 @@ const EmployeeNavigationHeader = () => {
             <img src={logo} alt={"Logo"}/>
             <a href={"issues"}>MY ISSUES</a>
             <a href={"new-issue"}>CREATE ISSUE</a>
-            <a href={"new-issue"}>MY CUSTOMERS</a>
+            <a href={"customers"}>MY CUSTOMERS</a>
             <a href={"logout"}>LOG OUT</a>
         </div>
     </>);
