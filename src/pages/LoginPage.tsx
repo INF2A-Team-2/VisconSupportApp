@@ -42,7 +42,7 @@ const LoginPage = (): JSX.Element => {
             </div>
             <div className="field">
                 <div className="overlap-group">
-                    <input className="text-wrapper" type="text"
+                    <input className="text-wrapper" type="password"
                         id="password" value={password}
                         onChange={handlePasswordChange} placeholder="Password"/>
                     <img className="icon" alt="lock" src="lock.svg"></img>
