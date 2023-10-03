@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap');
+
+:root {
+    font-family: "Montserrat", sans-serif;
+
+    --accent: rgba(13, 135, 154, 1);
+    --accent-2: rgba(242, 67, 51, 1);
+    --background: rgba(46, 46, 50, 1);
+    --background-2: rgba(55, 63, 81, 1);
+    --platinum: rgba(169, 188, 208, 1);
+    --text: rgba(216, 219, 226, 1);
+    --text-hover: rgb(195, 198, 205);
+
+    background-color: var(--background);
+}
+
+a {
+    appearance: none;
+    color: var(--text);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--text-hover);
+}
+
+.navigation-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 64px;
+    margin-top: 16px;
+    margin-right: 16px;
+}
+
+.navigation-header img {
+    margin-right: 8px;
+}
+
+.navigation-header a:last-of-type {
+    margin-left: auto;
+}
+
+.page-content {
+    background-color: var(--background-2);
+    border-radius: 16px;
+    margin: 16px;
+    height: calc(100vh - 96px - 16px);
+}
+
+.login-box {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+ }
+  .login-box .field {
+    padding-top: 10%;
+  }
+
+  .login-box .overlap-group {
+    border: 1px solid;
+    border-color: rgba(216, 219, 226, 1);
+    border-radius: 4px;
+    height: 45px;
+    position: relative;
+    width: 300px;
+  }
+
+  .login-box .text-wrapper {
+    color: rgba(216, 219, 226, 1);
+    font-weight: 300;
+    font-size: 16px;
+    left: 50px;
+    letter-spacing: 0;
+    line-height: 20px;
+    position: absolute;
+    background: transparent;
+    border: none;
+    top: 12px;
+    white-space: nowrap;
+
+  }
+  .login-box .text-wrapper:focus {
+    outline: none;
+  }
+
+  .login-box .icon {
+    height: 20px;
+    left: 11px;
+    position: absolute;
+    top: 12px;
+    width: 20px;
+  }
+
+  .login-box .login-btn {
+    background-color:rgba(216, 219, 226, 1);
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 4px 4px #0000004c;
+    height: 45px;
+    position: relative;
+    width: 300px;
+    color: rgba(13, 135, 154, 1);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    transition-duration: 0.2s;
+    opacity: 0.8;
+  }
+
+  .login-box .login-btn:hover {
+    opacity: 1;
+  }
+
+  .login-box .text-wrapper-2 {
+    padding-top: 8px;
+    color: rgba(216, 219, 226, 1);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+ }

@@ -1,6 +1,4 @@
-import Background from './Background';
 import React, { useState } from 'react';
-import "./LoginPage.css"
 
 const LoginPage = (): JSX.Element => {
     const [username, setUsername] = useState('');
@@ -31,32 +29,35 @@ const LoginPage = (): JSX.Element => {
         console.log({"username": username, "password": password})
     }
 
-    let block = <>
-     <div className="box">
-        <div className="field">
-            <div className="overlap-group">
-                <input className="text-wrapper" type="text"
-                    id="username" value={username}
-                    onChange={handleUsernameChange} placeholder="Username" />
-                <img className="icon" alt="user" src="user.svg"></img>
-            </div>
-            <div className="field">
-                <div className="overlap-group">
-                    <input className="text-wrapper" type="password"
-                        id="password" value={password}
-                        onChange={handlePasswordChange} placeholder="Password"/>
-                    <img className="icon" alt="lock" src="lock.svg"></img>
+    return <>
+    <div className={"navigation-header"}>
+      <img className="logo" alt="Vector" src="logo.svg" />
+    </div>
+    <div className={"page-content"}>
+        <div className={"login-box"}>
+            <div className={"field"}>
+                <div className={"overlap-group"}>
+                    <input className={"text-wrapper"} type="text"
+                        id="username" value={username}
+                        onChange={handleUsernameChange} placeholder="Username" />
+                    <img className={"icon"} alt="user" src="user.svg"></img>
                 </div>
-                <div className="field">
-                    <button onClick={handleLogin} className="login-btn">LOGIN</button>
-                    <div className="text-wrapper-2" onClick={handelForgot}>Forgot password?</div>
+                <div className={"field"}>
+                    <div className={"overlap-group"}>
+                        <input className={"text-wrapper"} type="password"
+                            id="password" value={password}
+                            onChange={handlePasswordChange} placeholder="Password"/>
+                        <img className={"icon"} alt="lock" src="lock.svg"></img>
+                    </div>
+                    <div className={"field"}>
+                        <button onClick={handleLogin} className={"login-btn"}>LOGIN</button>
+                        <div className="text-wrapper-2" onClick={handelForgot}>Forgot password?</div>
+                    </div>
                 </div>
             </div>
         </div>
      </div>
     </>
-
-    return Background(block);
 }
 
 export default LoginPage;
