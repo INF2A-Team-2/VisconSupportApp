@@ -33,6 +33,10 @@ a:hover {
     margin-right: 16px;
 }
 
+.navigation-header img {
+    margin-right: 8px;
+}
+
 .navigation-header a:last-of-type {
     margin-left: auto;
 }
