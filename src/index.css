@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap');
 
 :root {
     font-family: "Montserrat", sans-serif;
@@ -46,4 +46,8 @@ a:hover {
     border-radius: 16px;
     margin: 16px;
     height: calc(100vh - 96px - 16px);
+}
+
+.welcome_admin {
+
 }
