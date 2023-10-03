@@ -124,3 +124,7 @@ a:hover {
     position: absolute;
     text-align: center;
  }
+ 
+ .login-box .text-wrapper-2:hover {
+    text-decoration: underline;
+ }
