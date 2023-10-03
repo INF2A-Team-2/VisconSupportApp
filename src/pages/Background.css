@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+}
+
+.background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(46, 46, 50, 1);
+}
+  .background .logo {
+    padding-top: 26px;
+    padding-left: 6px;
+  }
+
+  .background .main-block {
+    position: relative;
+    width: 90%;
+    height: 80%;
+    margin-top: 1.5%;
+    margin-left: 5%;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: rgba(55, 63, 81, 1);
+  }
+  
