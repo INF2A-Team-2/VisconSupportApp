@@ -1,4 +1,4 @@
-import AdminNavigationHeader from "../components/AdminNavigationHeader.tsx";
+import AdminNavigationHeader from "../components/NavigationHeader.tsx";
 
 const AdminLanding = () => {
     return (<>

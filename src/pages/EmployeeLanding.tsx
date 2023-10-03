@@ -1,4 +1,4 @@
-import EmployeeNavigationHeader from "../components/EmployeeNavigationHeader.tsx";
+import EmployeeNavigationHeader from "../components/NavigationHeader.tsx";
 
 const EmployeeLanding = () => {
     return (<>

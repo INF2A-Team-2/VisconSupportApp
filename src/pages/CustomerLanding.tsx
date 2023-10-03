@@ -1,4 +1,4 @@
-import CustomerNavigationHeader from "../components/CustomerNavigationHeader.tsx";
+import CustomerNavigationHeader from "../components/NavigationHeader.tsx";
 
 const CustomerLanding = () => {
     return (<>
