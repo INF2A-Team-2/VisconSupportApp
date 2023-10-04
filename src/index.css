@@ -2,16 +2,52 @@
 
 :root {
     font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
 
     --accent: rgba(13, 135, 154, 1);
     --accent-2: rgba(242, 67, 51, 1);
     --background: rgba(46, 46, 50, 1);
     --background-2: rgba(55, 63, 81, 1);
     --platinum: rgba(169, 188, 208, 1);
+    --platinum-hover: rgb(152, 169, 187);
     --text: rgba(216, 219, 226, 1);
     --text-hover: rgb(195, 198, 205);
 
     background-color: var(--background);
+    color: var(--text);
+}
+
+button {
+    font-family: "Montserrat", sans-serif;
+    padding: 4px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+input {
+    font-family: "Montserrat", sans-serif;
+}
+
+input:focus {
+    outline: none;
+}
+
+textarea {
+    font-family: "Montserrat", sans-serif;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+h1 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
 }
 
 a {
@@ -42,10 +78,115 @@ a:hover {
 }
 
 .page-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     background-color: var(--background-2);
     border-radius: 16px;
     margin: 16px;
-    height: calc(100vh - 96px - 16px);
+    height: calc(100vh - 96px - 16px - 48px);
+    padding: 24px;
+}
+
+.wide-button {
+    display: flex;
+    padding: 8px;
+    background-color: var(--platinum);
+    color: var(--background);
+    border-radius: 8px;
+    transition: background-color 200ms;
+}
+
+.wide-button:hover {
+    color: var(--background);
+    background-color: var(--platinum-hover);
+}
+
+.wide-button:hover svg {
+    transform: translate(5px, 2px);
+}
+
+.wide-button svg {
+    color: var(--background);
+    margin-left: auto;
+    margin-right: 16px;
+    transform: translate(0, 2px);
+    transition: transform 200ms;
+}
+
+.new-issue {
+    overflow-y: scroll;
+}
+
+.new-issue .section {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-gap: 16px;
+}
+
+.new-issue textarea {
+    min-height: 100px;
+}
+
+.new-issue button {
+    margin-top: 16px;
+}
+
+.files-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 200px);
+    grid-gap: 8px;
+}
+
+.files-list button {
+    background-color: transparent;
+    border: none;
+    color: var(--platinum);
+}
+
+.files-list button:hover {
+    cursor: pointer;
+}
+
+.files-list button svg {
+    transition: transform 200ms;
+}
+
+.files-list button:hover svg {
+    transform: scale(125%);
+}
+
+.input-file {
+    position: relative;
+}
+
+.input-file img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.input-file button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: var(--background);
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 200ms;
+}
+
+.input-file button:hover {
+    cursor: pointer;
+    color: red;
+}
+
+.input-file p {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    font-size: 0.75rem;
 }
 
 .login-box {
@@ -124,7 +265,7 @@ a:hover {
     position: absolute;
     text-align: center;
  }
- 
+
  .login-box .text-wrapper-2:hover {
     text-decoration: underline;
  }
