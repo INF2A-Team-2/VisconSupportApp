@@ -4,7 +4,7 @@ const AdminLanding = () => {
     return (<>
         <AdminNavigationHeader/>
         <div className={"page-content"}>
-            <h1> className={"welcome_admin"}</h1>
+            <h1 className={"welcome_admin"}>Welcome Admin</h1>
         </div>
     </>);
 };
