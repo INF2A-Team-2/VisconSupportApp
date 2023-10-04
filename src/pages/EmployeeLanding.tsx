@@ -1,8 +1,8 @@
-import EmployeeNavigationHeader from "../components/NavigationHeader.tsx";
+import NavigationHeader from "../components/NavigationHeader.tsx";
 
 const EmployeeLanding = () => {
     return (<>
-        <EmployeeNavigationHeader/>
+        <NavigationHeader/>
         <div className={"page-content"}>
 
         </div>

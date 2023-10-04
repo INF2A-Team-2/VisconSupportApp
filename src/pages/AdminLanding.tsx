@@ -1,8 +1,8 @@
-import AdminNavigationHeader from "../components/NavigationHeader.tsx";
+import NavigationHeader from "../components/NavigationHeader.tsx";
 
 const AdminLanding = () => {
     return (<>
-        <AdminNavigationHeader/>
+        <NavigationHeader/>
         <div className={"page-content"}>
             <h1 className={"welcome_admin"}>Welcome Admin</h1>
         </div>
