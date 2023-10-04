@@ -1,15 +1,23 @@
+import { useNavigate } from "react-router-dom";
+
 import CustomerLanding from "./CustomerLanding.tsx";
 import EmployeeLanding from "./EmployeeLanding.tsx";
 import AdminLanding from "./AdminLanding.tsx";
+import {useEffect} from "react";
 
 const LandingRouter = () => {
-    // fetch user
-    // if not logged in reroute to log in
-    // otherwise show correct page based on user type
+    const navigate = useNavigate();
 
-    let ut = "customer";
+    let user = { type: "customer" };
+    //let user = null;
 
-    switch (ut) {
+    useEffect(() => {
+        if (user === null) {
+            navigate("/login");
+        }
+    }, [navigate, user]);
+
+    switch (user?.type) {
         case "customer":
             return (<CustomerLanding />);
         case "employee":
