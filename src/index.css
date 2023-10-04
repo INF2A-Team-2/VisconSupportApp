@@ -17,6 +17,15 @@
     color: var(--text);
 }
 
+button {
+    font-family: "Montserrat", sans-serif;
+    padding: 4px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
 input {
     font-family: "Montserrat", sans-serif;
 }
@@ -119,6 +128,10 @@ a:hover {
     min-height: 100px;
 }
 
+.new-issue button {
+    margin-top: 16px;
+}
+
 .files-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, 200px);
@@ -154,7 +167,7 @@ a:hover {
     border-radius: 4px;
 }
 
-.input-file svg {
+.input-file button {
     position: absolute;
     top: 4px;
     right: 4px;
@@ -164,7 +177,7 @@ a:hover {
     transition: color 200ms;
 }
 
-.input-file svg:hover {
+.input-file button:hover {
     cursor: pointer;
     color: red;
 }

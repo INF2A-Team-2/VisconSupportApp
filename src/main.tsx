@@ -14,6 +14,7 @@ root.render(
         <Routes>
             <Route path="/">
                 <Route index element={<LandingRouter />} />
+                <Route path={"new-issue"} element={<NewIssue />}/>
                 <Route path={"login"} element={<LoginPage />}/>
             </Route>
         </Routes>
