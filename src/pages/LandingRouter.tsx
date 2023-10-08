@@ -4,25 +4,38 @@ import CustomerLanding from "./CustomerLanding.tsx";
 import EmployeeLanding from "./EmployeeLanding.tsx";
 import AdminLanding from "./AdminLanding.tsx";
 import {useEffect} from "react";
+import axios from "axios";
 
 const LandingRouter = () => {
     const navigate = useNavigate();
 
-    let user = { type: "customer" };
-    //let user = null;
+    let type: any;
+    if (localStorage.getItem("type") === null){
+        axios.get("http://localhost:5099/api/login",
+            {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}}).then(e => {
+            type = e.data;
+            localStorage.setItem('type', type);
+        }).catch(e => {
+            console.log(e);
+            localStorage.setItem("token", null);
+            navigate("/login")
+        })
+    }else{
+        type = localStorage.getItem("type");
+    }
 
     useEffect(() => {
-        if (user === null) {
+        if (localStorage.getItem("token") === null) {
             navigate("/login");
         }
-    }, [navigate, user]);
+    }, [navigate, type]);
 
-    switch (user?.type) {
-        case "customer":
+    switch (type) {
+        case "2":
             return (<CustomerLanding />);
-        case "employee":
+        case "1":
             return (<EmployeeLanding />);
-        case "admin":
+        case "0":
             return (<AdminLanding />);
     }
 };

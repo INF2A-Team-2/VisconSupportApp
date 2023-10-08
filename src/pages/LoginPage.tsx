@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const LoginPage = (): JSX.Element => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -26,7 +29,16 @@ const LoginPage = (): JSX.Element => {
     }
 
     const onLogin = (username: string, password: string) => {
-        console.log({"username": username, "password": password})
+        axios.post('http://localhost:5099/api/login', {username: username, password: password})
+            .then(response => {
+                const token = response.data.token;
+                localStorage.setItem("token", token);
+                axios.defaults.headers['Authorization'] = "Bearer: " + token;
+                console.log(token);
+                navigate("/")
+            }).catch(err => {
+                console.log(err);
+        })
     }
 
     return <>
