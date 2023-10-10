@@ -34,14 +34,14 @@ const AdminNavigationHeader = () => {
 };
 
 const NavigationHeader = () => {
-    let ut = "customer";
+    const ut = sessionStorage.getItem("type");
 
     switch (ut) {
-        case "customer":
+        case "2":
             return (<CustomerNavigationHeader/>);
-        case "employee":
+        case "1":
             return (<EmployeeNavigationHeader/>);
-        case "admin":
+        case "0":
             return (<AdminNavigationHeader />);
     }
 };
