@@ -5,8 +5,12 @@ import './index.css';
 import LandingRouter from './pages/LandingRouter.tsx';
 import NewIssue from "./pages/NewIssue.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
-import ErrPage from "./pages/404.tsx";
+import ErrPage404 from "./pages/404.tsx";
 import LogoutPage from "./pages/LogoutPage.tsx";
+import AdminUserManager from "./pages/AdminUserManager.tsx";
+import ErrPage403 from "./pages/403.tsx";
+import AdminUserEditor from "./pages/AdminUserEditor.tsx";
+import {Toaster} from "react-hot-toast";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -14,13 +18,21 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <BrowserRouter>
+        <Toaster position={"bottom-left"} toastOptions={{
+            style: {
+                fontSize: "0.75rem"
+            }
+        }}/>
         <Routes>
             <Route path="/">
                 <Route index element={<LandingRouter />} />
                 <Route path={"new-issue"} element={<NewIssue />}/>
                 <Route path={"login"} element={<LoginPage />}/>
                 <Route path={"logout"} element={<LogoutPage />}/>
-                <Route path={"*"} element={<ErrPage />}/>
+                <Route path={"admin/users"} element={<AdminUserManager />} />
+                <Route path={"admin/users/edit/:userId"} element={<AdminUserEditor />}/>
+                <Route path={"*"} element={<ErrPage404 />}/>
+                <Route path={"403"} element={<ErrPage403 />}/>
             </Route>
         </Routes>
     </BrowserRouter>

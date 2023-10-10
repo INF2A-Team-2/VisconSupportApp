@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import {User} from "../models.ts";
+import {AccountType, User} from "../models.ts";
 
-export default function useAuth() {
+export default function useAuth(allowedTypes: Array<AccountType> = []) {
     const navigate = useNavigate();
 
     const [user, setUser] = useState<User>(null);
@@ -21,13 +21,15 @@ export default function useAuth() {
                 "Authorization": `Bearer ${token}`
             }
         }).then(response => {
-            if (response.status !== 200) {
-                sessionStorage.removeItem("token");
-                navigate("/login");
-                return;
-            }
-
             setUser(response.data);
+
+            if (allowedTypes.length > 0 && !allowedTypes.includes(response.data.type)) {
+                navigate("/403");
+            }
+        }).catch(() => {
+            sessionStorage.removeItem("token");
+            navigate("/login");
+            return;
         })
 
     }, [navigate])
@@ -46,6 +48,13 @@ export async function getToken(username: string, password: string) : Promise<boo
     }
 
     sessionStorage.setItem("token", res.data.token);
-
     return true;
+}
+
+export const RequestConfig = () => {
+    return {
+        headers: {
+            "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+        }
+    }
 }
