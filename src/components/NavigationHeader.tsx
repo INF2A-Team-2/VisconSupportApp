@@ -4,52 +4,53 @@ import {AccountType} from "../models.ts";
 
 const CustomerNavigationHeader = () => {
     return (<>
-        <div className={"navigation-header"}>
-            <img src={logo} alt={"Logo"}/>
-            <a href={"issues"}>My Issues</a>
-            <a href={"new-issue"}>Create Issue</a>
-            <a href={"logout"}>Log Out</a>
-        </div>
+        <a href={"issues"}>My Issues</a>
+        <a href={"new-issue"}>Create Issue</a>
     </>);
 };
 
 const EmployeeNavigationHeader = () => {
     return (<>
-        <div className={"navigation-header"}>
-            <img src={logo} alt={"Logo"}/>
             <a href={"issues"}>My Issues</a>
             <a href={"new-issue"}>Create Issue</a>
             <a href={"customers"}>My Customers</a>
-            <a href={"logout"}>Log Out</a>
-        </div>
     </>);
 };
 
 const AdminNavigationHeader = () => {
     return (<>
-        <div className={"navigation-header"}>
-            <img src={logo} alt={"Logo"}/>
-            <a href={"issues"}>Issues</a>
-            <a href={"logout"}>Log Out</a>
-        </div>
+        <a href={"issues"}>Issues</a>
     </>);
 };
 
 const NavigationHeader = () => {
     const user = useAuth();
 
+    let headerComponent = <></>;
+
     if (user !== null) {
         switch (user.type) {
             case AccountType.User:
-                return (<CustomerNavigationHeader/>);
+                headerComponent = <CustomerNavigationHeader />;
+                break;
             case AccountType.HelpDesk:
-                return (<EmployeeNavigationHeader/>);
+                headerComponent = <EmployeeNavigationHeader />;
+                break;
             case AccountType.Admin:
-                return (<AdminNavigationHeader />);
+                headerComponent = <AdminNavigationHeader />;
+                break;
         }
-    } else {
-        return <></>;
     }
+
+    return <>
+        <div className={"navigation-header"}>
+            <img src={logo} alt={"Logo"}/>
+             {headerComponent}
+            <a href={"logout"}>Log Out</a>
+        </div>
+    </>;
 };
 
 export default NavigationHeader;
+
+// een lege line speciaal voor luuk :)))))
