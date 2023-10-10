@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {useNavigate} from "react-router-dom";
-import getToken from "../api/GetToken.ts";
+import {getToken} from "../api/auth.ts";
 
 const LoginPage = (): JSX.Element => {
     const navigate = useNavigate();
@@ -29,8 +29,11 @@ const LoginPage = (): JSX.Element => {
     }
 
     const onLogin = (username: string, password: string) => {
-        getToken(username, password);
-        navigate("/");
+        const success = getToken(username, password);
+
+        if (success) {
+            navigate("/");
+        }
     }
 
     return <>
