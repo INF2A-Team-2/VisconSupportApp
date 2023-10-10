@@ -1,29 +1,23 @@
-import { useNavigate } from "react-router-dom";
-
 import CustomerLanding from "./CustomerLanding.tsx";
 import EmployeeLanding from "./EmployeeLanding.tsx";
 import AdminLanding from "./AdminLanding.tsx";
-import {useEffect} from "react";
+import useAuth from "../api/auth.ts";
+import {AccountType} from "../models.ts";
 
 const LandingRouter = () => {
-    const navigate = useNavigate();
+    const user = useAuth();
 
-    let user = { type: "customer" };
-    //let user = null;
-
-    useEffect(() => {
-        if (user === null) {
-            navigate("/login");
+    if (user !== null) {
+        switch (user.type) {
+            case AccountType.User:
+                return (<CustomerLanding />);
+            case AccountType.HelpDesk:
+                return (<EmployeeLanding />);
+            case AccountType.Admin:
+                return (<AdminLanding />);
         }
-    }, [navigate, user]);
-
-    switch (user?.type) {
-        case "customer":
-            return (<CustomerLanding />);
-        case "employee":
-            return (<EmployeeLanding />);
-        case "admin":
-            return (<AdminLanding />);
+    } else {
+        return (<p>Loading...</p>);
     }
 };
 

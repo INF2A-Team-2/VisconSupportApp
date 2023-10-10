@@ -4,6 +4,9 @@ import './index.css';
 import LandingRouter from './pages/LandingRouter.tsx';
 import NewIssue from "./pages/NewIssue.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
+import ErrPage from "./pages/404.tsx";
+import React from "react";
+import LogoutPage from "./pages/LogoutPage.tsx";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -16,6 +19,8 @@ root.render(
                 <Route index element={<LandingRouter />} />
                 <Route path={"new-issue"} element={<NewIssue />}/>
                 <Route path={"login"} element={<LoginPage />}/>
+                <Route path={"logout"} element={<LogoutPage />}/>
+                <Route path={"404"} element={<ErrPage />}/>
             </Route>
         </Routes>
     </BrowserRouter>

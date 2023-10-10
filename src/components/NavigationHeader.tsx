@@ -1,4 +1,6 @@
 import logo from "../assets/logo.svg"
+import useAuth from "../api/auth.ts";
+import {AccountType} from "../models.ts";
 
 const CustomerNavigationHeader = () => {
     return (<>
@@ -34,15 +36,19 @@ const AdminNavigationHeader = () => {
 };
 
 const NavigationHeader = () => {
-    let ut = "customer";
+    const user = useAuth();
 
-    switch (ut) {
-        case "customer":
-            return (<CustomerNavigationHeader/>);
-        case "employee":
-            return (<EmployeeNavigationHeader/>);
-        case "admin":
-            return (<AdminNavigationHeader />);
+    if (user !== null) {
+        switch (user.type) {
+            case AccountType.User:
+                return (<CustomerNavigationHeader/>);
+            case AccountType.HelpDesk:
+                return (<EmployeeNavigationHeader/>);
+            case AccountType.Admin:
+                return (<AdminNavigationHeader />);
+        }
+    } else {
+        return <></>;
     }
 };
 
