@@ -269,3 +269,33 @@ a:hover {
  .login-box .text-wrapper-2:hover {
     text-decoration: underline;
  }
+
+ .solved-issues {
+
+ }
+
+ .solved-issues .section {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-gap: 16px;
+}
+
+.solved-issues .issues-box {
+    overflow-y: scroll;
+    height: 75vh;
+}
+
+
+.solved-issues .issues-box .issues {
+    display: grid;
+    grid-gap: 16px;
+}
+
+.solved-issues button {
+    display: flex;
+    margin-left: auto;
+    width: auto;
+    border: none;
+    background-color: var(--accent);
+}
+

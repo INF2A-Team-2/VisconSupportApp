@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage.tsx";
 import ErrPage from "./pages/404.tsx";
 import React from "react";
 import LogoutPage from "./pages/LogoutPage.tsx";
+import SolvedIssuesPage from "./pages/SolvedIssuesPage.tsx";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -21,6 +22,7 @@ root.render(
                 <Route path={"login"} element={<LoginPage />}/>
                 <Route path={"logout"} element={<LogoutPage />}/>
                 <Route path={"404"} element={<ErrPage />}/>
+                <Route path={"solved-issues"} element={<SolvedIssuesPage />}/>
             </Route>
         </Routes>
     </BrowserRouter>
