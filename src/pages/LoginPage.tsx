@@ -29,11 +29,11 @@ const LoginPage = (): JSX.Element => {
     }
 
     const onLogin = (username: string, password: string) => {
-        const success = getToken(username, password);
-
-        if (success) {
-            navigate("/");
-        }
+        getToken(username, password).then(success => {
+            if (success) {
+                navigate("/");
+            }
+        });
     }
 
     return <>
