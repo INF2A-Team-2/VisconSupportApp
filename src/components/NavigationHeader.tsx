@@ -1,6 +1,7 @@
 import logo from "../assets/logo.svg"
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
+import {useNavigate} from "react-router-dom";
 
 const CustomerNavigationHeader = () => {
     return (<>
@@ -24,6 +25,8 @@ const AdminNavigationHeader = () => {
 };
 
 const NavigationHeader = () => {
+    const navigate = useNavigate();
+
     const user = useAuth();
 
     let headerComponent = <></>;
@@ -44,7 +47,7 @@ const NavigationHeader = () => {
 
     return <>
         <div className={"navigation-header"}>
-            <img src={logo} alt={"Logo"}/>
+            <img src={logo} alt={"Logo"} onClick={() => navigate("/")}/>
              {headerComponent}
             <a href={"logout"}>Log Out</a>
         </div>
