@@ -27,6 +27,7 @@
 button {
     font-family: "Montserrat", sans-serif;
     padding: 4px;
+    border: none;
 }
 
 button:hover {
@@ -281,6 +282,21 @@ a:hover {
     text-decoration: underline;
 }
 
+.admin-users-add-user {
+    width: 32px;
+    height: 32px;
+    background-color: var(--platinum);
+    color: var(--background);
+    border-radius: 4px;
+    margin-left: 8px;
+    transition: background-color 200ms;
+}
+
+.admin-users-add-user:hover {
+    cursor: pointer;
+    background-color: var(--platinum-hover);
+}
+
 .admin-users-legenda {
     display: grid;
     grid-template-columns: repeat(2, 24px) repeat(auto-fit, minmax(50px, 1fr));
@@ -292,6 +308,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: 2px;
+    overflow-y: scroll;
 }
 
 .admin-users-list-item {

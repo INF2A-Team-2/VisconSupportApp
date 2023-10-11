@@ -62,10 +62,29 @@ const AdminUserManager = () => {
         })
     };
 
+    const handleNewUser = () => {
+        const promise = axios.post(`http://localhost:5099/api/users`, {
+            username: `new_user_${Math.floor(Math.random() * 100)}`,
+            password: "",
+        }, RequestConfig());
+
+        toast.promise(promise, {
+            loading: "Creating user...",
+            success: "Created user",
+            error: "Failed to create user"
+        }).then(response => {
+            const id = response.data.id;
+            navigate(`/admin/users/edit/${id}`);
+        });
+    };
+
     return <>
         <NavigationHeader/>
         <div className={"page-content"}>
-            <h1>Users</h1>
+            <div className={"admin-users-edit-header"}>
+                <h1>Users</h1>
+                <button className={"admin-users-add-user"} onClick={handleNewUser}><i className="fa-solid fa-user-plus"></i></button>
+            </div>
             <div className={"admin-users-edit-header"}>
                 {selectedUsers.length > 0
                 ? <>
