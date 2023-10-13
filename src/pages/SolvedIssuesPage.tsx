@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
 import WideButton from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
+import { getMachines } from "../api/machine.ts";
+import { Machine } from "../models.ts";
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
+    const [machines, setMachines] = useState<Machine[]>([]);
     const [machine, setMachine] = useState<string>("");
     const [issues, setIssues] = useState<string[]>([]);
-    const machines = ["machine 1", "machine 2", "machine 3"];
     
+    useEffect(() => {
+        (async () => {
+            setMachines(await getMachines());
+        })();
+    }, []);
+
     const getIssues = (machine: string) => {
         // get issues for machine
         if (machine === "machine 1") {
@@ -29,13 +37,12 @@ const SolvedIssuesPage = () => {
         }
     }
 
-
     return (<>
         <NavigationHeader/>
         <div className={"page-content solved-issues"}>
             <h1>Solved Issues</h1>
             <div className={"section"}>
-                <Dropdown options={machines} onChange={(e) => {setMachine(e.value); getIssues(e.value);}} placeholder={"Machine..."}/>
+                <Dropdown options={machines.map(m => m.name)} onChange={(e) => {setMachine(e.value); getIssues(e.value);}} placeholder={"Machine..."}/>
             </div>
             <div className={"issues-box"}>
                 <div className={"issues"}> 
