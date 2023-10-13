@@ -3,6 +3,7 @@ import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
 import 'react-dropdown/style.css';
 import InputFile from "../components/InputFile.tsx";
+import axios from "axios";
 
 const NewIssue = () => {
     useEffect(() => {
@@ -30,6 +31,9 @@ const NewIssue = () => {
         imageInput.current.click();
     }
 
+    const onSubmit = () => {
+        axios.post("http://localhost:7183/")
+    }
     const onImageUpload = () => {
         if (imageInput.current === null) {
             return;
@@ -75,7 +79,7 @@ const NewIssue = () => {
                 {media.map((f: string, i) => (<InputFile data={f} deleteCallback={() => deleteMedia(i)} key={i}/>))}
                 <button onClick={onAddImage}><i className="fa-solid fa-plus fa-2xl"></i></button>
             </div>
-            <button>Submit</button>
+            <button onClick={onSubmit}>Submit</button>
         </div>
     </>);
 };

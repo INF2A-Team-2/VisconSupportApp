@@ -17,3 +17,10 @@ export type Machine = {
     name: string;
     userid: number;
 }
+
+export type Issue ={
+    id : number;
+    department : string;
+    headline : string;
+    description : string;
+}
