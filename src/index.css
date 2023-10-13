@@ -17,6 +17,20 @@
     color: var(--text);
 }
 
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: var(--background)
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+	background-color: var(--background)
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--accent-2);
+}
+
 button {
     font-family: "Montserrat", sans-serif;
     padding: 4px;
@@ -95,6 +109,7 @@ a:hover {
     color: var(--background);
     border-radius: 8px;
     transition: background-color 200ms;
+    margin-right: 8px;
 }
 
 .wide-button:hover {
@@ -281,7 +296,7 @@ a:hover {
 }
 
 .solved-issues .issues-box {
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 75vh;
 }
 
@@ -294,8 +309,20 @@ a:hover {
 .solved-issues button {
     display: flex;
     margin-left: auto;
-    width: auto;
     border: none;
     background-color: var(--accent);
+    font-size: 16px;
+    color: var(--text);
+    padding: 10px;
+    border-radius: 16px;
+    opacity: 0.8;
+    transition: 0.1s;
 }
 
+.solved-issues button:hover {
+    opacity: 1;
+}
+
+.drop-down {
+    background-color: var(--background);
+}
