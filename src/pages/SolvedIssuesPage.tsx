@@ -3,8 +3,8 @@ import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
 import WideButton from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
-import {getIssuesById, getMachines} from "../api/machine.ts";
-import { Machine,Issue } from "../models.ts";
+import { getIssuesById, getMachines } from "../api/machine.ts";
+import { Machine, Issue } from "../models.ts";
 
 
 const SolvedIssuesPage = () => {
@@ -22,10 +22,14 @@ const SolvedIssuesPage = () => {
         })();
     }, []);
 
-    const getIssues = () => {
-        // get issues for machine
-        getIssuesById(machine.id).then(issues => setIssues(issues));
-    };
+    useEffect(() => {
+        (async () => {
+            if (machine === null) {
+                return;
+            }
+            setIssues(await getIssuesById(machine.id));
+        })();
+    }, [machine]);
 
     const onNotListed = () => {
         if (machine === null) {
@@ -35,19 +39,22 @@ const SolvedIssuesPage = () => {
         }
     }
 
+    const getLine = (issue: Issue): string => {
+        return "Headline: " + issue.headline + ", Department: " + issue.department + ", Description: " + issue.description
+    }
+
     return (<>
         <NavigationHeader/>
         <div className={"page-content solved-issues"}>
             <h1>Solved Issues</h1>
             <div className={"section"}>
                 <Dropdown options={machines.map(m => m.name)} onChange={(e) => {
-                    let m = machines.find(machine => machine.name === e.value);
-                    setMachine(m); getIssues();
+                    setMachine(machines.find(machine => machine.name === e.value));
                 }} placeholder={"Machine..."}/>
             </div>
             <div className={"issues-box"}>
                 <div className={"issues"}> 
-                    {issues.map((e) => <WideButton title={e.headline} target={"test"}/>)}
+                    {issues.map((e) => <WideButton key={e.id} title={getLine(e)} target={"test"}/>)}
                 </div>
             </div>
             <button onClick={onNotListed}>My issues is not listed</button>
