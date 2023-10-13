@@ -9,7 +9,7 @@ import { Machine } from "../models.ts";
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
     const [machines, setMachines] = useState<Machine[]>([]);
-    const [machine, setMachine] = useState<string>("");
+    const [machine, setMachine] = useState<Machine>(null);
     const [issues, setIssues] = useState<string[]>([]);
     
     useEffect(() => {
@@ -18,11 +18,11 @@ const SolvedIssuesPage = () => {
         })();
     }, []);
 
-    const getIssues = (machine: string) => {
+    const getIssues = () => {
         // get issues for machine
-        if (machine === "machine 1") {
+        if (machine.name === "machine 1") {
             setIssues(["issue 1", "issue 2", "issue 3", "issue 4", "issue 2", "issue 3", "issue 4", "issue 2", "issue 3", "issue 4"]);
-        } else if (machine === "machine 2") {
+        } else if (machine.name === "machine 2") {
             setIssues(["issue 1", "issue 3"])
         } else {
             setIssues(["issue 1", "issue 2", "issue 3"]);
@@ -30,7 +30,7 @@ const SolvedIssuesPage = () => {
     };
 
     const onNotListed = () => {
-        if (machine == "") {
+        if (machine === null) {
             alert("Please select a machine!");
         } else {
             navigate("/new-issue");
@@ -42,7 +42,10 @@ const SolvedIssuesPage = () => {
         <div className={"page-content solved-issues"}>
             <h1>Solved Issues</h1>
             <div className={"section"}>
-                <Dropdown options={machines.map(m => m.name)} onChange={(e) => {setMachine(e.value); getIssues(e.value);}} placeholder={"Machine..."}/>
+                <Dropdown options={machines.map(m => m.name)} onChange={(e) => {
+                    let m = machines.find(machine => machine.name === e.value);
+                    setMachine(m); getIssues();
+                }} placeholder={"Machine..."}/>
             </div>
             <div className={"issues-box"}>
                 <div className={"issues"}> 
