@@ -1,6 +1,11 @@
+import NavigationHeader from "../components/NavigationHeader.tsx";
+
 const ErrPage = () => {
     return <>
-        <h1>Iesh probleem</h1>
+        <NavigationHeader/>
+        <div className={"page-content"}>
+            <h1>Iesh probleem</h1>
+        </div>
     </>
 }
 
