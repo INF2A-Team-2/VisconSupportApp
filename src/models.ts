@@ -18,9 +18,16 @@ export type Machine = {
     userid: number;
 }
 
-export type Issue ={
+export type Issue = {
     id : number;
     department : string;
     headline : string;
     description : string;
+}
+
+export type Message =  {
+    id: number;
+    name: string;
+    time: string;
+    message: string;
 }
