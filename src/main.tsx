@@ -12,6 +12,7 @@ import AdminUserManager from "./pages/AdminUserManager.tsx";
 import ErrPage403 from "./pages/403.tsx";
 import AdminUserEditor from "./pages/AdminUserEditor.tsx";
 import {Toaster} from "react-hot-toast";
+import AdminIssueManager from "./pages/AdminIssueManager.tsx";
 import IssuePage from "./pages/IssuePage.tsx";
 import MyIssuesPage from "./pages/MyIssues.tsx";
 import AdminIssueManager from "./pages/AdminIssueManager.tsx";
