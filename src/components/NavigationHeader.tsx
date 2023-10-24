@@ -20,7 +20,8 @@ const EmployeeNavigationHeader = () => {
 
 const AdminNavigationHeader = () => {
     return (<>
-        <a href={"issues"}>Issues</a>
+        <a href={"/issues"}>Issues</a>
+        <a href={"/admin/users"}>Users</a>
     </>);
 };
 
@@ -49,7 +50,7 @@ const NavigationHeader = () => {
         <div className={"navigation-header"}>
             <img src={logo} alt={"Logo"} onClick={() => navigate("/")}/>
              {headerComponent}
-            <a href={"logout"}>Log Out</a>
+            <a href={"/logout"}>Log Out</a>
         </div>
     </>;
 };
