@@ -1,25 +1,24 @@
 import axios from "axios";
 import {Issue, Machine} from "../models";
+import { useEffect, useState } from "react";
+import { RequestConfig, SERVER_URL } from "./auth";
 
-export async function getMachines() {
-    const token = sessionStorage.getItem("token");
-    if (token === null) {
-        return;
-    }
-    const res = await axios.get<Machine[]>("http://localhost:5099/api/machines", {
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }});
-    return res.data
+export function useMachines() {
+    const [machines, setMachines] = useState<Array<Machine>>([]);
+    useEffect(() => {
+        axios.get(SERVER_URL + "/api/machines", RequestConfig())
+            .then(response => {
+                setMachines(response.data);
+            });
+    });
+    return machines;
 }
-export async function getIssuesById( id : number) {
-    const token = sessionStorage.getItem("token");
-    if (token === null) {
-        return;
-    }
-    const res = await axios.get<Issue[]>("http://localhost:5099/api/machines/issues?machineId=" + id, {
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }});
-    return res.data
+export function useIssues(id : number) {
+    const [issues, setIssues] = useState<Array<Issue>>([]);
+    useEffect(() => {
+        axios.get(SERVER_URL + "/api/macines/issue?machineId=" + id, RequestConfig())
+            .then(response => setIssues(response.data));
+    });
+
+    return issues;
 }

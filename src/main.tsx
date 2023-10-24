@@ -30,7 +30,7 @@ root.render(
                 <Route path={"new-issue"} element={<NewIssue />}/>
                 <Route path={"login"} element={<LoginPage />}/>
                 <Route path={"logout"} element={<LogoutPage />}/>
-                <Route path={"404"} element={<ErrPage />}/>
+                <Route path={"404"} element={<ErrPage404 />}/>
                 <Route path={"solved-issues"} element={<SolvedIssuesPage />}/>
                 <Route path={"admin/users"} element={<AdminUserManager />} />
                 <Route path={"admin/users/edit/:userId"} element={<AdminUserEditor />}/>

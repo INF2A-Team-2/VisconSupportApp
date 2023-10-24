@@ -3,31 +3,22 @@ import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
 import WideButton from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
-import { getIssuesById, getMachines } from "../api/machine.ts";
 import { Machine, Issue } from "../models.ts";
+import { useIssues, useMachines } from "../api/machine.ts";
 
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
-    const [machines, setMachines] = useState<Machine[]>([]);
+    const machines = useMachines();
     const [machine, setMachine] = useState<Machine>(null);
-    const [issues, setIssues] = useState<Issue[]>([]);
-
-    useEffect(() => {
-        (async () => {
-            let machines = await getMachines();
-            if (machines != null) {
-                setMachines(machines);
-            }
-        })();
-    }, []);
+    let issues = []; 
 
     useEffect(() => {
         (async () => {
             if (machine === null) {
                 return;
             }
-            setIssues(await getIssuesById(machine.id));
+            issues = useIssues(machine.id);
         })();
     }, [machine]);
 
