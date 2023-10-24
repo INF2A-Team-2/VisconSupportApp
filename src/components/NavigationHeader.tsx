@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 const CustomerNavigationHeader = () => {
     return (<>
         <a href={"issues"}>My Issues</a>
-        <a href={"new-issue"}>Create Issue</a>
+        <a href={"solved-issues"}>Create Issue</a>
     </>);
 };
 

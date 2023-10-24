@@ -7,6 +7,7 @@ import NewIssue from "./pages/NewIssue.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import ErrPage404 from "./pages/404.tsx";
 import LogoutPage from "./pages/LogoutPage.tsx";
+import SolvedIssuesPage from "./pages/SolvedIssuesPage.tsx";
 import AdminUserManager from "./pages/AdminUserManager.tsx";
 import ErrPage403 from "./pages/403.tsx";
 import AdminUserEditor from "./pages/AdminUserEditor.tsx";
@@ -29,6 +30,8 @@ root.render(
                 <Route path={"new-issue"} element={<NewIssue />}/>
                 <Route path={"login"} element={<LoginPage />}/>
                 <Route path={"logout"} element={<LogoutPage />}/>
+                <Route path={"404"} element={<ErrPage404 />}/>
+                <Route path={"solved-issues"} element={<SolvedIssuesPage />}/>
                 <Route path={"admin/users"} element={<AdminUserManager />} />
                 <Route path={"admin/users/edit/:userId"} element={<AdminUserEditor />}/>
                 <Route path={"*"} element={<ErrPage404 />}/>

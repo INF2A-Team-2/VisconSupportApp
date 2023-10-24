@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {AccountType, User} from "../models.ts";
 
-export const SERVER_URL = "https://localhost:7183";
+export const SERVER_URL = "http://localhost:5099";
 
 export default function useAuth(allowedTypes: Array<AccountType> = []) {
     const navigate = useNavigate();
