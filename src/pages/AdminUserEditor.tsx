@@ -77,7 +77,7 @@ const AdminUserEditor = () => {
 
     return <>
         <NavigationHeader/>
-        <div className={"page-content"}>
+        <div className={"page-content user-editor"}>
             <h1>Edit user</h1>
             {editedUser !== null
                 ? <>

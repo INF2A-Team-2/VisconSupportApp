@@ -369,3 +369,15 @@ a:hover {
     cursor: pointer;
     background-color: var(--accent-3);
 }
+
+.user-editor {
+}
+
+.user-editor input {
+    height: 32px;
+    color: var(--text);
+    background-color: transparent;
+    border-radius: 6px;
+    border: 3px solid;
+    border-color: var(--platinum);
+}
