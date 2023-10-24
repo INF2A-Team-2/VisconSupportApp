@@ -1,5 +1,5 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import useAuth, {RequestConfig} from "../api/auth.ts";
+import useAuth, {RequestConfig, SERVER_URL} from "../api/auth.ts";
 import {AccountType, User} from "../models.ts";
 import {useEffect, useState} from "react";
 import axios from "axios";
@@ -15,7 +15,7 @@ const AdminUserManager = () => {
     const [selectedUsers, setSelectedUsers] = useState([])
 
     useEffect(() => {
-        axios.get("http://localhost:5099/api/users", RequestConfig())
+        axios.get(SERVER_URL + "/api/users", RequestConfig())
             .then(response => {
             setUsers(response.data);
         })
@@ -49,7 +49,7 @@ const AdminUserManager = () => {
 
     const handleDelete = () => {
         const requests = selectedUsers.map(userId => {
-            axios.delete(`http://localhost:5099/api/users/${userId}`, RequestConfig());
+            axios.delete(SERVER_URL + `/api/users/${userId}`, RequestConfig());
         });
 
         toast.promise(Promise.all(requests), {
@@ -63,7 +63,7 @@ const AdminUserManager = () => {
     };
 
     const handleNewUser = () => {
-        const promise = axios.post(`http://localhost:5099/api/users`, {
+        const promise = axios.post(SERVER_URL + "/api/users", {
             username: `new_user_${Math.floor(Math.random() * 100)}`,
             password: "",
         }, RequestConfig());

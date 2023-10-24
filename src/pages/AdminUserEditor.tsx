@@ -1,5 +1,5 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import useAuth, {RequestConfig} from "../api/auth.ts";
+import useAuth, {RequestConfig, SERVER_URL} from "../api/auth.ts";
 import {AccountType, User} from "../models.ts";
 import {useEffect, useState} from "react";
 import axios from "axios";
@@ -18,7 +18,7 @@ const AdminUserEditor = () => {
     const [newPasswordControl, setNewPasswordControl] = useState("");
 
     useEffect(() => {
-        axios.get(`http://localhost:5099/api/users/${userId}`, RequestConfig()).then(response => {
+        axios.get(SERVER_URL + `/api/users/${userId}`, RequestConfig()).then(response => {
             setEditedUser(response.data);
         })
     }, [userId])
@@ -50,7 +50,7 @@ const AdminUserEditor = () => {
     };
 
     const submitData = () => {
-        const promise = axios.put(`http://localhost:5099/api/users/${userId}`, editedUser, RequestConfig());
+        const promise = axios.put(SERVER_URL + `/api/users/${userId}`, editedUser, RequestConfig());
         toast.promise(promise, {
             loading: "Loading...",
             success: "Edited user",
@@ -67,7 +67,7 @@ const AdminUserEditor = () => {
         const u = {...editedUser} as any;
         u.password = newPassword;
 
-        const promise = axios.put(`http://localhost:5099/api/users/${userId}`, u, RequestConfig());
+        const promise = axios.put(SERVER_URL + `/api/users/${userId}`, u, RequestConfig());
         toast.promise(promise, {
             loading: "Loading...",
             success: "Changed password",
