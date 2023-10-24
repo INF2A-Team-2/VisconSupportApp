@@ -5,20 +5,23 @@ import WideButton from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
 import { Machine, Issue } from "../models.ts";
 import { useIssues, useMachines } from "../api/machine.ts";
+import axios from "axios";
+import { RequestConfig, SERVER_URL } from "../api/auth.ts";
 
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
     const machines = useMachines();
+    const [issues, setIssues] = useState<Array<Issue>>([]);
     const [machine, setMachine] = useState<Machine>(null);
-    let issues = []; 
 
     useEffect(() => {
         (async () => {
             if (machine === null) {
                 return;
             }
-            issues = useIssues(machine.id);
+            axios.get(SERVER_URL + "/api/machines/issues?machineId=" + machine.id, RequestConfig())
+                .then(response => setIssues(response.data));
         })();
     }, [machine]);
 

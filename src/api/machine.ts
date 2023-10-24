@@ -16,7 +16,7 @@ export function useMachines() {
 export function useIssues(id : number) {
     const [issues, setIssues] = useState<Array<Issue>>([]);
     useEffect(() => {
-        axios.get(SERVER_URL + "/api/macines/issue?machineId=" + id, RequestConfig())
+        axios.get(SERVER_URL + "/api/machines/issue?machineId=" + id, RequestConfig())
             .then(response => setIssues(response.data));
     });
 
