@@ -308,7 +308,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .admin-users-list-item {
