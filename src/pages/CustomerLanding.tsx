@@ -7,7 +7,8 @@ const CustomerLanding = () => {
         <div className={"page-content"}>
             <h1>Welcome Customer</h1>
             <p>Recent Issues:</p>
-            <WideButton title={"Test"} target={"test"}/>
+            <WideButton title={"Issue 1"} target={"issue/1"}/>
+            <WideButton title={"Issue 2"} target={"issue/2"}/>
         </div>
     </>);
 };
