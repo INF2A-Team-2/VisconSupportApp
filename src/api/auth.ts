@@ -7,6 +7,8 @@ import config from "../../config.json";
 export const SERVER_URL = config.server_url;
 
 export default function useAuth(allowedTypes: Array<AccountType> = []) {
+
+
     const navigate = useNavigate();
 
     const [user, setUser] = useState<User>(null);

@@ -5,14 +5,14 @@ import {useNavigate} from "react-router-dom";
 
 const CustomerNavigationHeader = () => {
     return (<>
-        <a href={"issues"}>My Issues</a>
+        <a href={"my-issues"}>My Issues</a>
         <a href={"solved-issues"}>Create Issue</a>
     </>);
 };
 
 const EmployeeNavigationHeader = () => {
     return (<>
-            <a href={"issues"}>My Issues</a>
+            <a href={"my-issues"}>My Issues</a>
             <a href={"new-issue"}>Create Issue</a>
             <a href={"customers"}>My Customers</a>
     </>);

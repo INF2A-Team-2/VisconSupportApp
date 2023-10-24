@@ -14,3 +14,21 @@ export function useMachines() {
     return machines;
 }
 
+export async function getUserIssues(machineId: number) {
+    const token = sessionStorage.getItem("token");
+    if (token === null) {
+        return;
+    }
+
+    const res = await axios.get<Issue[]>("http://localhost:5099/api/user/issues", {
+        params: {
+            machineId: machineId
+        },
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    return res.data;
+}
+
