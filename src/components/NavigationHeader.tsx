@@ -20,7 +20,7 @@ const EmployeeNavigationHeader = () => {
 
 const AdminNavigationHeader = () => {
     return (<>
-        <a href={"/issues"}>Issues</a>
+        <a href={"/admin/issues"}>Issues</a>
         <a href={"/admin/users"}>Users</a>
     </>);
 };
