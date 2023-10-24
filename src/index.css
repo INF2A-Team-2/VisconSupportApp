@@ -110,6 +110,7 @@ a:hover {
     margin: 16px;
     height: calc(100vh - 96px - 16px - 48px);
     padding: 24px;
+    overflow-y: auto;
 }
 
 .wide-button {
@@ -375,6 +376,11 @@ a:hover {
     font-size: 18px;
 }
 
+.observation-fields textarea:disabled {
+    height: auto;
+    min-height: 16vh;
+}
+
 .admin-users-add-user {
     width: 32px;
     height: 32px;
@@ -473,4 +479,93 @@ a:hover {
     border-radius: 6px;
     border: 3px solid;
     border-color: var(--platinum);
+}
+
+.chat {
+    text-transform: none;
+    background: var(--background);
+    border-radius: 6px;
+    color: var(--text);
+    width: 60vw;
+    vertical-align: baseline;
+}
+
+.chat .chat-history {
+    display: grid;
+    padding: 30px 30px 20px;
+    overflow-y: scroll;
+    height: 40vh;
+    border-bottom: 4px solid var(--background-3);
+}
+
+.chat .chat-history ul {
+    list-style: none;
+}
+
+.message {
+    color: var(--background);
+    padding: 6px 4px;
+    line-height: 26px;
+    font-size: 16px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    width: 80%;
+    position: relative;
+}
+
+.message-data-time {
+    padding-left: 6px;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.recieved-message {
+    background-color: var(--platinum);
+}
+
+.sent-message {
+    background-color: var(--accent);
+    float: right;
+}
+
+.clearfix::after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+.message-input {
+    display: flex;
+}
+
+.message-input textarea {
+    background-color: var(--platinum-hover);
+    border: none;
+    font-size: 16px;
+    resize: none;
+    border-bottom-left-radius: 6px;
+    width: 60%;
+}
+
+.message-input button {
+    display: flex;
+    margin-left: auto;
+    background-color: var(--accent);
+    font-size: 16px;
+    color: var(--text);
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 16px;
+    opacity: 0.8;
+    transition: 0.1s;
+}
+
+.message-input button:hover {
+    opacity: 1;
 }
