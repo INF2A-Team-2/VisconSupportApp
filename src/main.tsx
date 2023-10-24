@@ -1,13 +1,17 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 import LandingRouter from './pages/LandingRouter.tsx';
 import NewIssue from "./pages/NewIssue.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
-import ErrPage from "./pages/404.tsx";
-import React from "react";
+import ErrPage404 from "./pages/404.tsx";
 import LogoutPage from "./pages/LogoutPage.tsx";
 import SolvedIssuesPage from "./pages/SolvedIssuesPage.tsx";
+import AdminUserManager from "./pages/AdminUserManager.tsx";
+import ErrPage403 from "./pages/403.tsx";
+import AdminUserEditor from "./pages/AdminUserEditor.tsx";
+import {Toaster} from "react-hot-toast";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -15,6 +19,11 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <BrowserRouter>
+        <Toaster position={"bottom-left"} toastOptions={{
+            style: {
+                fontSize: "0.75rem"
+            }
+        }}/>
         <Routes>
             <Route path="/">
                 <Route index element={<LandingRouter />} />
@@ -23,6 +32,10 @@ root.render(
                 <Route path={"logout"} element={<LogoutPage />}/>
                 <Route path={"404"} element={<ErrPage />}/>
                 <Route path={"solved-issues"} element={<SolvedIssuesPage />}/>
+                <Route path={"admin/users"} element={<AdminUserManager />} />
+                <Route path={"admin/users/edit/:userId"} element={<AdminUserEditor />}/>
+                <Route path={"*"} element={<ErrPage404 />}/>
+                <Route path={"403"} element={<ErrPage403 />}/>
             </Route>
         </Routes>
     </BrowserRouter>

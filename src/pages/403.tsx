@@ -1,12 +1,12 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
 
-const ErrPage404 = () => {
+const ErrPage403 = () => {
     return <>
         <NavigationHeader/>
         <div className={"page-content"}>
-            <h1>Iesh probleem</h1>
+            <h1>Verboden toegang la</h1>
         </div>
     </>
 }
 
-export default ErrPage404;
+export default ErrPage403;

@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import {User} from "../models.ts";
+import {AccountType, User} from "../models.ts";
 
-export default function useAuth() {
+export const SERVER_URL = "https://localhost:7183";
+
+export default function useAuth(allowedTypes: Array<AccountType> = []) {
     const navigate = useNavigate();
 
     const [user, setUser] = useState<User>(null);
@@ -16,18 +18,17 @@ export default function useAuth() {
             return;
         }
 
-        axios.get("http://localhost:5099/api/login", {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }).then(response => {
-            if (response.status !== 200) {
-                sessionStorage.removeItem("token");
-                navigate("/login");
-                return;
-            }
+        axios.get(SERVER_URL + "/api/login", RequestConfig())
+            .then(response => {
+                setUser(response.data);
 
-            setUser(response.data);
+                if (allowedTypes.length > 0 && !allowedTypes.includes(response.data.type)) {
+                    navigate("/403");
+                }
+        }).catch(() => {
+            sessionStorage.removeItem("token");
+            navigate("/login");
+            return;
         })
 
     }, [navigate])
@@ -36,7 +37,7 @@ export default function useAuth() {
 }
 
 export async function getToken(username: string, password: string) : Promise<boolean> {
-    const res = await axios.post("http://localhost:5099/api/login", {
+    const res = await axios.post(SERVER_URL + "/api/login", {
         username: username,
         password: password
     });
@@ -46,6 +47,13 @@ export async function getToken(username: string, password: string) : Promise<boo
     }
 
     sessionStorage.setItem("token", res.data.token);
-
     return true;
+}
+
+export const RequestConfig = () => {
+    return {
+        headers: {
+            "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+        }
+    }
 }

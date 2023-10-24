@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {useNavigate} from "react-router-dom";
 import {getToken} from "../api/auth.ts";
+import {toast} from "react-hot-toast";
 
 const LoginPage = (): JSX.Element => {
     const navigate = useNavigate();
@@ -19,20 +20,19 @@ const LoginPage = (): JSX.Element => {
         if (username.trim() !== '' && password.trim() !== '') {
           onLogin(username, password);
         } else {
-          // Handle empty fields or other validation logic here
-          alert('Please enter both username and password.');
+          toast.error("Please enter username and password")
         }
     };
 
-    const handelForgot = () => {
-        alert("just try again")
+    const handleForgot = () => {
+        toast.error("This feature has not been implemented yet");
     }
 
     const onLogin = (username: string, password: string) => {
-        getToken(username, password).then(success => {
-            if (success) {
-                navigate("/");
-            }
+        getToken(username, password).then(() => {
+            navigate("/");
+        }).catch(() => {
+            toast.error("Invalid username or password");
         });
     }
 
@@ -47,18 +47,18 @@ const LoginPage = (): JSX.Element => {
                     <input className={"text-wrapper"} type="text"
                         id="username" value={username}
                         onChange={handleUsernameChange} placeholder="Username" />
-                    <img className={"icon"} alt="user" src="user.svg"></img>
+                    <i className="fa-solid fa-user"></i>
                 </div>
                 <div className={"field"}>
                     <div className={"overlap-group"}>
                         <input className={"text-wrapper"} type="password"
                             id="password" value={password}
                             onChange={handlePasswordChange} placeholder="Password"/>
-                        <img className={"icon"} alt="lock" src="lock.svg"></img>
+                        <i className="fa-solid fa-lock"></i>
                     </div>
                     <div className={"field"}>
                         <button onClick={handleLogin} className={"login-btn"}>LOGIN</button>
-                        <div className="text-wrapper-2" onClick={handelForgot}>Forgot password?</div>
+                        <div className="text-wrapper-2" onClick={handleForgot}>Forgot password?</div>
                     </div>
                 </div>
             </div>
