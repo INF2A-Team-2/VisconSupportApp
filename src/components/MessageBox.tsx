@@ -1,21 +1,19 @@
-const MessageBox = ({name, time, message, owner = false}:
-    {name: string, time: string, message: string, owner: boolean}) => {
+import { marked } from "marked";
+import sanitizeHtml from "sanitize-html";
 
-    let alignstring = "";
-    let messagestring = "recieved-message";
-    if (owner) {
-        alignstring = "align-right";
-        messagestring = "sent-message"
-    }
-
+const MessageBox = ({name, time, message}:
+    {name: string, time: string, message: string}) => {
+    const html = sanitizeHtml(marked(message));
     return (<>
-        <li className={owner ? "clearfix" : ""}>
-            <div className={alignstring}>
+    <li className={"no-list-style"}>
+        <div className={"message-border"}>
+            <div className={"message-data"}>
                 <span className={"message-data-name"}>{name}</span>
                 <span className={"message-data-time"}>{time}</span>
             </div>
-            <div className={"message " + messagestring}>{message}</div>
-        </li>
+            <div className={"message"} dangerouslySetInnerHTML={{__html: html}}></div>
+        </div>
+    </li>
     </>);
 }
 

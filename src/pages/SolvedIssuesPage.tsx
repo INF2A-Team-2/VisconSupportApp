@@ -4,7 +4,7 @@ import Dropdown from "react-dropdown";
 import WideButton from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
 import { Machine, Issue } from "../models.ts";
-import { useIssues, useMachines } from "../api/machine.ts";
+import { useMachines } from "../api/machine.ts";
 import axios from "axios";
 import { RequestConfig, SERVER_URL } from "../api/auth.ts";
 
@@ -14,7 +14,6 @@ const SolvedIssuesPage = () => {
     const machines = useMachines();
     const [issues, setIssues] = useState<Array<Issue>>([]);
     const [machine, setMachine] = useState<Machine>(null);
-
     useEffect(() => {
         (async () => {
             if (machine === null) {
@@ -29,12 +28,13 @@ const SolvedIssuesPage = () => {
         if (machine === null) {
             alert("Please select a machine!");
         } else {
+            sessionStorage.setItem("machineId", String(machine.id))
             navigate("/new-issue");
         }
     }
 
     const getLine = (issue: Issue): string => {
-        return "Headline: " + issue.headline + ", Department: " + issue.department + ", Description: " + issue.description
+        return "Headline: " + issue.headline
     }
 
     return (<>

@@ -2,13 +2,36 @@ import { useParams } from "react-router-dom";
 import NavigationHeader from "../components/NavigationHeader";
 import { Issue, Message } from "../models";
 import MessageBox from "../components/MessageBox";
-import { createRef, useState } from "react";
+import { useRef, useState } from "react";
 
 const IssuePage = () => {
     const { issueId } = useParams();
     const issue = getIssue(issueId);
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState<Array<Message>>([]);
+    const textareaRef = useRef<HTMLTextAreaElement>();
+
+    const insertTextAtLine = (style: string) => {
+        if (textareaRef.current) {
+            if (textareaRef.current) {
+                const textarea = textareaRef.current;
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+                const lines = message.split('\n');
+                const lineIndex = message.substring(0, start).split('\n').length - 1;
+                if (lineIndex < lines.length) {
+                    lines[lineIndex] = style + " " + lines[lineIndex];
+                    const newText = lines.join('\n');
+                    setMessage(newText);
+
+                    textarea.selectionStart = start + 1;
+                    textarea.selectionEnd = start + 1;
+                    textarea.focus();
+                  }
+
+            }
+        }
+    };
 
     const sendMessage = () => {
         if (message == "") {
@@ -34,30 +57,48 @@ const IssuePage = () => {
             <h1>{issue.headline}</h1>
             <div className={"observation-fields"}>
                 <p>What Happened?</p>
-                <textarea disabled defaultValue={issue.description.split("|||")[0]}/>
+                <textarea disabled defaultValue={issue.actual}/>
 
                 <p>Expectations</p>
-                <textarea disabled defaultValue={issue.description.split("|||")[1]}/>
+                <textarea disabled defaultValue={issue.expected}/>
 
                 <p>What did you try?</p>
-                <textarea disabled defaultValue={issue.description.split("|||")[2]}/>
+                <textarea disabled defaultValue={issue.tried}/>
             </div>
-
-            <h2>Messages</h2>
             <div className={"chat"}>
+            <h1>Messages</h1>
                 <div className={"chat-history"}>
-                    <ul>
-                        {messages.map(m =>
-                            <MessageBox key={m.id} name={m.name + ", "} time={m.time}
-                                message={m.message} owner={m.name == "Customer"}/>)}
-                    </ul>
+                    {messages.map(m =>
+                        <MessageBox key={m.id} name={m.name} time={m.time} message={m.message}/>)}
+                </div>
+                <div className={"message-options"}>
+                    <div className="text-icon" onClick={() => {insertTextAtLine("###")}}>
+                        <i className="fa-solid fa-heading"/>
+                    </div>
+                    <div className="text-icon" onClick={() => {insertTextAtLine("###")}}>
+                        <i className="fa-solid fa-bold"/>
+                    </div>
+                    <div className="text-icon" onClick={() => {insertTextAtLine("###")}}>
+                        <i className="fa-solid fa-italic"/>
+                    </div>
+                    <div className="text-icon" onClick={() => {insertTextAtLine(">")}}>
+                        <i className="fa-solid fa-quote-left"/>
+                    </div>
+                    <div className="text-icon" onClick={() => {insertTextAtLine("-")}}>
+                        <i className="fa-solid fa-list-ol"/>
+                    </div>
+                    <div className="text-icon" onClick={() => {insertTextAtLine("1.")}}>
+                        <i className="fa-solid fa-list-ul"/>
+                    </div>
                 </div>
                 <div className={"message-input"}>
                     <textarea placeholder={"..."}
+                        rows={8}
                         value={message}
+                        ref={textareaRef}
                         onChange={(e) => setMessage(e.target.value)}/>
-                    <button onClick={sendMessage}>Send</button>
                 </div>
+                <button onClick={sendMessage}>Send</button>
             </div>
         </div>
     </>);
@@ -68,18 +109,21 @@ const getIssue = (issueId: string): Issue => {
         return {
             id: Number(issueId),
             headline: "Extension not working",
-            department: "Poultry",
-            description: "This shit is not really working rn|||It should work|||I tried everything"
+            actual: "This shit is not really working rn",
+            expected: "It should work",
+            tried: "I tried everything",
+            timeStamp: "empty",
        };
     } else {
         return {
             id: Number(issueId),
             headline: "Chicken eggs are not getting collected",
-            department: "Chickens",
-            description: "This shit is not really working rn|||It should work|||I tried everything"
+            actual: "This shit is not really working rn",
+            expected: "It should work",
+            tried: "I tried everything",
+            timeStamp: "empty",
        };
     }
-
 }
 
 export default IssuePage;
