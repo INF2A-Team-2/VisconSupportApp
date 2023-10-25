@@ -7,10 +7,15 @@ import { useNavigate } from "react-router-dom";
 
 const NewIssue = () => {
     useEffect(() => {
+        if (machineId === null) {
+            navigate("/solved-issues");
+        }
         document.title = "New Issue";
     }, []);
 
     const navigate = useNavigate();
+    const machineId = sessionStorage.getItem("machineId");
+
     const [department, setDepartment] = useState("");
     const [title, setTitle] = useState("");
     const [occurrence, setOccurence] = useState("");
@@ -82,16 +87,14 @@ const NewIssue = () => {
 
     const deleteMedia = (i) => {
         setMedia(media.filter((_, idx) => idx !== i));
+        sessionStorage.removeItem("machineId");
     };
 
     return (<>
         <NavigationHeader/>
         <div className={"page-content new-issue"}>
             <h1>Create Issue</h1>
-            <div className={"section"}>
-                <Dropdown options={departments} onChange={e => setDepartment(e.value)} placeholder={"Department..."}/>
-                <input type={"text"} onChange={e => setTitle(e.target.value)} placeholder={"Title..."}/>
-            </div>
+            <input type={"text"} onChange={e => setTitle(e.target.value)} placeholder={"Title..."}/>
             <div className={"observation-fields"}>
                 <p>What Happened?</p>
                 <textarea rows={10} placeholder={"..."}

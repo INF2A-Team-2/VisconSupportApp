@@ -144,17 +144,13 @@ a:hover {
     overflow-y: scroll;
 }
 
-.new-issue .section {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    grid-gap: 16px;
-}
-.new-issue .section input {
+.new-issue input {
     color: var(--text);
     background-color: transparent;
     border-radius: 6px;
     border: 3px solid;
     border-color: var(--platinum);
+    font-size: large;
 }
 
 .new-issue button {
@@ -482,61 +478,55 @@ a:hover {
 }
 
 .chat {
+    margin-top: 46px;
+    align-self: center;
     text-transform: none;
-    background: var(--background);
+    border: solid #39393A 4px;
+    background-color: var(--background);
     border-radius: 6px;
     color: var(--text);
     width: 60vw;
+    height: 50vw;
     vertical-align: baseline;
 }
 
 .chat .chat-history {
     display: grid;
-    padding: 30px 30px 20px;
+    padding: 30px 0px 20px;
     overflow-y: scroll;
     height: 40vh;
     border-bottom: 4px solid var(--background-3);
 }
-
-.chat .chat-history ul {
-    list-style: none;
-}
-
 .message {
-    color: var(--background);
-    padding: 6px 4px;
+    color: var(--text);
+    padding: 6px 24px;
     line-height: 26px;
     font-size: 16px;
     border-radius: 6px;
-    margin-bottom: 14px;
-    width: 80%;
     position: relative;
+}
+
+.message-border {
+    border-color: var(--platinum);
+    border-style: solid;
+    border-radius: 6px;
+    margin-bottom: 18px;
+    margin-right: 48px;
+}
+
+.message-data {
+    border-bottom: solid var(--platinum) 2px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.message-data-name {
+    padding-left: 14px;
 }
 
 .message-data-time {
     padding-left: 6px;
-}
-
-.align-right {
-    text-align: right;
-}
-
-.recieved-message {
-    background-color: var(--platinum);
-}
-
-.sent-message {
-    background-color: var(--accent);
-    float: right;
-}
-
-.clearfix::after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
+    opacity: 50%;
 }
 
 .message-input {
@@ -544,17 +534,21 @@ a:hover {
 }
 
 .message-input textarea {
-    background-color: var(--platinum-hover);
-    border: none;
+    background-color: transparent;
+    border: solid var(--platinum-hover);
+    color: var(--text);
     font-size: 16px;
     resize: none;
     border-bottom-left-radius: 6px;
-    width: 60%;
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 8px;
 }
 
-.message-input button {
+.chat button {
     display: flex;
     margin-left: auto;
+    height: fit-content;
     background-color: var(--accent);
     font-size: 16px;
     color: var(--text);
@@ -566,6 +560,24 @@ a:hover {
     transition: 0.1s;
 }
 
-.message-input button:hover {
+.chat button:hover {
     opacity: 1;
+}
+
+.message-options {
+    padding: 8px;
+    display: flex;
+    justify-content: right;
+}
+
+.message-options .text-icon {
+    margin-right: 10px;
+}
+
+.message-options .text-icon:hover {
+    color: var(--accent)
+}
+
+.no-list-style {
+    list-style: none;
 }

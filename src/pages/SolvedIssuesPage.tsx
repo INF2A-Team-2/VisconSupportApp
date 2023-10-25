@@ -14,7 +14,6 @@ const SolvedIssuesPage = () => {
     const machines = useMachines();
     const [issues, setIssues] = useState<Array<Issue>>([]);
     const [machine, setMachine] = useState<Machine>(null);
-
     useEffect(() => {
         (async () => {
             if (machine === null) {
@@ -29,12 +28,13 @@ const SolvedIssuesPage = () => {
         if (machine === null) {
             alert("Please select a machine!");
         } else {
+            sessionStorage.setItem("machineId", String(machine.id))
             navigate("/new-issue");
         }
     }
 
     const getLine = (issue: Issue): string => {
-        return "Headline: " + issue.headline + ", Department: " + issue.department + ", Description: " + issue.description
+        return "Headline: " + issue.headline
     }
 
     return (<>
