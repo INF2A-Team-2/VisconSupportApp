@@ -479,23 +479,24 @@ a:hover {
 
 .chat {
     margin-top: 46px;
-    align-self: center;
     text-transform: none;
-    border: solid #39393A 4px;
-    background-color: var(--background);
+    background-color: var(--background-2);
     border-radius: 6px;
     color: var(--text);
-    width: 60vw;
+    width: 50%;
     height: 50vw;
     vertical-align: baseline;
 }
 
 .chat .chat-history {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
     display: grid;
     padding: 30px 0px 20px;
     overflow-y: scroll;
     height: 40vh;
     border-bottom: 4px solid var(--background-3);
+    background-color: var(--background);
 }
 .message {
     color: var(--text);
@@ -534,14 +535,14 @@ a:hover {
 }
 
 .message-input textarea {
-    background-color: transparent;
-    border: solid var(--platinum-hover);
+    background-color: var(--background-3);
+    border: 8px solid var(--background);
     color: var(--text);
     font-size: 16px;
     resize: none;
     border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
     width: 100%;
-    border-radius: 6px;
     margin-bottom: 8px;
 }
 
@@ -568,6 +569,7 @@ a:hover {
     padding: 8px;
     display: flex;
     justify-content: right;
+    background-color: var(--background);
 }
 
 .message-options .text-icon {

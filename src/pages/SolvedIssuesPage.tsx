@@ -14,12 +14,13 @@ const SolvedIssuesPage = () => {
     const machines = useMachines();
     const [issues, setIssues] = useState<Array<Issue>>([]);
     const [machine, setMachine] = useState<Machine>(null);
+
     useEffect(() => {
-        (async () => {
+        (() => {
             if (machine === null) {
                 return;
             }
-            axios.get(SERVER_URL + "/api/machines/issues?machineId=" + machine.id, RequestConfig())
+            axios.get(SERVER_URL + "/issues/" + machine.id, RequestConfig())
                 .then(response => setIssues(response.data));
         })();
     }, [machine]);
