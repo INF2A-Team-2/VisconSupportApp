@@ -473,4 +473,41 @@ a:hover {
     border-radius: 6px;
     border: 3px solid;
     border-color: var(--platinum);
+
+/* Kopie van solved issues om styling zelfde te houden */
+.my-issues {
+
+}
+
+.my-issues .section {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-gap: 16px;
+}
+
+.my-issues .issues-box {
+    overflow-y: auto;
+    height: 75vh;
+}
+
+.my-issues .issues-box .issues {
+    display: grid;
+    grid-gap: 16px;
+}
+
+.my-issues button {
+    display: flex;
+    margin-left: auto;
+    border: none;
+    background-color: var(--accent);
+    font-size: 16px;
+    color: var(--text);
+    padding: 10px;
+    border-radius: 16px;
+    opacity: 0.8;
+    transition: 0.1s;
+}
+
+.my-issues button:hover {
+    opacity: 1;
 }

@@ -7,7 +7,8 @@ import { Machine, Issue } from "../models.ts";
 import { useMachines } from "../api/machine.ts";
 import axios from "axios";
 import { RequestConfig, SERVER_URL } from "../api/auth.ts";
-
+import 'react-dropdown/style.css';
+import '../index.css';
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();

@@ -5,6 +5,9 @@ import WideButton from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
 import { getUserIssues, getMachines } from "../api/machine.ts";
 import { Machine, Issue } from "../models.ts";
+import 'react-dropdown/style.css';
+import '../index.css';
+
 
 const MyIssuesPage = () => {
     const navigate = useNavigate();
@@ -26,16 +29,16 @@ const MyIssuesPage = () => {
             if (machine === null) {
                 return;
             }
-            // Fetch user-specific issues for the selected machine.
             setIssues(await getUserIssues(machine.id));
         })();
     }, [machine]);
 
-    const onNotListed = () => {
+    const DirectToSolvedIssues = () => {
         if (machine === null) {
             alert("Please select a machine!");
         } else {
-            navigate("/new-issue");
+            // Ik heb iemands hulp nog nodig om deze pagina te laden met params
+            navigate("/solved-issues");
         }
     }
 
@@ -57,7 +60,7 @@ const MyIssuesPage = () => {
                     {issues.map((e) => <WideButton key={e.id} title={getLine(e)} target={"test"}/>)}
                 </div>
             </div>
-            <button onClick={onNotListed}>Create a new issue</button>
+            <button onClick={DirectToSolvedIssues}>Create a new issue</button>
         </div>
     </>);
 }

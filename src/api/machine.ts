@@ -14,21 +14,18 @@ export function useMachines() {
     return machines;
 }
 
-export async function getUserIssues(machineId: number) {
+export async function getUserIssues( id : number) {
     const token = sessionStorage.getItem("token");
     if (token === null) {
         return;
     }
 
-    const res = await axios.get<Issue[]>("http://localhost:5099/api/user/issues", {
-        params: {
-            machineId: machineId
-        },
+    // op dit moment is dit gewoon een letterlijke kopie van de api call die levi heeft gemaakt
+    // ik ga met luuk kijken hoe je een api call maakt voor de issues van een persoon
+    const res = await axios.get<Issue[]>("http://localhost:5099/api/machines/issues?machineId=" + id, {
         headers: {
             "Authorization": `Bearer ${token}`
-        }
-    });
-
-    return res.data;
+        }});
+    return res.data
 }
 
