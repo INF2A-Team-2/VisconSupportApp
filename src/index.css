@@ -497,12 +497,19 @@ a:hover {
     height: 40vh;
     border-bottom: 4px solid var(--background-3);
     background-color: var(--background);
+
 }
+
+.chat .chat-history blockquote {
+    opacity: 75%;
+    background-color: var(--background-3);
+}
+
 .message {
     color: var(--text);
     padding: 6px 24px;
     line-height: 26px;
-    font-size: 16px;
+    font-size: 14px;
     border-radius: 6px;
     position: relative;
 }
@@ -516,6 +523,7 @@ a:hover {
 }
 
 .message-data {
+    font-size: 14px;
     border-bottom: solid var(--platinum) 2px;
     padding-top: 6px;
     padding-bottom: 6px;
@@ -573,7 +581,8 @@ a:hover {
 }
 
 .message-options .text-icon {
-    margin-right: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .message-options .text-icon:hover {

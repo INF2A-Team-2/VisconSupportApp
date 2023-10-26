@@ -4,10 +4,11 @@ import { Issue, Message } from "../models";
 import MessageBox from "../components/MessageBox";
 import { useRef, useState } from "react";
 
-enum ListMode {
+enum StyleMode {
     None,
     Numbered,
-    Dash
+    Dash,
+    Quote
 }
 
 const IssuePage = () => {
@@ -16,7 +17,7 @@ const IssuePage = () => {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState<Array<Message>>([]);
     const textareaRef = useRef<HTMLTextAreaElement>();
-    const [listMode, setListMode] = useState<ListMode>(ListMode.None)
+    const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None)
     const [listCount, setListCount] = useState<number>(1);
 
     const insertTextAtLine = (style: string) => {
@@ -66,21 +67,27 @@ const IssuePage = () => {
     }
 
     const newLine = () => {
-        if (listMode == ListMode.None)
+        if (styleMode == StyleMode.None)
             return;
 
+        if (styleMode == StyleMode.Quote) {
+            setMessage(message + "\n");
+            setStyleMode(StyleMode.None);
+            return;
+        }
+
         let lines = message.split("\n");
-        if (listMode == ListMode.Numbered && lines[lines.length - 2] == `${listCount - 1}. `) {
+        if (styleMode == StyleMode.Numbered && lines[lines.length - 2] == `${listCount - 1}. `) {
             setListCount(1);
-            setListMode(ListMode.None);
+            setStyleMode(StyleMode.None);
             setMessage(lines.splice(0, lines.length - 2).join("\n") + "\n")
-        } else if (listMode == ListMode.Numbered) {
+        } else if (styleMode == StyleMode.Numbered) {
             setListCount(listCount + 1);
             insertTextAtLine(`${listCount}.`);
-        } else if (listMode == ListMode.Dash && lines[lines.length - 2] == "- ") {
-            setListMode(ListMode.None);
+        } else if (styleMode == StyleMode.Dash && lines[lines.length - 2] == "- ") {
+            setStyleMode(StyleMode.None);
             setMessage(lines.splice(0, lines.length - 2).join("\n") + "\n")
-        } else if (listMode == ListMode.Dash)
+        } else if (styleMode == StyleMode.Dash)
             insertTextAtLine("-")
     }
 
@@ -134,13 +141,13 @@ const IssuePage = () => {
                     <div className="text-icon" onClick={() => {surroundWord("_")}}>
                         <i className="fa-solid fa-italic"/>
                     </div>
-                    <div className="text-icon" onClick={() => {insertTextAtLine(">")}}>
+                    <div className="text-icon" onClick={() => {insertTextAtLine(">"); setStyleMode(StyleMode.Quote)}}>
                         <i className="fa-solid fa-quote-left"/>
                     </div>
-                    <div className="text-icon" onClick={() => {setListMode(ListMode.Numbered); newLine();}}>
+                    <div className="text-icon" onClick={() => {setStyleMode(StyleMode.Numbered); newLine();}}>
                         <i className="fa-solid fa-list-ol"/>
                     </div>
-                    <div className="text-icon" onClick={() => {setListMode(ListMode.Dash); newLine();}}>
+                    <div className="text-icon" onClick={() => {setStyleMode(StyleMode.Dash); newLine();}}>
                         <i className="fa-solid fa-list-ul"/>
                     </div>
                 </div>
