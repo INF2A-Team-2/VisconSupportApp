@@ -4,7 +4,7 @@ import Dropdown from "react-dropdown";
 import WideButton from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
 import { Machine, Issue } from "../models.ts";
-import { useIssues, useMachines } from "../api/machine.ts";
+import { useMachines } from "../api/machine.ts";
 import axios from "axios";
 import { RequestConfig, SERVER_URL } from "../api/auth.ts";
 
