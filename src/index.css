@@ -511,7 +511,10 @@ a:hover {
 
 }
 
+.my-issues .issue-details .button{
+    font-size: 26px;
 
+}
 .issue-details {
     overflow: hidden;
     transition: height 0.4s ease-in-out;
