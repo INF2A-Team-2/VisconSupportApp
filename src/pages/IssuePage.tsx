@@ -2,7 +2,9 @@ import { useParams } from "react-router-dom";
 import NavigationHeader from "../components/NavigationHeader";
 import { Issue, Message } from "../models";
 import MessageBox from "../components/MessageBox";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import { RequestConfig, SERVER_URL } from "../api/auth";
 
 enum StyleMode {
     None,
@@ -13,12 +15,21 @@ enum StyleMode {
 
 const IssuePage = () => {
     const { issueId } = useParams();
-    const issue = getIssue(issueId);
+    const [issue, setIssue] = useState<Issue | null>();
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState<Array<Message>>([]);
     const textareaRef = useRef<HTMLTextAreaElement>();
     const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None)
     const [listCount, setListCount] = useState<number>(1);
+
+    useEffect(() => {
+        (() => {
+            axios.get(SERVER_URL + "/api/issues/" + issueId , RequestConfig())
+                .then(response => setIssue(response.data))
+            axios.get(SERVER_URL + "/api/messages?issueId=" + issueId , RequestConfig())
+                .then(response => setMessages(response.data));
+        })();
+    }, [issueId]);
 
     const insertTextAtLine = (style: string) => {
         if (textareaRef.current) {
@@ -96,39 +107,36 @@ const IssuePage = () => {
             return;
         }
 
-        let name = "Customer";
-        if (Math.floor(Math.random() * 2) == 0) {
-            name = "Mr. Employee"
-        }
-        setMessages([...messages, {
-            id: messages.length,
-            name: name,
-            time: new Date().toLocaleString(),
-            message: message
-        }])
+        axios.post(SERVER_URL + "/api/messages", {
+            issueId: issueId,
+            body: message
+        }, RequestConfig()).finally(() => {
+            axios.get(SERVER_URL + "/api/messages?issueId=" + issueId , RequestConfig())
+                .then(response => setMessages(response.data));});
+
         setMessage("");
     }
 
     return (<>
         <NavigationHeader />
         <div className={"page-content"}>
-            <h1>{issue.headline}</h1>
+            <h1>{issue?.headline}</h1>
             <div className={"observation-fields"}>
                 <p>What Happened?</p>
-                <textarea disabled defaultValue={issue.actual}/>
+                <textarea disabled defaultValue={issue?.actual}/>
 
                 <p>Expectations</p>
-                <textarea disabled defaultValue={issue.expected}/>
+                <textarea disabled defaultValue={issue?.expected}/>
 
                 <p>What did you try?</p>
-                <textarea disabled defaultValue={issue.tried}/>
+                <textarea disabled defaultValue={issue?.tried}/>
             </div>
             <div className={"chat"}>
             <h1>Messages</h1>
                 <div className={"chat-history"}>
                     <ul className={"no-list-style"}>
                         {messages.map(m =>
-                        <MessageBox key={m.id} name={m.name} time={m.time} message={m.message}/>)}
+                            <MessageBox key={m.id} name={m.name} time={m.timestamp} message={m.body}/>)}
                     </ul>
                 </div>
                 <div className={"message-options"}>
@@ -163,28 +171,6 @@ const IssuePage = () => {
             </div>
         </div>
     </>);
-}
-
-const getIssue = (issueId: string): Issue => {
-    if (issueId == "1") {
-        return {
-            id: Number(issueId),
-            headline: "Extension not working",
-            actual: "This shit is not really working rn",
-            expected: "It should work",
-            tried: "I tried everything",
-            timeStamp: "empty",
-       };
-    } else {
-        return {
-            id: Number(issueId),
-            headline: "Chicken eggs are not getting collected",
-            actual: "This shit is not really working rn",
-            expected: "It should work",
-            tried: "I tried everything",
-            timeStamp: "empty",
-       };
-    }
 }
 
 export default IssuePage;

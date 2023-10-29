@@ -20,7 +20,7 @@ const SolvedIssuesPage = () => {
             if (machine === null) {
                 return;
             }
-            axios.get(SERVER_URL + "/issues/" + machine.id, RequestConfig())
+            axios.get(SERVER_URL + "/api/issues?machineId=" + machine.id, RequestConfig())
                 .then(response => setIssues(response.data));
         })();
     }, [machine]);

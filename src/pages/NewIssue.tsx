@@ -1,9 +1,10 @@
 import {useEffect, useRef, useState} from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import Dropdown from "react-dropdown";
 import 'react-dropdown/style.css';
 import InputFile from "../components/InputFile.tsx";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { RequestConfig, SERVER_URL } from "../api/auth.ts";
 
 const NewIssue = () => {
     useEffect(() => {
@@ -16,19 +17,12 @@ const NewIssue = () => {
     const navigate = useNavigate();
     const machineId = sessionStorage.getItem("machineId");
 
-    const [department, setDepartment] = useState("");
     const [title, setTitle] = useState("");
     const [occurrence, setOccurence] = useState("");
     const [expectation, setExpectation] = useState("");
     const [tried, setTried] = useState("");
 
     const [media, setMedia] = useState([]);
-
-    const departments = [
-        "Department 1",
-        "Department 2",
-        "Department 3"
-    ];
 
     const imageInput= useRef(null);
 
@@ -42,8 +36,6 @@ const NewIssue = () => {
 
     const onSubmit = () => {
         let missingMessage = "";
-        if (department == "")
-            missingMessage += "Department; "
         if (title == "")
             missingMessage += "Title; "
         if (occurrence == "")
@@ -53,7 +45,6 @@ const NewIssue = () => {
         if (tried == "")
             missingMessage += "What did you try?;"
 
-
         if (missingMessage != "")  {
             alert("Missing: " + missingMessage);
         } else {
@@ -62,6 +53,14 @@ const NewIssue = () => {
     }
 
     const handleSubmit = () => {
+        axios.post(SERVER_URL + "/api/issues", {
+            actual: occurrence,
+            expected: expectation,
+            tried: tried,
+            headline: title,
+            machineId: machineId
+        }, RequestConfig())
+
         alert("Issue has been issued");
         navigate("/");
     }

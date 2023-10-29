@@ -29,6 +29,6 @@ export type Issue = {
 export type Message =  {
     id: number;
     name: string;
-    time: string;
-    message: string;
+    body: string;
+    timestamp: string;
 }
