@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Machine } from "../models";
+import { Machine, Issue } from "../models";
 import { useEffect, useState } from "react";
 import { RequestConfig, SERVER_URL } from "./auth";
 
