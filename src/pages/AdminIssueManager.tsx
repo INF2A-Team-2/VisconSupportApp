@@ -1,44 +1,59 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth, {RequestConfig, SERVER_URL} from "../api/auth.ts";
-import {AccountType, User} from "../models.ts";
+import {AccountType, Issue, User, Machine} from "../models.ts";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import TableList from "../components/TableList.tsx";
 
 const AdminIssueManager = () => {
     const user = useAuth([AccountType.Admin]);
 
-    const [issues, setIssues] = useState<Array<User>>([])
+    const [issues, setIssues] = useState<Array<Issue>>([]);
+    const [users, setUsers] = useState<Array<User>>([]);
+    const [machines, setMachines] = useState<Array<Machine>>([]);
+
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         axios.get(SERVER_URL + "/api/issues", RequestConfig())
             .then(response => {
             setIssues(response.data);
         })
+
+        axios.get(SERVER_URL + "/api/users", RequestConfig())
+            .then(response => {
+                setUsers(response.data);
+            })
+
+        axios.get(SERVER_URL + "/api/machines", RequestConfig())
+            .then(response => {
+                setMachines(response.data);
+            })
     }, [])
+
+    useEffect(() => {
+        const _data = []
+        issues.forEach(i => {
+            const user = users.find(u => u.id == i.userId);
+            const machine = machines.find(m => m.id == i.userId)
+
+            _data.push([
+                i.id,
+                i.headline,
+                new Date(i.timeStamp).toLocaleString(),
+                user !== undefined ? `${user.username} [${user.id}]` : "",
+                machine !== undefined ? `${machine.name} [${machine.id}]` : ""
+            ])
+        });
+
+        setData(_data);
+    }, [issues, users, machines]);
+
 
     return <>
         <NavigationHeader/>
         <div className={"page-content"}>
-            <div className={"admin-users-edit-header"}>
-                <h1>Issues</h1>
-            </div>
-            <div className={"admin-users-legenda"}>
-                <p>Id</p>
-                <p>Username</p>
-                <p>Type</p>
-                <p>Phone number</p>
-                <p>Unit</p>
-            </div>
-            <div className={"admin-users-list"}>
-                {issues.map(u => (
-                    <div className={"admin-users-list-item"} key={u.id}>
-                        <p>{u.id}</p>
-                        <p>{u.username}</p>
-                        <p>{u.type}</p>
-                        <p>{u.phoneNumber}</p>
-                        <p>{u.unit}</p>
-                    </div>))}
-            </div>
+            <TableList columns={["ID", "Headline", "Date", "User", "Machine"]} data={data} />
         </div>
     </>
 }

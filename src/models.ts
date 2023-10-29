@@ -11,3 +11,20 @@ export interface User {
     phoneNumber: string;
     unit: string;
 }
+
+export interface Issue {
+    id: number;
+    headline: string;
+    actual: string;
+    expected: string;
+    tried: string;
+    timeStamp: string;
+    userId: number;
+    machineId: number;
+}
+
+export type Machine = {
+    id: number;
+    name: string;
+    userid: number;
+}
