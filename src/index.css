@@ -595,3 +595,61 @@ a:hover {
 .no-list-style {
     list-style: none;
 }
+/* Kopie van solved issues om styling zelfde te houden */
+.my-issues {
+
+}
+
+.my-issues .section {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-gap: 16px;
+}
+
+.my-issues .issues-box {
+    overflow-y: auto;
+    height: 75vh;
+}
+
+.my-issues .issues-box .issues {
+    display: grid;
+    grid-gap: 16px;
+}
+
+.my-issues button {
+    display: flex;
+    margin-left: auto;
+    margin-right: 16px;
+    border: none;
+    border-radius: 16px;
+    opacity: 0.8;
+    transition: 0.1s;
+    margin-bottom: 0px;
+
+}
+
+.my-issues .issue-details .button{
+    font-size: 26px;
+
+}
+.issue-details {
+    overflow: hidden;
+    transition: height 0.4s ease-in-out;
+}
+
+.hidden{
+    height: 0px;
+}
+
+.expanded{
+    height: 100px;
+}
+
+.issue-container {
+    margin-bottom: 10px;
+    background-color: var(--background);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    overflow: hidden;
+}
