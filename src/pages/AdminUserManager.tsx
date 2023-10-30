@@ -89,6 +89,7 @@ const AdminUserManager = () => {
     return <>
         <NavigationHeader/>
         <div className={"page-content"}>
+            <h1>Users</h1>
             <TableList columns={["ID", "Username", "Type", "Phone number", "unit"]} data={data} />
         </div>
     </>
