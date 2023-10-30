@@ -46,7 +46,7 @@ export async function getUserIssues( id : number) {
 
     // op dit moment is dit gewoon een letterlijke kopie van de api call die levi heeft gemaakt
     // ik ga met luuk kijken hoe je een api call maakt voor de issues van een persoon
-    const res = await axios.get<Issue[]>("http://localhost:5099/api/machines/issues?machineId=" + id, {
+    const res = await axios.get<Issue[]>("http://localhost:5099/api/issues?machineId=" + id, {
         headers: {
             "Authorization": `Bearer ${token}`
         }});
