@@ -4,8 +4,12 @@ import WideButton from "../components/WideButton.tsx";
 import axios from "axios";
 import { RequestConfig, SERVER_URL } from "../api/auth.ts";
 import { Issue } from "../models.ts";
+import useAuth from "../api/auth.ts";
+import {AccountType} from "../models.ts";
 
 const CustomerLanding = () => {
+    const user = useAuth([AccountType.User]);
+
     const [issues, setIssues] = useState<Array<Issue>>([]);
     let URL = SERVER_URL + "/api/issues";
     useEffect(() => {
@@ -18,7 +22,7 @@ const CustomerLanding = () => {
     return (<>
         <NavigationHeader/>
         <div className={"page-content"}>
-            <h1>Welcome Customer</h1>
+            <h1>Welcome {user?.username}</h1>
             <p>Recent Issues:</p>
             {issues.map((i) => <WideButton key={i.id} title={i.headline} target={`issue/${i.id}`}/>)}
         </div>
