@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
-import WideButton from "../components/WideButton.tsx";
+import { WideButton } from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
 import { Machine, Issue } from "../models.ts";
 import { useMachines } from "../api/machine.ts";

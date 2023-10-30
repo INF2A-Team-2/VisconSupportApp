@@ -1,5 +1,5 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import WideButton from "../components/WideButton.tsx";
+import { WideButton } from "../components/WideButton.tsx";
 
 const CustomerLanding = () => {
     return (<>
