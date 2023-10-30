@@ -390,7 +390,7 @@ a:hover {
     background-color: var(--platinum-hover);
 }
 
-.admin-users-legenda {
+.tablelist-legenda {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
     grid-gap: 8px;
@@ -398,7 +398,7 @@ a:hover {
     height: 24px;
 }
 
-.admin-users-legenda p {
+.tablelist-legenda p {
     display: flex;
     align-items: center;
     -webkit-user-select: none; /* Safari */
@@ -406,18 +406,18 @@ a:hover {
     user-select: none; /* Standard syntax */
 }
 
-.admin-users-legenda p:hover {
+.tablelist-legenda p:hover {
     cursor: pointer;
 }
 
-.admin-users-list {
+.tablelist-list {
     display: flex;
     flex-direction: column;
     gap: 2px;
     overflow-y: auto;
 }
 
-.admin-users-list-item {
+.tablelist-list-item {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     grid-gap: 8px;
@@ -427,11 +427,11 @@ a:hover {
     border-radius: 4px;
 }
 
-.admin-users-list-item:nth-child(odd) {
+.tablelist-list-item:nth-child(odd) {
     background-color: var(--background-3);
 }
 
-.admin-users-list-item p {
+.tablelist-list-item p {
     font-size: 0.75rem;
     text-transform: none;
     font-family: "JetBrains Mono";
@@ -441,43 +441,33 @@ a:hover {
     white-space: nowrap;
 }
 
-.admin-users-list-item p svg {
+.tablelist-list-item p svg {
     width: 14px;
     height: 14px;
 }
 
-.admin-users-list-item input {
+.tablelist-list-item input {
     margin: 0;
     height: 12px;
     width: 12px;
 }
 
-.admin-users-list-item svg {
-    transition: color 200ms;
-}
-
-.admin-users-list-item svg:hover {
-    cursor: pointer;
-    color: #ffffff;
-}
-
-.admin-users-edit-header {
+.tablelist-buttons-wrapper {
     display: flex;
-    align-items: center;
-    height: 32px;
+    gap: 8px;
 }
 
-.admin-users-edit-header a {
-    margin-left: 8px;
-    font-size: 0.75rem;
-    padding: 4px;
-    background-color: var(--accent-2);
-    color: #ffffff;
-    border: none;
+.tablelist-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
 }
-.admin-users-edit-header a:hover {
-    cursor: pointer;
-    background-color: var(--accent-3);
+
+.tablelist-delete-button svg {
+    scale: 90%;
 }
 
 .user-editor {
@@ -557,8 +547,8 @@ a:hover {
 
 
 .admin-landing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 12px;
 }
 
@@ -566,6 +556,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    height: 100px;
     background-color: var(--platinum);
     color: var(--background);
     border-radius: 4px;

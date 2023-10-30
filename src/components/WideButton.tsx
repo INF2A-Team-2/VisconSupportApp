@@ -1,4 +1,4 @@
-const WideButton = ({ title, target } : {title: string, target: string}) => {
+export const WideButton = ({ title, target } : {title: string, target: string}) => {
     return (<>
         <a className={"wide-button"} href={target}>
             <p>{title}</p>
@@ -7,7 +7,7 @@ const WideButton = ({ title, target } : {title: string, target: string}) => {
     </>);
 };
 
-const WideButtonNoTarget = ({ title } : {title: string}) => {
+export const WideButtonNoTarget = ({ title } : {title: string}) => {
     return (<>
         <div className={"wide-button"}>
             <p>{title}</p>
@@ -15,5 +15,3 @@ const WideButtonNoTarget = ({ title } : {title: string}) => {
         </div>
     </>);
 }
-
-export default WideButton;

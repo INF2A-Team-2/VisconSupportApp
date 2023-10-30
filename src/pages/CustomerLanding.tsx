@@ -1,5 +1,5 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import WideButton from "../components/WideButton.tsx";
+import {WideButton} from "../components/WideButton.tsx";
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 

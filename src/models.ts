@@ -14,6 +14,8 @@ export interface User {
 
 export interface Issue {
     id: number;
+    department: string;
+    description: string;
     headline: string;
     actual: string;
     expected: string;
