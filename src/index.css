@@ -435,6 +435,10 @@ a:hover {
     font-size: 0.75rem;
     text-transform: none;
     font-family: "JetBrains Mono";
+    text-overflow: ellipsis;
+    text-wrap: none;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .admin-users-list-item p svg {
@@ -551,3 +555,35 @@ a:hover {
 }
 
 
+
+.admin-landing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 12px;
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background-color: var(--platinum);
+    color: var(--background);
+    border-radius: 4px;
+    padding: 8px;
+    transition: transform 100ms;
+}
+
+.stat-card:hover {
+    background-color: var(--platinum-hover);
+    transform: scale(101%);
+    cursor: pointer;
+}
+
+.stat-card h1 {
+    font-size: 1.5rem;
+}
+
+.stat-card pre {
+    font-family: Montserrat;
+    margin: 0;
+}
