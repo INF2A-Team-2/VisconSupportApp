@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-export default function TableList({ columns, data }) {
+export default function TableList({ columns, data, buttons = []}) {
     const [sortMode, setSortMode] = useState({
         key: 0,
         desc: false
@@ -43,8 +43,11 @@ export default function TableList({ columns, data }) {
         })
     }
 
-    return (<>
-        <div className={"admin-users-legenda"}>
+    return (<div className={"tablelist"}>
+        <div className={"tablelist-legenda"}
+             style={{
+                 gridTemplateColumns: `repeat(${columns.length}, minmax(50px, 1fr)) ${buttons.length !== 0 ? `${32 * buttons.length}px` : ""}`
+             }}>
             {columns.map((k, i) => {
                 if (sortMode.key !== i) {
                     return <p key={k} onClick={() => handleSetSort(i)}>{k}</p>;
@@ -53,12 +56,21 @@ export default function TableList({ columns, data }) {
                 return <p key={k} onClick={() => handleSetSort(i)}>{k} {sortMode.desc ? "▼" : "▲"}</p>;
             })}
         </div>
-        <div className={"admin-users-list"}>
+        <div className={"tablelist-list"}>
             {parsedData.map(x => (
-                <div className={"admin-users-list-item"} key={x[0]}>
+                <div className={"tablelist-list-item"}
+                     key={x[0]}
+                     style={{
+                         gridTemplateColumns: `repeat(${columns.length}, minmax(50px, 1fr)) ${buttons.length !== 0 ? `${32 * buttons.length}px` : ""}`
+                     }}>
                     {x.map(k => <p key={k}>{k}</p>)}
+                    <div className={"tablelist-buttons-wrapper"}>
+                        {buttons.map((b, i) => <button className={"tablelist-button"} onClick={() => b.callback(x[0])} key={i}>
+                            {b.text}
+                        </button>)}
+                    </div>
                 </div>)
             )}
         </div>
-    </>)
+    </div>)
 }

@@ -13,7 +13,6 @@ const AdminUserManager = () => {
     const navigate = useNavigate();
 
     const [users, setUsers] = useState<Array<User>>([]);
-    const [selectedUsers, setSelectedUsers] = useState([]);
 
     const [data, setData] = useState([]);
 
@@ -55,20 +54,25 @@ const AdminUserManager = () => {
         setData(_data);
     }, [users]);
 
-    const handleDelete = () => {
-        const requests = selectedUsers.map(userId => {
-            axios.delete(SERVER_URL + `/api/users/${userId}`, RequestConfig());
-        });
+    const handleDelete = (userId) => {
+        if (!window.confirm("Are you sure that you want to delete this user?")) {
+            return;
+        }
 
-        toast.promise(Promise.all(requests), {
+        const request = axios.delete(SERVER_URL + `/api/users/${userId}`, RequestConfig());
+
+        toast.promise(request, {
             loading: "Loading...",
-            success: `Deleted ${requests.length} ${requests.length == 1 ? "user" : "users"}`,
-            error: "Failed to delete users"
+            success: "Deleted user",
+            error: "Failed to delete user"
         }).then(() => {
-            setUsers([...users.filter(u => !selectedUsers.includes(u.id))])
-            setSelectedUsers([]);
+            setUsers([...users.filter(u => u.id !== userId)])
         })
     };
+
+    const handleEdit = (userId) => {
+        navigate(`/admin/users/edit/${userId}`);
+    }
 
     const handleNewUser = () => {
         const promise = axios.post(SERVER_URL + "/api/users", {
@@ -90,7 +94,25 @@ const AdminUserManager = () => {
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Users</h1>
-            <TableList columns={["ID", "Username", "Type", "Phone number", "unit"]} data={data} />
+            <button onClick={handleNewUser}
+                    style={{
+                        width: "100px",
+                        borderRadius: "4px"
+                    }}>
+                Add user <i className="fa-solid fa-user-plus"></i>
+            </button>
+            <TableList columns={["ID", "Username", "Type", "Phone number", "unit"]}
+                       data={data}
+                       buttons={[
+                           {
+                               text: <i className="fa-solid fa-pen-to-square"></i>,
+                               callback: handleEdit
+                           },
+                           {
+                               text: <i className="fa-solid fa-trash"></i>,
+                               callback: handleDelete
+                           }
+                       ]}/>
         </div>
     </>
 }

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import WideButton from "../components/WideButton.tsx";
+import {WideButton} from "../components/WideButton.tsx";
+import useAuth from "../api/auth.ts";
+import {AccountType} from "../models.ts";
 import axios from "axios";
 import { RequestConfig, SERVER_URL } from "../api/auth.ts";
 import { Issue } from "../models.ts";
-import useAuth from "../api/auth.ts";
-import {AccountType} from "../models.ts";
 
 const CustomerLanding = () => {
     const user = useAuth([AccountType.User]);
