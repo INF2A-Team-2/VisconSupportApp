@@ -1,4 +1,4 @@
-const WideButton = ({ title, target } : {title: string, target: string}) => {
+export const WideButton = ({ title, target } : {title: string, target: string}) => {
     return (<>
         <a className={"wide-button"} href={target}>
             <p>{title}</p>
@@ -7,4 +7,3 @@ const WideButton = ({ title, target } : {title: string, target: string}) => {
     </>);
 };
 
-export default WideButton
