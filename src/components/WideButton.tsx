@@ -7,3 +7,4 @@ export const WideButton = ({ title, target } : {title: string, target: string}) 
     </>);
 };
 
+export default WideButton;
