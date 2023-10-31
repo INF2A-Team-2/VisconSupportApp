@@ -5,6 +5,7 @@ import InputFile from "../components/InputFile.tsx";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { RequestConfig, SERVER_URL } from "../api/auth.ts";
+import {toast} from "react-hot-toast";
 
 const NewIssue = () => {
     useEffect(() => {
@@ -46,22 +47,25 @@ const NewIssue = () => {
             missingMessage += "What did you try?;"
 
         if (missingMessage != "")  {
-            alert("Missing: " + missingMessage);
+            toast.error("Missing: " + missingMessage);
         } else {
             handleSubmit();
         }
     }
 
     const handleSubmit = () => {
-        axios.post(SERVER_URL + "/api/issues", {
+        toast.promise(axios.post(SERVER_URL + "/api/issues", {
             actual: occurrence,
             expected: expectation,
             tried: tried,
             headline: title,
             machineId: machineId
-        }, RequestConfig())
+        }, RequestConfig()), {
+            loading: "Creating issue...",
+            success: "Issue created",
+            error: "Failed to create issue"
+        })
 
-        alert("Issue has been issued");
         navigate("/");
     }
 
