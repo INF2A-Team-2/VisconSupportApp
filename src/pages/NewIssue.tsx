@@ -8,15 +8,16 @@ import { RequestConfig, SERVER_URL } from "../api/auth.ts";
 import {toast} from "react-hot-toast";
 
 const NewIssue = () => {
+    const navigate = useNavigate();
+
+    const machineId = sessionStorage.getItem("machineId");
+
     useEffect(() => {
         if (machineId === null) {
             navigate("/solved-issues");
         }
         document.title = "New Issue";
-    }, []);
-
-    const navigate = useNavigate();
-    const machineId = sessionStorage.getItem("machineId");
+    }, [machineId, navigate]);
 
     const [title, setTitle] = useState("");
     const [occurrence, setOccurence] = useState("");
@@ -33,25 +34,25 @@ const NewIssue = () => {
         }
 
         imageInput.current.click();
-    }
+    };
 
     const onSubmit = () => {
         let missingMessage = "";
         if (title == "")
-            missingMessage += "Title; "
+            missingMessage += "Title; ";
         if (occurrence == "")
-            missingMessage += "What Happened?; "
+            missingMessage += "What Happened?; ";
         if (expectation == "")
-            missingMessage += "Expectations; "
+            missingMessage += "Expectations; ";
         if (tried == "")
-            missingMessage += "What did you try?;"
+            missingMessage += "What did you try?;";
 
         if (missingMessage != "")  {
             toast.error("Missing: " + missingMessage);
         } else {
             handleSubmit();
         }
-    }
+    };
 
     const handleSubmit = () => {
         toast.promise(axios.post(SERVER_URL + "/api/issues", {
@@ -66,8 +67,8 @@ const NewIssue = () => {
             error: "Failed to create issue"
         }).then(response => {
             navigate(`/issue/${response.data.id}`);
-        })
-    }
+        });
+    };
 
     const onImageUpload = () => {
         if (imageInput.current === null) {
@@ -79,14 +80,14 @@ const NewIssue = () => {
         reader.onload = () => {
             media.push(reader.result);
             setMedia([...media]);
-        }
+        };
 
         Array.from(imageInput.current.files).forEach(f => {
             if (f) {
                 reader.readAsDataURL(f as File);
             }
         });
-    }
+    };
 
     const deleteMedia = (i) => {
         setMedia(media.filter((_, idx) => idx !== i));

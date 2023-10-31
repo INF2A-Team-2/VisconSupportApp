@@ -8,7 +8,7 @@ import {toast} from "react-hot-toast";
 import TableList from "../components/TableList.tsx";
 
 const AdminUserManager = () => {
-    const user = useAuth([AccountType.Admin]);
+    useAuth([AccountType.Admin]);
 
     const navigate = useNavigate();
 
@@ -20,8 +20,8 @@ const AdminUserManager = () => {
         axios.get(SERVER_URL + "/api/users", RequestConfig())
             .then(response => {
             setUsers(response.data);
-        })
-    }, [])
+        });
+    }, []);
 
     const getType = (t: number) => {
         switch (t) {
@@ -32,15 +32,15 @@ const AdminUserManager = () => {
                 return "Employee";
 
             case 2:
-                return "Admin"
+                return "Admin";
 
             default:
-                return "None"
+                return "None";
         }
-    }
+    };
 
     useEffect(() => {
-        const _data = []
+        const _data = [];
         users.forEach(u => {
             _data.push([
                 u.id,
@@ -48,7 +48,7 @@ const AdminUserManager = () => {
                 getType(u.type),
                 u.phoneNumber,
                 u.unit
-            ])
+            ]);
         });
 
         setData(_data);
@@ -66,13 +66,13 @@ const AdminUserManager = () => {
             success: "Deleted user",
             error: "Failed to delete user"
         }).then(() => {
-            setUsers([...users.filter(u => u.id !== userId)])
-        })
+            setUsers([...users.filter(u => u.id !== userId)]);
+        });
     };
 
     const handleEdit = (userId) => {
         navigate(`/admin/users/edit/${userId}`);
-    }
+    };
 
     const handleNewUser = () => {
         const promise = axios.post(SERVER_URL + "/api/users", {
@@ -114,7 +114,7 @@ const AdminUserManager = () => {
                            }
                        ]}/>
         </div>
-    </>
-}
+    </>;
+};
 
 export default AdminUserManager;

@@ -8,7 +8,7 @@ export default function TableList({ columns, data, buttons = [], defaultSort = {
 
     useEffect(() => {
         const _data = [...data].sort((a, b) => {
-            a = a[sortMode.key]
+            a = a[sortMode.key];
             b = b[sortMode.key];
 
             let res;
@@ -49,7 +49,7 @@ export default function TableList({ columns, data, buttons = [], defaultSort = {
         setSortMode({
             key: key,
             desc: sortMode.key == key ? !sortMode.desc : false
-        })
+        });
     };
     return (<div className={"tablelist"}>
         <input className={"tablelist-search"}
@@ -84,5 +84,5 @@ export default function TableList({ columns, data, buttons = [], defaultSort = {
                 </div>)
             )}
         </div>
-    </div>)
+    </div>);
 }

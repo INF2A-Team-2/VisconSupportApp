@@ -19,24 +19,24 @@ const AdminIssueManager = () => {
         axios.get(SERVER_URL + "/api/issues", RequestConfig())
             .then(response => {
             setIssues(response.data);
-        })
+        });
 
         axios.get(SERVER_URL + "/api/users", RequestConfig())
             .then(response => {
                 setUsers(response.data);
-            })
+            });
 
         axios.get(SERVER_URL + "/api/machines", RequestConfig())
             .then(response => {
                 setMachines(response.data);
-            })
-    }, [])
+            });
+    }, []);
 
     useEffect(() => {
-        const _data = []
+        const _data = [];
         issues.forEach(i => {
             const user = users.find(u => u.id == i.userId);
-            const machine = machines.find(m => m.id == i.machineId)
+            const machine = machines.find(m => m.id == i.machineId);
 
             _data.push([
                 i.id,
@@ -44,7 +44,7 @@ const AdminIssueManager = () => {
                 strftime("%F %H:%M", new Date(i.timeStamp)),
                 user !== undefined ? `${user.username} [${user.id}]` : "null",
                 machine !== undefined ? `${machine.name} [${machine.id}]` : "null"
-            ])
+            ]);
         });
 
         setData(_data);
@@ -57,7 +57,7 @@ const AdminIssueManager = () => {
             <h1>Issues</h1>
             <TableList columns={["ID", "Headline", "Date", "User", "Machine"]} data={data} defaultSort={{key: 2, desc: true}}/>
         </div>
-    </>
-}
+    </>;
+};
 
 export default AdminIssueManager;

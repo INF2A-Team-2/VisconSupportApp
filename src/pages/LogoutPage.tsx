@@ -10,7 +10,7 @@ const LogoutPage = (): JSX.Element => {
     }, [navigate]);
 
     return <>
-    </>
-}
+    </>;
+};
 
 export default LogoutPage;

@@ -19,13 +19,13 @@ const IssuePage = () => {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState<Array<Message>>([]);
     const textareaRef = useRef<HTMLTextAreaElement>();
-    const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None)
+    const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None);
     const [listCount, setListCount] = useState<number>(1);
 
     useEffect(() => {
         (() => {
             axios.get(SERVER_URL + "/api/issues/" + issueId , RequestConfig())
-                .then(response => setIssue(response.data))
+                .then(response => setIssue(response.data));
             axios.get(SERVER_URL + "/api/messages?issueId=" + issueId , RequestConfig())
                 .then(response => setMessages(response.data));
         })();
@@ -44,13 +44,13 @@ const IssuePage = () => {
                 textarea.focus();
             }
         }
-    }
+    };
 
     const surroundWord = (style: string) => {
         if (textareaRef.current) {
             const textarea = textareaRef.current;
             const start = textarea.selectionStart;
-            const lines = message.split("\n")
+            const lines = message.split("\n");
 
             let messageIndex = 0;
             let found = false;
@@ -75,7 +75,7 @@ const IssuePage = () => {
 
             setMessage(lines.join("\n"));
         }
-    }
+    };
 
     const newLine = () => {
         if (styleMode == StyleMode.None)
@@ -87,20 +87,20 @@ const IssuePage = () => {
             return;
         }
 
-        let lines = message.split("\n");
+        const lines = message.split("\n");
         if (styleMode == StyleMode.Numbered && lines[lines.length - 2] == `${listCount - 1}. `) {
             setListCount(1);
             setStyleMode(StyleMode.None);
-            setMessage(lines.splice(0, lines.length - 2).join("\n") + "\n")
+            setMessage(lines.splice(0, lines.length - 2).join("\n") + "\n");
         } else if (styleMode == StyleMode.Numbered) {
             setListCount(listCount + 1);
             insertTextAtLine(`${listCount}.`);
         } else if (styleMode == StyleMode.Dash && lines[lines.length - 2] == "- ") {
             setStyleMode(StyleMode.None);
-            setMessage(lines.splice(0, lines.length - 2).join("\n") + "\n")
+            setMessage(lines.splice(0, lines.length - 2).join("\n") + "\n");
         } else if (styleMode == StyleMode.Dash)
-            insertTextAtLine("-")
-    }
+            insertTextAtLine("-");
+    };
 
     const sendMessage = () => {
         if (message == "") {
@@ -115,7 +115,7 @@ const IssuePage = () => {
                 .then(response => setMessages(response.data));});
 
         setMessage("");
-    }
+    };
 
     return (<>
         <NavigationHeader />
@@ -140,16 +140,16 @@ const IssuePage = () => {
                     </ul>
                 </div>
                 <div className={"message-options"}>
-                    <div className="text-icon" onClick={() => {insertTextAtLine("###")}}>
+                    <div className="text-icon" onClick={() => {insertTextAtLine("###");}}>
                         <i className="fa-solid fa-heading"/>
                     </div>
-                    <div className="text-icon" onClick={() => {surroundWord("**")}}>
+                    <div className="text-icon" onClick={() => {surroundWord("**");}}>
                         <i className="fa-solid fa-bold"/>
                     </div>
-                    <div className="text-icon" onClick={() => {surroundWord("_")}}>
+                    <div className="text-icon" onClick={() => {surroundWord("_");}}>
                         <i className="fa-solid fa-italic"/>
                     </div>
-                    <div className="text-icon" onClick={() => {insertTextAtLine(">"); setStyleMode(StyleMode.Quote)}}>
+                    <div className="text-icon" onClick={() => {insertTextAtLine(">"); setStyleMode(StyleMode.Quote);}}>
                         <i className="fa-solid fa-quote-left"/>
                     </div>
                     <div className="text-icon" onClick={() => {setStyleMode(StyleMode.Numbered); newLine();}}>
@@ -171,6 +171,6 @@ const IssuePage = () => {
             </div>
         </div>
     </>);
-}
+};
 
 export default IssuePage;

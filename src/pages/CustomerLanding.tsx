@@ -11,7 +11,7 @@ const CustomerLanding = () => {
     const user = useAuth([AccountType.User]);
 
     const [issues, setIssues] = useState<Array<Issue>>([]);
-    let URL = SERVER_URL + "/api/issues";
+    const URL = SERVER_URL + "/api/issues";
     useEffect(() => {
         (() => {
             axios.get(URL , RequestConfig())

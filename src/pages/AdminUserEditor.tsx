@@ -10,7 +10,7 @@ import {toast} from "react-hot-toast";
 const AdminUserEditor = () => {
     const userId = useParams().userId;
 
-    const user = useAuth([AccountType.Admin]);
+    useAuth([AccountType.Admin]);
 
     const [editedUser, setEditedUser] = useState<User>(null);
 
@@ -20,8 +20,8 @@ const AdminUserEditor = () => {
     useEffect(() => {
         axios.get(SERVER_URL + `/api/users/${userId}`, RequestConfig()).then(response => {
             setEditedUser(response.data);
-        })
-    }, [userId])
+        });
+    }, [userId]);
 
     const accTypes = [
         {
@@ -55,7 +55,7 @@ const AdminUserEditor = () => {
             loading: "Loading...",
             success: "Edited user",
             error: "Failed to edit user"
-        })
+        });
     };
 
     const submitPassword = () => {
@@ -72,8 +72,8 @@ const AdminUserEditor = () => {
             loading: "Loading...",
             success: "Changed password",
             error: "Failed to change password"
-        })
-    }
+        });
+    };
 
     return <>
         <NavigationHeader/>
@@ -99,7 +99,7 @@ const AdminUserEditor = () => {
                 </>
                 : <></>}
         </div>
-    </>
-}
+    </>;
+};
 
 export default AdminUserEditor;

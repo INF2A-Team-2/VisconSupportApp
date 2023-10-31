@@ -17,7 +17,7 @@ const AdminLanding = () => {
         axios.get(SERVER_URL + "/api/issues", RequestConfig())
             .then(response => {
                 setIssues(response.data);
-            })
+            });
     }, []);
 
     useEffect(() => {
@@ -26,7 +26,7 @@ const AdminLanding = () => {
                 return a.getTime() - b.getTime();
             })[0];
 
-        const _data = []
+        const _data = [];
 
         for (let d = startDate; d <= new Date(); d.setDate(d.getDate() + 1)) {
             const dIssues = issues.filter(i => new Date(i.timeStamp).getTime() - 86400000 <= d.getTime());
@@ -34,7 +34,7 @@ const AdminLanding = () => {
             _data.push({
                 name: d.toLocaleDateString(),
                 issues: dIssues.length
-            })
+            });
         }
 
         setData(_data);

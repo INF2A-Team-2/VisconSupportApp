@@ -30,14 +30,14 @@ const SolvedIssuesPage = () => {
         if (machine === null) {
             alert("Please select a machine!");
         } else {
-            sessionStorage.setItem("machineId", String(machine.id))
+            sessionStorage.setItem("machineId", String(machine.id));
             navigate("/new-issue");
         }
-    }
+    };
 
     const getLine = (issue: Issue): string => {
-        return "Headline: " + issue.headline
-    }
+        return "Headline: " + issue.headline;
+    };
 
     return (<>
         <NavigationHeader/>
@@ -56,6 +56,6 @@ const SolvedIssuesPage = () => {
             <button onClick={onNotListed}>My issues is not listed</button>
         </div>
     </>);
-}
+};
 
 export default SolvedIssuesPage;

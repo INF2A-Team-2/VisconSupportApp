@@ -18,7 +18,7 @@ const MyIssuesPage = () => {
 
     useEffect(() => {
         (async () => {
-            let machines = await getMachines();
+            const machines = await getMachines();
             if (machines != null) {
                 setMachines(machines);
             }
@@ -79,6 +79,6 @@ const MyIssuesPage = () => {
             </div>
         </>
     );
-}
+};
 
 export default MyIssuesPage;
