@@ -135,6 +135,14 @@ a:hover {
     overflow-y: auto;
 }
 
+.page-header {
+    display: flex;
+}
+
+.page-header h1:only-of-type {
+    margin-right: auto;
+}
+
 .wide-button {
     display: flex;
     padding: 8px;
@@ -511,6 +519,28 @@ a:hover {
     border-radius: 6px;
     border: 3px solid;
     border-color: var(--platinum);
+}
+
+.user-editor-machines-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-rows: repeat(auto-fit, 32px);
+    grid-gap: 8px;
+}
+
+.select-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: var(--platinum);
+    color: var(--background);
+    transition: transform 100ms;
+}
+
+.select-button:hover {
+    transform: scale(1.01);
 }
 
 .chat {
