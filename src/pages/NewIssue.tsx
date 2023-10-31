@@ -64,9 +64,9 @@ const NewIssue = () => {
             loading: "Creating issue...",
             success: "Issue created",
             error: "Failed to create issue"
+        }).then(response => {
+            navigate(`/issue/${response.data.id}`);
         })
-
-        navigate("/");
     }
 
     const onImageUpload = () => {
