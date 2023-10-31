@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {isFileServingAllowed} from "vite";
 
 export default function TableList({ columns, data, buttons = [], defaultSort = {key: 0, desc: false}}) {
     const [sortMode, setSortMode] = useState(defaultSort);
