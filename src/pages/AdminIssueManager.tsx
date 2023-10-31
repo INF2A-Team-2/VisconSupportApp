@@ -54,7 +54,7 @@ const AdminIssueManager = () => {
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Issues</h1>
-            <TableList columns={["ID", "Headline", "Date", "User", "Machine"]} data={data} />
+            <TableList columns={["ID", "Headline", "Date", "User", "Machine"]} data={data} defaultSort={{key: 2, desc: true}}/>
         </div>
     </>
 }

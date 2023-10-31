@@ -1,10 +1,7 @@
 import {useEffect, useState} from "react";
 
-export default function TableList({ columns, data, buttons = []}) {
-    const [sortMode, setSortMode] = useState({
-        key: 0,
-        desc: false
-    });
+export default function TableList({ columns, data, buttons = [], defaultSort = {key: 0, desc: false}}) {
+    const [sortMode, setSortMode] = useState(defaultSort);
 
     const [parsedData, setParsedData] = useState([]);
 
@@ -21,7 +18,7 @@ export default function TableList({ columns, data, buttons = []}) {
                 const dateA = new Date(a);
                 const dateB = new Date(b);
 
-                if (isNaN(dateA)) {
+                if (isNaN(dateA.getTime())) {
                     const sA = a.toLowerCase();
                     const sB = b.toLowerCase();
                     if (sA.toLowerCase() > sB) {
