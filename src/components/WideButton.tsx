@@ -14,4 +14,4 @@ export const WideButtonNoTarget = ({ title } : {title: string}) => {
             <i className="fa-solid fa-angle-right"></i>
         </div>
     </>);
-};
+}
