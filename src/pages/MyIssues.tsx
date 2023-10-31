@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
-import { WideButtonNoTarget } from "../components/WideButton.tsx";
+import { WideButton } from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
 import { getUserIssues, getMachines } from "../api/machine.ts";
 import { Machine, Issue } from "../models.ts";
@@ -70,7 +70,7 @@ const MyIssuesPage = () => {
                     <div className="issues">
                     {issues.map((issue) => (
                     <div key={issue.id} onClick={() => handleIssueClick(issue.id)} className="issue-container">
-                        <WideButtonNoTarget title={`${issue.headline}`}/>
+                        <WideButton title={`${issue.headline}`}/>
                         {renderIssueDetails(issue, expandedIssueId === issue.id)}
                     </div>
 ))}
