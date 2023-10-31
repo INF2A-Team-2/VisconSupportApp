@@ -1,4 +1,4 @@
-export const WideButton = ({ title, target = null } : {title: string, target?: string }) => {
+export const WideButton = ({ title, target = null } : {title: string, target?: string}) => {
     return (<>
         <a className={"wide-button"} href={target && target}>
             <p>{title}</p>
