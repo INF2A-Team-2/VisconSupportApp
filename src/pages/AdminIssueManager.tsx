@@ -6,7 +6,7 @@ import axios from "axios";
 import TableList from "../components/TableList.tsx";
 
 const AdminIssueManager = () => {
-    const user = useAuth([AccountType.Admin]);
+    useAuth([AccountType.Admin]);
 
     const [issues, setIssues] = useState<Array<Issue>>([]);
     const [users, setUsers] = useState<Array<User>>([]);
