@@ -22,7 +22,7 @@ export default function TableList({ columns, data, buttons = [], defaultSort = {
                 if (isNaN(dateA.getTime())) {
                     const sA = a.toLowerCase();
                     const sB = b.toLowerCase();
-                    if (sA.toLowerCase() > sB) {
+                    if (sA > sB) {
                         res = -1;
                     } else if (sA < sB) {
                         res = 1;
