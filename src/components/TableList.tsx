@@ -1,7 +1,9 @@
 import {useEffect, useState} from "react";
+import {isFileServingAllowed} from "vite";
 
 export default function TableList({ columns, data, buttons = [], defaultSort = {key: 0, desc: false}}) {
     const [sortMode, setSortMode] = useState(defaultSort);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const [parsedData, setParsedData] = useState([]);
 
@@ -38,17 +40,23 @@ export default function TableList({ columns, data, buttons = [], defaultSort = {
             return sortMode.desc ? 0 - res : res;
         });
 
-        setParsedData(_data);
-    }, [data, sortMode]);
+        setParsedData(searchQuery.length === 0
+            ? _data
+            : _data.filter(x => x.some(y => y?.toString().includes(searchQuery))));
+
+    }, [data, sortMode, searchQuery]);
 
     const handleSetSort = (key) => {
         setSortMode({
             key: key,
             desc: sortMode.key == key ? !sortMode.desc : false
         })
-    }
-
+    };
     return (<div className={"tablelist"}>
+        <input className={"tablelist-search"}
+               type={"text"}
+               placeholder={"Search..."}
+               onChange={e => setSearchQuery(e.target.value)}/>
         <div className={"tablelist-legenda"}
              style={{
                  gridTemplateColumns: `repeat(${columns.length}, minmax(50px, 1fr)) ${buttons.length !== 0 ? `${32 * buttons.length}px` : ""}`

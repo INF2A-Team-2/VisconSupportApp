@@ -410,6 +410,11 @@ a:hover {
     background-color: var(--platinum-hover);
 }
 
+.tablelist-search {
+    height: 24px;
+    width: 200px;
+}
+
 .tablelist-legenda {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
