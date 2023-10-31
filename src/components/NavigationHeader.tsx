@@ -50,7 +50,10 @@ const NavigationHeader = () => {
         <div className={"navigation-header"}>
             <img src={logo} alt={"Logo"} onClick={() => navigate("/")}/>
              {headerComponent}
-            <a href={"/logout"}>Log Out</a>
+            <div>
+                <p>{user && user.username}</p>
+                <a href={"/logout"}>Log Out</a>
+            </div>
         </div>
     </>;
 };

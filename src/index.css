@@ -98,8 +98,25 @@ a:hover {
     height: 48px;
 }
 
-.navigation-header a:last-of-type {
+.navigation-header div:last-of-type {
     margin-left: auto;
+}
+
+.navigation-header div {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.navigation-header div a {
+    background-color: var(--background-2);
+    padding: 8px;
+    border-radius: 4px;
+    transition: transform 100ms;
+}
+
+.navigation-header div a:hover {
+    transform: scale(105%);
 }
 
 .page-content {
