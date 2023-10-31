@@ -35,14 +35,14 @@ const AdminIssueManager = () => {
         const _data = []
         issues.forEach(i => {
             const user = users.find(u => u.id == i.userId);
-            const machine = machines.find(m => m.id == i.userId)
+            const machine = machines.find(m => m.id == i.machineId)
 
             _data.push([
                 i.id,
                 i.headline,
                 new Date(i.timeStamp).toLocaleString(),
-                user !== undefined ? `${user.username} [${user.id}]` : "",
-                machine !== undefined ? `${machine.name} [${machine.id}]` : ""
+                user !== undefined ? `${user.username} [${user.id}]` : "null",
+                machine !== undefined ? `${machine.name} [${machine.id}]` : "null"
             ])
         });
 

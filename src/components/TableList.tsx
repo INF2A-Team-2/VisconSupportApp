@@ -18,13 +18,21 @@ export default function TableList({ columns, data, buttons = []}) {
             if (typeof a === "number") {
                 res = a - b;
             } else if (typeof a === "string") {
-                try {
-                    const dateA = new Date(a);
-                    const dateB = new Date(b);
+                const dateA = new Date(a);
+                const dateB = new Date(b);
 
+                if (isNaN(dateA)) {
+                    const sA = a.toLowerCase();
+                    const sB = b.toLowerCase();
+                    if (sA.toLowerCase() > sB) {
+                        res = -1;
+                    } else if (sA < sB) {
+                        res = 1;
+                    } else {
+                        res = 0;
+                    }
+                } else {
                     res = dateA.getTime() - dateB.getTime();
-                } catch {
-                    res = a.localeCompare(b, "en", { numeric: true, sensitivity: "base" });
                 }
             } else {
                 res = 0;
@@ -63,7 +71,7 @@ export default function TableList({ columns, data, buttons = []}) {
                      style={{
                          gridTemplateColumns: `repeat(${columns.length}, minmax(50px, 1fr)) ${buttons.length !== 0 ? `${32 * buttons.length}px` : ""}`
                      }}>
-                    {x.map(k => <p key={k}>{k}</p>)}
+                    {x.map((k, i) => <p key={i}>{k}</p>)}
                     <div className={"tablelist-buttons-wrapper"}>
                         {buttons.map((b, i) => <button className={"tablelist-button"} onClick={() => b.callback(x[0])} key={i}>
                             {b.text}

@@ -15,7 +15,6 @@ import {Toaster} from "react-hot-toast";
 import AdminIssueManager from "./pages/AdminIssueManager.tsx";
 import IssuePage from "./pages/IssuePage.tsx";
 import MyIssuesPage from "./pages/MyIssues.tsx";
-import AdminIssueManager from "./pages/AdminIssueManager.tsx";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
