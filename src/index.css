@@ -98,6 +98,10 @@ a:hover {
     height: 48px;
 }
 
+.navigation-header img:hover {
+    cursor: pointer;
+}
+
 .navigation-header div:last-of-type {
     margin-left: auto;
 }
@@ -419,8 +423,10 @@ a:hover {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
     grid-gap: 8px;
-    padding: 0 4px;
+    padding: 2px 4px;
     height: 24px;
+    border-bottom: 1px solid var(--platinum);
+    margin-bottom: 8px;
 }
 
 .tablelist-legenda p {
@@ -523,7 +529,7 @@ a:hover {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     display: grid;
-    padding: 30px 0px 20px;
+    padding: 30px 0 20px;
     overflow-y: scroll;
     height: 40vh;
     border-bottom: 4px solid var(--background-3);
@@ -653,7 +659,7 @@ a:hover {
     border-radius: 16px;
     opacity: 0.8;
     transition: 0.1s;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 
 }
 
@@ -667,7 +673,7 @@ a:hover {
 }
 
 .hidden{
-    height: 0px;
+    height: 0;
 }
 
 .expanded{

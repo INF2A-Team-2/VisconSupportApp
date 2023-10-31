@@ -18,9 +18,10 @@
     "react-dropdown": "^1.11.0",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.15.0",
-    "toaster": "^0.1.2",
+    "recharts": "^2.9.1",
     "sanitize-html": "^2.11.0",
-    "recharts": "^2.9.1"
+    "strftime": "^0.10.2",
+    "toaster": "^0.1.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

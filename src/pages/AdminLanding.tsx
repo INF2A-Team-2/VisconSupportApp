@@ -2,7 +2,7 @@ import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth, {RequestConfig, SERVER_URL} from "../api/auth.ts";
 import {AccountType, Issue} from "../models.ts";
 import StatCard from "../components/StatCard.tsx";
-import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
+import {CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
@@ -64,7 +64,7 @@ const AdminLanding = () => {
                                borderRadius: "4px",
                                padding: "16px"
                            }}>
-                    <CartesianGrid strokeDasharray="3 3" />
+                    <CartesianGrid strokeDasharray="3" />
                     <XAxis dataKey="name" />
                     <YAxis allowDecimals={false} />
                     <Tooltip />

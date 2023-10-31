@@ -4,6 +4,7 @@ import {AccountType, Issue, User, Machine} from "../models.ts";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import TableList from "../components/TableList.tsx";
+import strftime from "strftime";
 
 const AdminIssueManager = () => {
     useAuth([AccountType.Admin]);
@@ -40,7 +41,7 @@ const AdminIssueManager = () => {
             _data.push([
                 i.id,
                 i.headline,
-                new Date(i.timeStamp).toLocaleString(),
+                strftime("%F %H:%M", new Date(i.timeStamp)),
                 user !== undefined ? `${user.username} [${user.id}]` : "null",
                 machine !== undefined ? `${machine.name} [${machine.id}]` : "null"
             ])
