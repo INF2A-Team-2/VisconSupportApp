@@ -1,16 +1,17 @@
 import axios from "axios";
-import {Issue, Machine} from "../models";
+import { Machine, Issue } from "../models";
 import { useEffect, useState } from "react";
 import { RequestConfig, SERVER_URL } from "./auth";
 
 export function useMachines() {
     const [machines, setMachines] = useState<Array<Machine>>([]);
+    let URL = SERVER_URL + "/api/machines";
     useEffect(() => {
-        axios.get(SERVER_URL + "/api/machines", RequestConfig())
+        axios.get(URL, RequestConfig())
             .then(response => {
                 setMachines(response.data);
             });
-    });
+    }, [URL]);
     return machines;
 }
 
@@ -45,10 +46,9 @@ export async function getUserIssues( id : number) {
 
     // op dit moment is dit gewoon een letterlijke kopie van de api call die levi heeft gemaakt
     // ik ga met luuk kijken hoe je een api call maakt voor de issues van een persoon
-    const res = await axios.get<Issue[]>("http://localhost:5099/api/machines/issues?machineId=" + id, {
+    const res = await axios.get<Issue[]>("http://localhost:5099/api/issues?machineId=" + id, {
         headers: {
             "Authorization": `Bearer ${token}`
         }});
     return res.data
 }
-

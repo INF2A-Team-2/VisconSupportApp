@@ -12,6 +12,7 @@ import AdminUserManager from "./pages/AdminUserManager.tsx";
 import ErrPage403 from "./pages/403.tsx";
 import AdminUserEditor from "./pages/AdminUserEditor.tsx";
 import {Toaster} from "react-hot-toast";
+import IssuePage from "./pages/IssuePage.tsx";
 import MyIssuesPage from "./pages/MyIssues.tsx";
 
 const root = ReactDOM.createRoot(
@@ -37,6 +38,7 @@ root.render(
                 <Route path={"admin/users/edit/:userId"} element={<AdminUserEditor />}/>
                 <Route path={"*"} element={<ErrPage404 />}/>
                 <Route path={"403"} element={<ErrPage403 />}/>
+                <Route path={"issue/:issueId"} element={<IssuePage />}/>
                 <Route path={"my-issues"} element={<MyIssuesPage />}/>
             </Route>
         </Routes>

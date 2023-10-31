@@ -15,12 +15,20 @@ export interface User {
 export type Machine = {
     id: number;
     name: string;
-    userid: number;
 }
 
-export type Issue ={
+export type Issue = {
     id : number;
-    department : string;
     headline : string;
-    description : string;
+    actual : string;
+    expected: string;
+    tried: string;
+    timeStamp: string;
+}
+
+export type Message =  {
+    id: number;
+    name: string;
+    body: string;
+    timestamp: string;
 }

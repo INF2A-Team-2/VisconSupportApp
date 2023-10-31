@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
-import { WideButtonNoTarget } from "../components/WideButton.tsx";
+import WideButtonNoTarget from "../components/WideButtonNoTarger.tsx";
 import { useNavigate } from "react-router-dom";
 import { getUserIssues, getMachines } from "../api/machine.ts";
 import { Machine, Issue } from "../models.ts";
@@ -48,7 +48,9 @@ const MyIssuesPage = () => {
         const detailClass = isExpanded ? "issue-details expanded" : "issue-details hidden";
         return (
             <div className={detailClass}>
-                <p>Description: {issue.description}</p>
+                <p>What did happen: {issue.actual}</p>
+                <p>Expectation: {issue.expected}</p>
+                <p>What was tried: {issue.tried}</p>
                 <button onClick={(e) => navigateToIssue(issue.id, e)}>View Entire Issue</button>
             </div>
         );
@@ -68,7 +70,7 @@ const MyIssuesPage = () => {
                     <div className="issues">
                     {issues.map((issue) => (
                     <div key={issue.id} onClick={() => handleIssueClick(issue.id)} className="issue-container">
-                        <WideButtonNoTarget title={`Headline: ${issue.headline}, Department: ${issue.department}`} />
+                        <WideButtonNoTarget title={`${issue.headline}`}/>
                         {renderIssueDetails(issue, expandedIssueId === issue.id)}
                     </div>
 ))}

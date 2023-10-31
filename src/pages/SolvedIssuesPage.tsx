@@ -17,11 +17,11 @@ const SolvedIssuesPage = () => {
     const [machine, setMachine] = useState<Machine>(null);
 
     useEffect(() => {
-        (async () => {
+        (() => {
             if (machine === null) {
                 return;
             }
-            axios.get(SERVER_URL + "/api/machines/issues?machineId=" + machine.id, RequestConfig())
+            axios.get(SERVER_URL + "/api/issues?machineId=" + machine.id, RequestConfig())
                 .then(response => setIssues(response.data));
         })();
     }, [machine]);
@@ -30,12 +30,13 @@ const SolvedIssuesPage = () => {
         if (machine === null) {
             alert("Please select a machine!");
         } else {
+            sessionStorage.setItem("machineId", String(machine.id))
             navigate("/new-issue");
         }
     }
 
     const getLine = (issue: Issue): string => {
-        return "Headline: " + issue.headline + ", Department: " + issue.department + ", Description: " + issue.description
+        return "Headline: " + issue.headline
     }
 
     return (<>

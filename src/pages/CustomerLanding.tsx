@@ -1,13 +1,26 @@
+import { useEffect, useState } from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import { WideButton } from "../components/WideButton.tsx";
+import WideButton from "../components/WideButton.tsx";
+import axios from "axios";
+import { RequestConfig, SERVER_URL } from "../api/auth.ts";
+import { Issue } from "../models.ts";
 
 const CustomerLanding = () => {
+    const [issues, setIssues] = useState<Array<Issue>>([]);
+    let URL = SERVER_URL + "/api/issues";
+    useEffect(() => {
+        (() => {
+            axios.get(URL , RequestConfig())
+                .then(response => setIssues(response.data));
+        })();
+    }, [URL]);
+
     return (<>
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Welcome Customer</h1>
             <p>Recent Issues:</p>
-            <WideButton title={"Test"} target={"test"}/>
+            {issues.map((i) => <WideButton key={i.id} title={i.headline} target={`issue/${i.id}`}/>)}
         </div>
     </>);
 };

@@ -1,0 +1,176 @@
+import { useParams } from "react-router-dom";
+import NavigationHeader from "../components/NavigationHeader";
+import { Issue, Message } from "../models";
+import MessageBox from "../components/MessageBox";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import { RequestConfig, SERVER_URL } from "../api/auth";
+
+enum StyleMode {
+    None,
+    Numbered,
+    Dash,
+    Quote
+}
+
+const IssuePage = () => {
+    const { issueId } = useParams();
+    const [issue, setIssue] = useState<Issue | null>();
+    const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState<Array<Message>>([]);
+    const textareaRef = useRef<HTMLTextAreaElement>();
+    const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None)
+    const [listCount, setListCount] = useState<number>(1);
+
+    useEffect(() => {
+        (() => {
+            axios.get(SERVER_URL + "/api/issues/" + issueId , RequestConfig())
+                .then(response => setIssue(response.data))
+            axios.get(SERVER_URL + "/api/messages?issueId=" + issueId , RequestConfig())
+                .then(response => setMessages(response.data));
+        })();
+    }, [issueId]);
+
+    const insertTextAtLine = (style: string) => {
+        if (textareaRef.current) {
+            const textarea = textareaRef.current;
+            const start = textarea.selectionStart;
+            const lines = message.split('\n');
+            const lineIndex = message.substring(0, start).split('\n').length - 1;
+            if (lineIndex < lines.length) {
+                lines[lineIndex] = style + " " + lines[lineIndex];
+                const newText = lines.join('\n');
+                setMessage(newText);
+                textarea.focus();
+            }
+        }
+    }
+
+    const surroundWord = (style: string) => {
+        if (textareaRef.current) {
+            const textarea = textareaRef.current;
+            const start = textarea.selectionStart;
+            const lines = message.split("\n")
+
+            let messageIndex = 0;
+            let found = false;
+            for (let x = 0; x < lines.length; x++) {
+                const words = lines[x].split(" ");
+                for (let y = 0; y < words.length; y++) {
+                    const word = words[y];
+                    messageIndex += word.length + 1;
+                    if (word == "\n")
+                        continue;
+
+                    if (start < messageIndex) {
+                        words[y] = style + word + style;
+                        found = true;
+                        break;
+                    }
+                }
+                lines[x] = words.join(" ");
+                if (found)
+                    break;
+            }
+
+            setMessage(lines.join("\n"));
+        }
+    }
+
+    const newLine = () => {
+        if (styleMode == StyleMode.None)
+            return;
+
+        if (styleMode == StyleMode.Quote) {
+            setMessage(message + "\n");
+            setStyleMode(StyleMode.None);
+            return;
+        }
+
+        let lines = message.split("\n");
+        if (styleMode == StyleMode.Numbered && lines[lines.length - 2] == `${listCount - 1}. `) {
+            setListCount(1);
+            setStyleMode(StyleMode.None);
+            setMessage(lines.splice(0, lines.length - 2).join("\n") + "\n")
+        } else if (styleMode == StyleMode.Numbered) {
+            setListCount(listCount + 1);
+            insertTextAtLine(`${listCount}.`);
+        } else if (styleMode == StyleMode.Dash && lines[lines.length - 2] == "- ") {
+            setStyleMode(StyleMode.None);
+            setMessage(lines.splice(0, lines.length - 2).join("\n") + "\n")
+        } else if (styleMode == StyleMode.Dash)
+            insertTextAtLine("-")
+    }
+
+    const sendMessage = () => {
+        if (message == "") {
+            return;
+        }
+
+        axios.post(SERVER_URL + "/api/messages", {
+            issueId: issueId,
+            body: message
+        }, RequestConfig()).finally(() => {
+            axios.get(SERVER_URL + "/api/messages?issueId=" + issueId , RequestConfig())
+                .then(response => setMessages(response.data));});
+
+        setMessage("");
+    }
+
+    return (<>
+        <NavigationHeader />
+        <div className={"page-content"}>
+            <h1>{issue?.headline}</h1>
+            <div className={"observation-fields"}>
+                <p>What Happened?</p>
+                <textarea disabled defaultValue={issue?.actual}/>
+
+                <p>Expectations</p>
+                <textarea disabled defaultValue={issue?.expected}/>
+
+                <p>What did you try?</p>
+                <textarea disabled defaultValue={issue?.tried}/>
+            </div>
+            <div className={"chat"}>
+            <h1>Messages</h1>
+                <div className={"chat-history"}>
+                    <ul className={"no-list-style"}>
+                        {messages.map(m =>
+                            <MessageBox key={m.id} name={m.name} time={m.timestamp} message={m.body}/>)}
+                    </ul>
+                </div>
+                <div className={"message-options"}>
+                    <div className="text-icon" onClick={() => {insertTextAtLine("###")}}>
+                        <i className="fa-solid fa-heading"/>
+                    </div>
+                    <div className="text-icon" onClick={() => {surroundWord("**")}}>
+                        <i className="fa-solid fa-bold"/>
+                    </div>
+                    <div className="text-icon" onClick={() => {surroundWord("_")}}>
+                        <i className="fa-solid fa-italic"/>
+                    </div>
+                    <div className="text-icon" onClick={() => {insertTextAtLine(">"); setStyleMode(StyleMode.Quote)}}>
+                        <i className="fa-solid fa-quote-left"/>
+                    </div>
+                    <div className="text-icon" onClick={() => {setStyleMode(StyleMode.Numbered); newLine();}}>
+                        <i className="fa-solid fa-list-ol"/>
+                    </div>
+                    <div className="text-icon" onClick={() => {setStyleMode(StyleMode.Dash); newLine();}}>
+                        <i className="fa-solid fa-list-ul"/>
+                    </div>
+                </div>
+                <div className={"message-input"}>
+                    <textarea placeholder={"..."}
+                        rows={8}
+                        value={message}
+                        ref={textareaRef}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyUp={(e) => {if (e.key == "Enter") newLine();}}/>
+                </div>
+                <button onClick={sendMessage}>Send</button>
+            </div>
+        </div>
+    </>);
+}
+
+export default IssuePage;

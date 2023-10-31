@@ -1,29 +1,29 @@
 import {useEffect, useRef, useState} from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import Dropdown from "react-dropdown";
 import 'react-dropdown/style.css';
 import InputFile from "../components/InputFile.tsx";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { RequestConfig, SERVER_URL } from "../api/auth.ts";
+import {toast} from "react-hot-toast";
 
 const NewIssue = () => {
     useEffect(() => {
+        if (machineId === null) {
+            navigate("/solved-issues");
+        }
         document.title = "New Issue";
     }, []);
 
     const navigate = useNavigate();
-    const [department, setDepartment] = useState("");
+    const machineId = sessionStorage.getItem("machineId");
+
     const [title, setTitle] = useState("");
     const [occurrence, setOccurence] = useState("");
     const [expectation, setExpectation] = useState("");
     const [tried, setTried] = useState("");
 
     const [media, setMedia] = useState([]);
-
-    const departments = [
-        "Department 1",
-        "Department 2",
-        "Department 3"
-    ];
 
     const imageInput= useRef(null);
 
@@ -37,8 +37,6 @@ const NewIssue = () => {
 
     const onSubmit = () => {
         let missingMessage = "";
-        if (department == "")
-            missingMessage += "Department; "
         if (title == "")
             missingMessage += "Title; "
         if (occurrence == "")
@@ -48,17 +46,27 @@ const NewIssue = () => {
         if (tried == "")
             missingMessage += "What did you try?;"
 
-
         if (missingMessage != "")  {
-            alert("Missing: " + missingMessage);
+            toast.error("Missing: " + missingMessage);
         } else {
             handleSubmit();
         }
     }
 
     const handleSubmit = () => {
-        alert("Issue has been issued");
-        navigate("/");
+        toast.promise(axios.post(SERVER_URL + "/api/issues", {
+            actual: occurrence,
+            expected: expectation,
+            tried: tried,
+            headline: title,
+            machineId: machineId
+        }, RequestConfig()), {
+            loading: "Creating issue...",
+            success: "Issue created",
+            error: "Failed to create issue"
+        }).then(response => {
+            navigate(`/issue/${response.data.id}`);
+        })
     }
 
     const onImageUpload = () => {
@@ -82,16 +90,14 @@ const NewIssue = () => {
 
     const deleteMedia = (i) => {
         setMedia(media.filter((_, idx) => idx !== i));
+        sessionStorage.removeItem("machineId");
     };
 
     return (<>
         <NavigationHeader/>
         <div className={"page-content new-issue"}>
             <h1>Create Issue</h1>
-            <div className={"section"}>
-                <Dropdown options={departments} onChange={e => setDepartment(e.value)} placeholder={"Department..."}/>
-                <input type={"text"} onChange={e => setTitle(e.target.value)} placeholder={"Title..."}/>
-            </div>
+            <input type={"text"} onChange={e => setTitle(e.target.value)} placeholder={"Title..."}/>
             <div className={"observation-fields"}>
                 <p>What Happened?</p>
                 <textarea rows={10} placeholder={"..."}
