@@ -20,13 +20,13 @@ const LoginPage = (): JSX.Element => {
         if (username.trim() !== '' && password.trim() !== '') {
           onLogin(username, password);
         } else {
-          toast.error("Please enter username and password")
+          toast.error("Please enter username and password");
         }
     };
 
     const handleForgot = () => {
         toast.error("This feature has not been implemented yet");
-    }
+    };
 
     const onLogin = (username: string, password: string) => {
         getToken(username, password).then(() => {
@@ -34,7 +34,7 @@ const LoginPage = (): JSX.Element => {
         }).catch(() => {
             toast.error("Invalid username or password");
         });
-    }
+    };
 
     return <>
     <div className={"navigation-header"}>
@@ -64,7 +64,7 @@ const LoginPage = (): JSX.Element => {
             </div>
         </div>
      </div>
-    </>
-}
+    </>;
+};
 
 export default LoginPage;

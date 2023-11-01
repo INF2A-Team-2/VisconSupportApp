@@ -5,6 +5,6 @@ const InputFile = ({data, deleteCallback}) => {
             <button onClick={deleteCallback}><i className="fa-solid fa-x"></i></button>
         </div>
     </>);
-}
+};
 
 export default InputFile;

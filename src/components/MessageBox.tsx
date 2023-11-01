@@ -16,6 +16,6 @@ const MessageBox = ({name, time, message}:
         </div>
     </li>
     </>);
-}
+};
 
-export default MessageBox
+export default MessageBox;

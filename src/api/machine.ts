@@ -5,7 +5,7 @@ import { RequestConfig, SERVER_URL } from "./auth";
 
 export function useMachines() {
     const [machines, setMachines] = useState<Array<Machine>>([]);
-    let URL = SERVER_URL + "/api/machines";
+    const URL = SERVER_URL + "/api/machines";
     useEffect(() => {
         axios.get(URL, RequestConfig())
             .then(response => {
@@ -24,7 +24,7 @@ export async function getMachines() {
         headers: {
             "Authorization": `Bearer ${token}`
         }});
-    return res.data
+    return res.data;
 }
 export async function getIssuesById( id : number) {
     const token = sessionStorage.getItem("token");
@@ -35,7 +35,7 @@ export async function getIssuesById( id : number) {
         headers: {
             "Authorization": `Bearer ${token}`
         }});
-    return res.data
+    return res.data;
 }
 
 export async function getUserIssues( id : number) {
@@ -50,5 +50,5 @@ export async function getUserIssues( id : number) {
         headers: {
             "Authorization": `Bearer ${token}`
         }});
-    return res.data
+    return res.data;
 }

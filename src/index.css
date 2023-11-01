@@ -98,8 +98,29 @@ a:hover {
     height: 48px;
 }
 
-.navigation-header a:last-of-type {
+.navigation-header img:hover {
+    cursor: pointer;
+}
+
+.navigation-header div:last-of-type {
     margin-left: auto;
+}
+
+.navigation-header div {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.navigation-header div a {
+    background-color: var(--background-2);
+    padding: 8px;
+    border-radius: 4px;
+    transition: transform 100ms;
+}
+
+.navigation-header div a:hover {
+    transform: scale(105%);
 }
 
 .page-content {
@@ -112,6 +133,14 @@ a:hover {
     height: calc(100vh - 96px - 16px - 48px);
     padding: 24px;
     overflow-y: auto;
+}
+
+.page-header {
+    display: flex;
+}
+
+.page-header h1:only-of-type {
+    margin-right: auto;
 }
 
 .wide-button {
@@ -393,23 +422,43 @@ a:hover {
     background-color: var(--platinum-hover);
 }
 
-.admin-users-legenda {
-    display: grid;
-    grid-template-columns: repeat(2, 24px) repeat(auto-fit, minmax(50px, 1fr));
-    grid-gap: 8px;
-    padding: 0 4px;
+.tablelist-search {
+    height: 24px;
+    width: 200px;
 }
 
-.admin-users-list {
+.tablelist-legenda {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    grid-gap: 8px;
+    padding: 2px 4px;
+    height: 24px;
+    border-bottom: 1px solid var(--platinum);
+    margin-bottom: 8px;
+}
+
+.tablelist-legenda p {
+    display: flex;
+    align-items: center;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.tablelist-legenda p:hover {
+    cursor: pointer;
+}
+
+.tablelist-list {
     display: flex;
     flex-direction: column;
     gap: 2px;
     overflow-y: auto;
 }
 
-.admin-users-list-item {
+.tablelist-list-item {
     display: grid;
-    grid-template-columns: repeat(2, 24px) repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     grid-gap: 8px;
     align-items: center;
     background-color: var(--background);
@@ -417,53 +466,47 @@ a:hover {
     border-radius: 4px;
 }
 
-.admin-users-list-item:nth-child(odd) {
+.tablelist-list-item:nth-child(odd) {
     background-color: var(--background-3);
 }
 
-.admin-users-list-item p {
+.tablelist-list-item p {
     font-size: 0.75rem;
     text-transform: none;
     font-family: "JetBrains Mono";
+    text-overflow: ellipsis;
+    text-wrap: none;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-.admin-users-list-item p svg {
+.tablelist-list-item p svg {
     width: 14px;
     height: 14px;
 }
 
-.admin-users-list-item input {
+.tablelist-list-item input {
     margin: 0;
     height: 12px;
     width: 12px;
 }
 
-.admin-users-list-item svg {
-    transition: color 200ms;
-}
-
-.admin-users-list-item svg:hover {
-    cursor: pointer;
-    color: #ffffff;
-}
-
-.admin-users-edit-header {
+.tablelist-buttons-wrapper {
     display: flex;
-    align-items: center;
-    height: 32px;
+    gap: 8px;
 }
 
-.admin-users-edit-header a {
-    margin-left: 8px;
-    font-size: 0.75rem;
-    padding: 4px;
-    background-color: var(--accent-2);
-    color: #ffffff;
-    border: none;
+.tablelist-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
 }
-.admin-users-edit-header a:hover {
-    cursor: pointer;
-    background-color: var(--accent-3);
+
+.tablelist-delete-button svg {
+    scale: 90%;
 }
 
 .user-editor {
@@ -476,6 +519,28 @@ a:hover {
     border-radius: 6px;
     border: 3px solid;
     border-color: var(--platinum);
+}
+
+.user-editor-machines-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-rows: repeat(auto-fit, 32px);
+    grid-gap: 8px;
+}
+
+.select-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: var(--platinum);
+    color: var(--background);
+    transition: transform 100ms;
+}
+
+.select-button:hover {
+    transform: scale(1.01);
 }
 
 .chat {
@@ -494,7 +559,7 @@ a:hover {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     display: grid;
-    padding: 30px 0px 20px;
+    padding: 30px 0 20px;
     overflow-y: scroll;
     height: 40vh;
     border-bottom: 4px solid var(--background-3);
@@ -624,7 +689,7 @@ a:hover {
     border-radius: 16px;
     opacity: 0.8;
     transition: 0.1s;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 
 }
 
@@ -638,7 +703,7 @@ a:hover {
 }
 
 .hidden{
-    height: 0px;
+    height: 0;
 }
 
 .expanded{
@@ -652,4 +717,39 @@ a:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     cursor: pointer;
     overflow: hidden;
+}
+
+
+
+.admin-landing-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: 100px;
+    background-color: var(--platinum);
+    color: var(--background);
+    border-radius: 4px;
+    padding: 8px;
+    transition: transform 100ms;
+}
+
+.stat-card:hover {
+    background-color: var(--platinum-hover);
+    transform: scale(101%);
+    cursor: pointer;
+}
+
+.stat-card h1 {
+    font-size: 1.5rem;
+}
+
+.stat-card pre {
+    font-family: Montserrat;
+    margin: 0;
 }

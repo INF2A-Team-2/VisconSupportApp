@@ -12,6 +12,7 @@ import AdminUserManager from "./pages/AdminUserManager.tsx";
 import ErrPage403 from "./pages/403.tsx";
 import AdminUserEditor from "./pages/AdminUserEditor.tsx";
 import {Toaster} from "react-hot-toast";
+import AdminIssueManager from "./pages/AdminIssueManager.tsx";
 import IssuePage from "./pages/IssuePage.tsx";
 import MyIssuesPage from "./pages/MyIssues.tsx";
 
@@ -36,6 +37,7 @@ root.render(
                 <Route path={"solved-issues"} element={<SolvedIssuesPage />}/>
                 <Route path={"admin/users"} element={<AdminUserManager />} />
                 <Route path={"admin/users/edit/:userId"} element={<AdminUserEditor />}/>
+                <Route path={"admin/issues"} element={<AdminIssueManager />}/>
                 <Route path={"*"} element={<ErrPage404 />}/>
                 <Route path={"403"} element={<ErrPage403 />}/>
                 <Route path={"issue/:issueId"} element={<IssuePage />}/>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
-import { WideButton } from "../components/WideButton.tsx";
+import {WideButton} from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
 import { Machine, Issue } from "../models.ts";
 import { useMachines } from "../api/machine.ts";
@@ -30,14 +30,14 @@ const SolvedIssuesPage = () => {
         if (machine === null) {
             alert("Please select a machine!");
         } else {
-            sessionStorage.setItem("machineId", String(machine.id))
+            sessionStorage.setItem("machineId", String(machine.id));
             navigate("/new-issue");
         }
-    }
+    };
 
     const getLine = (issue: Issue): string => {
-        return "Headline: " + issue.headline
-    }
+        return "Headline: " + issue.headline;
+    };
 
     return (<>
         <NavigationHeader/>
@@ -56,6 +56,6 @@ const SolvedIssuesPage = () => {
             <button onClick={onNotListed}>My issues is not listed</button>
         </div>
     </>);
-}
+};
 
 export default SolvedIssuesPage;

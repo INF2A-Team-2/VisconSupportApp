@@ -6,7 +6,7 @@ const ErrPage404 = () => {
         <div className={"page-content"}>
             <h1>Iesh probleem</h1>
         </div>
-    </>
-}
+    </>;
+};
 
 export default ErrPage404;

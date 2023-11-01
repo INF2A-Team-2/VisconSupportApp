@@ -24,6 +24,8 @@ export type Issue = {
     expected: string;
     tried: string;
     timeStamp: string;
+    userId: number;
+    machineId: number;
 }
 
 export type Message =  {
