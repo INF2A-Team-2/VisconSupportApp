@@ -59,7 +59,8 @@ const NewIssue = () => {
             expected: expectation,
             tried: tried,
             headline: title,
-            machineId: machineId
+            machineId: machineId,
+            attachments: media
         }), {
             loading: "Creating issue...",
             success: "Issue created",
@@ -79,6 +80,7 @@ const NewIssue = () => {
         reader.onload = () => {
             media.push(reader.result);
             setMedia([...media]);
+            console.log(reader.result);
         };
 
         Array.from(imageInput.current.files).forEach(f => {

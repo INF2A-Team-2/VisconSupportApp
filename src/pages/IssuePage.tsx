@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import NavigationHeader from "../components/NavigationHeader";
 import MessageBox from "../components/MessageBox";
 import { useRef, useState } from "react";
-import {newIssueMessage, useIssue, useIssueMessages} from "../api/issues.ts";
+import {newIssueMessage, useIssue, useIssueAttachments, useIssueMessages} from "../api/issues.ts";
 import useAuth from "../api/auth.ts";
 
 enum StyleMode {
@@ -19,6 +19,7 @@ const IssuePage = () => {
     const {issue} = useIssue(issueId);
 
     const {messages, refreshMessages} = useIssueMessages(issueId);
+    const {attachments} = useIssueAttachments(issueId);
 
     const [message, setMessage] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>();
@@ -121,6 +122,14 @@ const IssuePage = () => {
 
                 <p>What did you try?</p>
                 <textarea disabled defaultValue={issue?.tried}/>
+            </div>
+            <h1>Attachments</h1>
+            <div className={"attachments-list"}>
+                {attachments.map(a => a.mimeType.split("/")[0] === "image"
+                    ? <img key={a.id} src={a.data}></img>
+                    : <video key={a.id} controls={true}>
+                        <source src={a.data}/>
+                    </video>)}
             </div>
             <div className={"chat"}>
             <h1>Messages</h1>
