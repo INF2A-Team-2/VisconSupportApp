@@ -14,7 +14,8 @@ const CustomerLanding = () => {
         <div className={"page-content"}>
             <h1>Welcome {user?.username}</h1>
             <p>Recent Issues:</p>
-            {issues.map((i) => <WideButton key={i.id} title={i.headline} target={`issue/${i.id}`}/>)}
+            {issues.sort((a, b) => new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime())
+                .map((i) => <WideButton key={i.id} title={i.headline} target={`issue/${i.id}`}/>)}
         </div>
     </>);
 };
