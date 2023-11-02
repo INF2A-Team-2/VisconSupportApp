@@ -16,10 +16,16 @@ const IssuePage = () => {
     useAuth();
     const issueId = parseInt(useParams().issueId);
 
-    const {issue} = useIssue(issueId);
+    const {issue} = useIssue({
+        issueId: issueId
+    });
 
-    const {messages, refreshMessages} = useIssueMessages(issueId);
-    const {attachments} = useIssueAttachments(issueId);
+    const {messages, refreshMessages} = useIssueMessages({
+        issueId: issueId
+    });
+    const {attachments} = useIssueAttachments({
+        issueId: issueId
+    });
 
     const [message, setMessage] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>();
@@ -102,7 +108,10 @@ const IssuePage = () => {
             return;
         }
 
-        newIssueMessage(issueId, message).finally(() => {
+        newIssueMessage({
+            issueId: issueId,
+            message: message
+        }).finally(() => {
             refreshMessages();
         });
 
@@ -126,7 +135,7 @@ const IssuePage = () => {
             <h1>Attachments</h1>
             <div className={"attachments-list"}>
                 {attachments.map(a => a.mimeType.split("/")[0] === "image"
-                    ? <img key={a.id} src={a.data}></img>
+                    ? <img key={a.id} src={a.data} alt={a.id.toString()}></img>
                     : <video key={a.id} controls={true}>
                         <source src={a.data}/>
                     </video>)}

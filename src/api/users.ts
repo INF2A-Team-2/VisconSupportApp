@@ -20,7 +20,9 @@ export function useUsers() {
     return {users, setUsers, refreshUsers: fetchData};
 }
 
-export function useUser(userId: number) {
+export function useUser({ userId } : {
+    userId: number
+}) {
     const [user, setUser] = useState<User>(null);
 
     const fetchData = useCallback(() => {
@@ -37,23 +39,31 @@ export function useUser(userId: number) {
     return {user, setUser, refreshUser: fetchData};
 }
 
-export function newUser(username: string, password: string) {
+export function newUser({ username, password } : {
+    username: string,
+    password: string
+}) {
     return axios.post(SERVER_URL + "/api/users", {
         username: username,
         password: password
     }, RequestConfig());
 }
 
-export function deleteUser(userId: number) {
+export function deleteUser({ userId } : {
+    userId: number
+}) {
     return axios.delete(SERVER_URL + `/api/users/${userId}`, RequestConfig());
 }
 
-export function editUser(userId: number, data: {
-    username?: string,
-    password?: string,
-    type: AccountType,
-    phoneNumber?: string,
-    unit?: string
+export function editUser({ userId, data} : {
+    userId: number,
+    data: {
+        username?: string,
+        password?: string,
+        type: AccountType,
+        phoneNumber?: string,
+        unit?: string
+    }
 }) {
     return axios.put(SERVER_URL + `/api/users/${userId}`, data, RequestConfig());
 }

@@ -1,8 +1,7 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import useAuth, {RequestConfig, SERVER_URL} from "../api/auth.ts";
+import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {useState} from "react";
-import axios from "axios";
 import {useParams} from "react-router-dom";
 import Dropdown from "react-dropdown";
 import {toast} from "react-hot-toast";
@@ -15,7 +14,7 @@ const AdminUserEditor = () => {
 
     useAuth([AccountType.Admin]);
 
-    const {user: editedUser, setUser: setEditedUser} = useUser(userId);
+    const {user: editedUser, setUser: setEditedUser} = useUser({userId: userId});
 
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordControl, setNewPasswordControl] = useState("");
@@ -61,8 +60,14 @@ const AdminUserEditor = () => {
 
     const submitData = () => {
         const promises = [
-            editUser(userId, editedUser),
-            editUserMachines(userId, selectedMachines)
+            editUser({
+                userId: userId,
+                data: editedUser
+            }),
+            editUserMachines({
+                userId: userId,
+                data: selectedMachines
+            })
         ];
 
         toast.promise(Promise.all(promises), {
@@ -81,7 +86,10 @@ const AdminUserEditor = () => {
         const u = {...editedUser} as any;
         u.password = newPassword;
 
-        const promise = editUser(userId, u);
+        const promise = editUser({
+            userId: userId,
+            data: u
+        });
         toast.promise(promise, {
             loading: "Loading...",
             success: "Changed password",

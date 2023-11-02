@@ -7,7 +7,7 @@ import {useIssues} from "../api/issues.ts";
 const CustomerLanding = () => {
     const user = useAuth([AccountType.User]);
 
-    const {issues} = useIssues(user?.id);
+    const {issues} = useIssues({ userId: user?.id});
 
     return (<>
         <NavigationHeader/>
