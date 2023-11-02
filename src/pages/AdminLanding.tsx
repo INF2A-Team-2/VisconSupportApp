@@ -1,24 +1,17 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import useAuth, {RequestConfig, SERVER_URL} from "../api/auth.ts";
-import {AccountType, Issue} from "../models.ts";
+import useAuth from "../api/auth.ts";
+import {AccountType} from "../models.ts";
 import StatCard from "../components/StatCard.tsx";
 import {CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
 import {useEffect, useState} from "react";
-import axios from "axios";
+import {useIssues} from "../api/issues.ts";
 
 const AdminLanding = () => {
     const user = useAuth([AccountType.Admin]);
 
-    const [issues, setIssues] = useState<Array<Issue>>([]);
+    const {issues} = useIssues();
 
     const [data, setData] = useState([]);
-
-    useEffect(() => {
-        axios.get(SERVER_URL + "/api/issues", RequestConfig())
-            .then(response => {
-                setIssues(response.data);
-            });
-    }, []);
 
     useEffect(() => {
         const startDate = issues.map(i => new Date(i.timeStamp))

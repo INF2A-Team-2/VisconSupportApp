@@ -1,10 +1,9 @@
 import { useParams } from "react-router-dom";
 import NavigationHeader from "../components/NavigationHeader";
-import { Issue, Message } from "../models";
 import MessageBox from "../components/MessageBox";
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { RequestConfig, SERVER_URL } from "../api/auth";
+import { useRef, useState } from "react";
+import {newIssueMessage, useIssue, useIssueMessages} from "../api/issues.ts";
+import useAuth from "../api/auth.ts";
 
 enum StyleMode {
     None,
@@ -14,22 +13,17 @@ enum StyleMode {
 }
 
 const IssuePage = () => {
-    const { issueId } = useParams();
-    const [issue, setIssue] = useState<Issue | null>();
+    useAuth();
+    const issueId = parseInt(useParams().issueId);
+
+    const {issue} = useIssue(issueId);
+
+    const {messages, refreshMessages} = useIssueMessages(issueId);
+
     const [message, setMessage] = useState("");
-    const [messages, setMessages] = useState<Array<Message>>([]);
     const textareaRef = useRef<HTMLTextAreaElement>();
     const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None);
     const [listCount, setListCount] = useState<number>(1);
-
-    useEffect(() => {
-        (() => {
-            axios.get(SERVER_URL + "/api/issues/" + issueId , RequestConfig())
-                .then(response => setIssue(response.data));
-            axios.get(SERVER_URL + "/api/messages?issueId=" + issueId , RequestConfig())
-                .then(response => setMessages(response.data));
-        })();
-    }, [issueId]);
 
     const insertTextAtLine = (style: string) => {
         if (textareaRef.current) {
@@ -107,12 +101,9 @@ const IssuePage = () => {
             return;
         }
 
-        axios.post(SERVER_URL + "/api/messages", {
-            issueId: issueId,
-            body: message
-        }, RequestConfig()).finally(() => {
-            axios.get(SERVER_URL + "/api/messages?issueId=" + issueId , RequestConfig())
-                .then(response => setMessages(response.data));});
+        newIssueMessage(issueId, message).finally(() => {
+            refreshMessages();
+        });
 
         setMessage("");
     };

@@ -1,27 +1,20 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import useAuth, {RequestConfig, SERVER_URL} from "../api/auth.ts";
-import {AccountType, User} from "../models.ts";
+import useAuth from "../api/auth.ts";
+import {AccountType} from "../models.ts";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {toast} from "react-hot-toast";
 import TableList from "../components/TableList.tsx";
+import {deleteUser, newUser, useUsers} from "../api/users.ts";
 
 const AdminUserManager = () => {
     useAuth([AccountType.Admin]);
 
     const navigate = useNavigate();
 
-    const [users, setUsers] = useState<Array<User>>([]);
+    const {users, refreshUsers} = useUsers();
 
     const [data, setData] = useState([]);
-
-    useEffect(() => {
-        axios.get(SERVER_URL + "/api/users", RequestConfig())
-            .then(response => {
-            setUsers(response.data);
-        });
-    }, []);
 
     const getType = (t: number) => {
         switch (t) {
@@ -59,14 +52,14 @@ const AdminUserManager = () => {
             return;
         }
 
-        const request = axios.delete(SERVER_URL + `/api/users/${userId}`, RequestConfig());
+        const request = deleteUser(userId);
 
         toast.promise(request, {
             loading: "Loading...",
             success: "Deleted user",
             error: "Failed to delete user"
         }).then(() => {
-            setUsers([...users.filter(u => u.id !== userId)]);
+            refreshUsers();
         });
     };
 
@@ -75,10 +68,7 @@ const AdminUserManager = () => {
     };
 
     const handleNewUser = () => {
-        const promise = axios.post(SERVER_URL + "/api/users", {
-            username: `new_user_${Math.floor(Math.random() * 100)}`,
-            password: "",
-        }, RequestConfig());
+        const promise = newUser(`new_user_${Math.floor(Math.random() * 100)}`, "");
 
         toast.promise(promise, {
             loading: "Creating user...",
