@@ -1,50 +1,84 @@
 import axios from "axios";
 import {Issue, Message} from "../models";
-import { useEffect, useState } from "react";
+import {useCallback, useEffect, useState} from "react";
 import { RequestConfig, SERVER_URL } from "./auth";
 
-export function useIssues(machineId: number = null) {
+// GET /api/issues
+export function useIssues(machineId: number | null = null, userId: number | null = null) {
     const [issues, setIssues] = useState<Array<Issue>>([]);
-    useEffect(() => {
+
+    const fetchData = useCallback(() => {
         const url = new URL(SERVER_URL + "/api/issues");
 
         if (machineId !== null) {
             url.searchParams.set("machineId", machineId.toString());
         }
 
+        if (userId !== null) {
+            url.searchParams.set("userId", userId.toString());
+        }
+
         axios.get(url.toString(), RequestConfig())
             .then(response => {
                 setIssues(response.data);
             });
-    }, [machineId]);
-    return issues;
+    }, [machineId, userId]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    return {issues, refreshIssues: fetchData};
 }
 
+// GET /api/issues/{issueId}
 export function useIssue(issueId: number) {
     const [issue, setIssue] = useState<Issue>(null);
-    useEffect(() => {
+
+    const fetchData = useCallback(() => {
         axios.get(SERVER_URL + `/api/issues/${issueId}`, RequestConfig())
             .then(response => {
                 setIssue(response.data);
             });
     }, [issueId]);
-    return issue;
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    return {issue, setIssue, refreshIssue: fetchData};
 }
 
+// POST /api/issues
+export function newIssue(data: {
+    actual: string,
+    expected: string,
+    tried: string,
+    headline: string,
+    machineId: number
+}) {
+    return axios.post(SERVER_URL + "/api/users", data, RequestConfig());
+}
+
+// GET /api/issues/{issueId}/messages
 export function useIssueMessages(issueId: number) {
     const [messages, setMessages] = useState<Array<Message>>([]);
-    useEffect(() => {
+
+    const fetchData = useCallback(() => {
         axios.get(SERVER_URL + `/api/issues/${issueId}/messages`, RequestConfig())
             .then(response => {
                 setMessages(response.data);
             });
     }, [issueId]);
-    return messages;
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    return {messages, setMessages, refreshMessages: fetchData};
 }
 
-export function newIssue(username: string, password: string) {
-    return axios.post(SERVER_URL + "/api/users", {
-        username: username,
-        password: password
-    }, RequestConfig())
+// POST /api/issues/{issueId}/messages
+export async function newIssueMessage(issueId: number, message: string) {
+    return axios.post(SERVER_URL + `/api/issues/${issueId}/messages`, { body: message }, RequestConfig());
 }

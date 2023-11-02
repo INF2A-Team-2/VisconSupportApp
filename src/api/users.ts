@@ -1,45 +1,59 @@
-import {useEffect, useState} from "react";
-import {User} from "../models.ts";
+import {useCallback, useEffect, useState} from "react";
+import {AccountType, User} from "../models.ts";
 import axios from "axios";
 import {RequestConfig, SERVER_URL} from "./auth.ts";
 
 export function useUsers() {
     const [users, setUsers] = useState<Array<User>>([]);
 
-    useEffect(() => {
+    const fetchData = useCallback(() => {
         axios.get(SERVER_URL + "/api/users", RequestConfig())
             .then(response => {
                 setUsers(response.data);
             });
     }, []);
 
-    return users
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    return {users, setUsers, refreshUsers: fetchData};
 }
 
 export function useUser(userId: number) {
-    const [user, setUser] = useState<Array<User>>(null);
+    const [user, setUser] = useState<User>(null);
 
-    useEffect(() => {
+    const fetchData = useCallback(() => {
         axios.get(SERVER_URL + `/api/users/${userId}`, RequestConfig())
             .then(response => {
                 setUser(response.data);
             });
     }, [userId]);
 
-    return user
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    return {user, setUser, refreshUser: fetchData};
 }
 
 export function newUser(username: string, password: string) {
     return axios.post(SERVER_URL + "/api/users", {
         username: username,
         password: password
-    }, RequestConfig())
+    }, RequestConfig());
 }
 
 export function deleteUser(userId: number) {
-    return axios.delete(SERVER_URL + `/api/users/${userId}`, RequestConfig())
+    return axios.delete(SERVER_URL + `/api/users/${userId}`, RequestConfig());
 }
 
-export function editUser(userId: number, data) {
-    return axios.put(SERVER_URL + `/api/users/${userId}`, data, RequestConfig())
+export function editUser(userId: number, data: {
+    username?: string,
+    password?: string,
+    type: AccountType,
+    phoneNumber?: string,
+    unit?: string
+}) {
+    return axios.put(SERVER_URL + `/api/users/${userId}`, data, RequestConfig());
 }
