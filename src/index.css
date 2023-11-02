@@ -563,7 +563,6 @@ a:hover {
     background-color: var(--background-2);
     border-radius: 6px;
     color: var(--text);
-    width: 50%;
     height: 50vw;
     vertical-align: baseline;
 }
