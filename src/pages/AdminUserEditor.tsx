@@ -14,7 +14,7 @@ const AdminUserEditor = () => {
 
     useAuth([AccountType.Admin]);
 
-    const {user: editedUser, setUser: setEditedUser} = useUser(userId);
+    const {user: editedUser, setUser: setEditedUser} = useUser({userId: userId});
 
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordControl, setNewPasswordControl] = useState("");
@@ -56,8 +56,14 @@ const AdminUserEditor = () => {
 
     const submitData = () => {
         const promises = [
-            editUser(userId, editedUser),
-            editUserMachines(userId, selectedMachines)
+            editUser({
+                userId: userId,
+                data: editedUser
+            }),
+            editUserMachines({
+                userId: userId,
+                data: selectedMachines
+            })
         ];
 
         toast.promise(Promise.all(promises), {
@@ -76,7 +82,10 @@ const AdminUserEditor = () => {
         const u = {...editedUser} as any;
         u.password = newPassword;
 
-        const promise = editUser(userId, u);
+        const promise = editUser({
+            userId: userId,
+            data: u
+        });
         toast.promise(promise, {
             loading: "Loading...",
             success: "Changed password",

@@ -4,17 +4,20 @@ import {useCallback, useEffect, useState} from "react";
 import { RequestConfig, SERVER_URL } from "./auth";
 
 // GET /api/issues
-export function useIssues(machineId: number | null = null, userId: number | null = null) {
+export function useIssues({ machineId, userId } : {
+    machineId?: number,
+    userId?: number
+} = {}) {
     const [issues, setIssues] = useState<Array<Issue>>([]);
 
     const fetchData = useCallback(() => {
         const url = new URL(SERVER_URL + "/api/issues");
 
-        if (machineId !== null) {
+        if (machineId !== undefined) {
             url.searchParams.set("machineId", machineId.toString());
         }
 
-        if (userId !== null) {
+        if (userId !== undefined) {
             url.searchParams.set("userId", userId.toString());
         }
 
@@ -32,7 +35,9 @@ export function useIssues(machineId: number | null = null, userId: number | null
 }
 
 // GET /api/issues/{issueId}
-export function useIssue(issueId: number) {
+export function useIssue({ issueId } : {
+    issueId: number
+}) {
     const [issue, setIssue] = useState<Issue>(null);
 
     const fetchData = useCallback(() => {
@@ -62,7 +67,9 @@ export function newIssue(data: {
 }
 
 // GET /api/issues/{issueId}/messages
-export function useIssueMessages(issueId: number) {
+export function useIssueMessages({ issueId } : {
+    issueId: number
+}) {
     const [messages, setMessages] = useState<Array<Message>>([]);
 
     const fetchData = useCallback(() => {
@@ -80,12 +87,17 @@ export function useIssueMessages(issueId: number) {
 }
 
 // POST /api/issues/{issueId}/messages
-export async function newIssueMessage(issueId: number, message: string) {
+export async function newIssueMessage({ issueId, message } : {
+    issueId: number,
+    message: string
+}) {
     return axios.post(SERVER_URL + `/api/issues/${issueId}/messages`, { body: message }, RequestConfig());
 }
 
 // GET /api/issues/{issueId}/attachments
-export function useIssueAttachments(issueId: number) {
+export function useIssueAttachments({ issueId } : {
+    issueId: number
+}) {
     const [attachments, setAttachments] = useState<Array<Attachment>>([]);
 
     const fetchData = useCallback(() => {

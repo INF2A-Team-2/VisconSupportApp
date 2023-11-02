@@ -13,7 +13,9 @@ const SolvedIssuesPage = () => {
     const navigate = useNavigate();
     const {machines} = useMachines();
     const [machine, setMachine] = useState<Machine>(null);
-    const {issues} = useIssues(machine?.id);
+    const {issues} = useIssues({
+        machineId: machine?.id
+    });
 
     const onNotListed = () => {
         if (machine === null) {

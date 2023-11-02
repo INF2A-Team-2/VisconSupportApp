@@ -52,7 +52,9 @@ const AdminUserManager = () => {
             return;
         }
 
-        const request = deleteUser(userId);
+        const request = deleteUser({
+            userId: userId
+        });
 
         toast.promise(request, {
             loading: "Loading...",
@@ -68,7 +70,10 @@ const AdminUserManager = () => {
     };
 
     const handleNewUser = () => {
-        const promise = newUser(`new_user_${Math.floor(Math.random() * 100)}`, "");
+        const promise = newUser({
+            username: `new_user_${Math.floor(Math.random() * 100)}`,
+            password: ""
+        });
 
         toast.promise(promise, {
             loading: "Creating user...",

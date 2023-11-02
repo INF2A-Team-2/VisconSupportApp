@@ -13,7 +13,9 @@ const MyIssuesPage = () => {
     const navigate = useNavigate();
     const {machines} = useMachines();
     const [machine, setMachine] = useState<Machine | null>(null);
-    const {issues} = useIssues(machine?.id);
+    const {issues} = useIssues({
+        machineId: machine?.id
+    });
     const [expandedIssueId, setExpandedIssueId] = useState<number | null>(null);
 
     const handleIssueClick = (issueId: number) => {
