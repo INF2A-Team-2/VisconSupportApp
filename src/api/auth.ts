@@ -32,7 +32,7 @@ export default function useAuth(allowedTypes: Array<AccountType> = []) {
             return;
         });
 
-    }, [allowedTypes, navigate]);
+    }, [navigate]);
 
     return user;
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Issue, Message} from "../models";
+import {Attachment, Issue, Message} from "../models";
 import {useCallback, useEffect, useState} from "react";
 import { RequestConfig, SERVER_URL } from "./auth";
 
@@ -55,9 +55,10 @@ export function newIssue(data: {
     expected: string,
     tried: string,
     headline: string,
-    machineId: number
+    machineId: number,
+    attachments: Array<string>
 }) {
-    return axios.post(SERVER_URL + "/api/users", data, RequestConfig());
+    return axios.post(SERVER_URL + "/api/issues", data, RequestConfig());
 }
 
 // GET /api/issues/{issueId}/messages
@@ -81,4 +82,22 @@ export function useIssueMessages(issueId: number) {
 // POST /api/issues/{issueId}/messages
 export async function newIssueMessage(issueId: number, message: string) {
     return axios.post(SERVER_URL + `/api/issues/${issueId}/messages`, { body: message }, RequestConfig());
+}
+
+// GET /api/issues/{issueId}/attachments
+export function useIssueAttachments(issueId: number) {
+    const [attachments, setAttachments] = useState<Array<Attachment>>([]);
+
+    const fetchData = useCallback(() => {
+        axios.get(SERVER_URL + `/api/issues/${issueId}/attachments`, RequestConfig())
+            .then(response => {
+                setAttachments(response.data);
+            });
+    }, [issueId]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    return {attachments, setAttachments, refreshAttachments: fetchData};
 }

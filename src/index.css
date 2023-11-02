@@ -547,6 +547,19 @@ a:hover {
     transform: scale(1.01);
 }
 
+.attachments-list {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+}
+
+.attachments-list img, video {
+    width: 25%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
 .chat {
     font-family: 'Roboto', sans-serif;
     margin-top: 46px;
