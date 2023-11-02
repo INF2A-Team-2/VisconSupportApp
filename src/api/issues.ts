@@ -31,7 +31,7 @@ export function useIssues({ machineId, userId } : {
         fetchData();
     }, [fetchData]);
 
-    return {issues, refreshIssues: fetchData};
+    return {issues, setIssues, refreshIssues: fetchData};
 }
 
 // GET /api/issues/{issueId}
