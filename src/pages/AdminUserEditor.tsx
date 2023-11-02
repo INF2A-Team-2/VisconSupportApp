@@ -1,40 +1,29 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth, {RequestConfig, SERVER_URL} from "../api/auth.ts";
-import {AccountType, User} from "../models.ts";
-import {useEffect, useState} from "react";
+import {AccountType} from "../models.ts";
+import {useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import Dropdown from "react-dropdown";
 import {toast} from "react-hot-toast";
-import {useMachines} from "../api/machine.ts";
+import {editUserMachines, useMachines} from "../api/machines.ts";
 import SelectButton from "../components/SelectButton.tsx";
+import {editUser, useUser} from "../api/users.ts";
 
 const AdminUserEditor = () => {
-    const userId = useParams().userId;
+    const userId = parseInt(useParams().userId);
 
     useAuth([AccountType.Admin]);
 
-    const machines = useMachines();
-
-    const [editedUser, setEditedUser] = useState<User>(null);
+    const {user: editedUser, setUser: setEditedUser} = useUser(userId);
 
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordControl, setNewPasswordControl] = useState("");
 
-    const [selectedMachines, setSelectedMachines] = useState<Array<number>>(null);
+    const {machines} = useMachines();
 
-    useEffect(() => {
-        axios.get(SERVER_URL + `/api/users/${userId}`, RequestConfig()).then(response => {
-            setEditedUser(response.data);
-        });
-    }, [userId]);
+    const [selectedMachines, setSelectedMachines] = useState([]);
 
-    useEffect(() => {
-        axios.get(SERVER_URL + `/api/machines?userId=${userId}`, RequestConfig()).then(response => {
-            setSelectedMachines(response.data.map(m => m.id));
-        });
-    }, [userId]);
-    console.log(selectedMachines);
     const accTypes = [
         {
             value: "0",
@@ -63,7 +52,7 @@ const AdminUserEditor = () => {
 
     const handleMachineInput = (id: number) => {
         if (selectedMachines.includes(id)) {
-            setSelectedMachines([...selectedMachines.filter(i => i != id)]);
+            setSelectedMachines([...selectedMachines.filter(i => i !== id)]);
         } else {
             selectedMachines.push(id);
             setSelectedMachines([...selectedMachines]);
@@ -72,8 +61,8 @@ const AdminUserEditor = () => {
 
     const submitData = () => {
         const promises = [
-            axios.put(SERVER_URL + `/api/users/${userId}`, editedUser, RequestConfig()),
-            axios.put(SERVER_URL + `/api/machines/${userId}`, selectedMachines, RequestConfig())
+            editUser(userId, editedUser),
+            editUserMachines(userId, selectedMachines)
         ];
 
         toast.promise(Promise.all(promises), {
@@ -92,7 +81,7 @@ const AdminUserEditor = () => {
         const u = {...editedUser} as any;
         u.password = newPassword;
 
-        const promise = axios.put(SERVER_URL + `/api/users/${userId}`, u, RequestConfig());
+        const promise = editUser(userId, u);
         toast.promise(promise, {
             loading: "Loading...",
             success: "Changed password",

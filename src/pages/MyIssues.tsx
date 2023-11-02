@@ -1,38 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
 import { WideButton } from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
-import { getUserIssues, getMachines } from "../api/machine.ts";
 import { Machine, Issue } from "../models.ts";
 import 'react-dropdown/style.css';
 import '../index.css';
+import { useMachines } from "../api/machines.ts";
+import { useIssues } from "../api/issues.ts";
 
 const MyIssuesPage = () => {
     const navigate = useNavigate();
-    const [machines, setMachines] = useState<Machine[]>([]);
+    const {machines} = useMachines();
     const [machine, setMachine] = useState<Machine | null>(null);
-    const [issues, setIssues] = useState<Issue[]>([]);
-    const [expandedIssueId, setExpandedIssueId] = useState<number | null>(null); 
-    
-
-    useEffect(() => {
-        (async () => {
-            const machines = await getMachines();
-            if (machines != null) {
-                setMachines(machines);
-            }
-        })();
-    }, []);
-
-    useEffect(() => {
-        (async () => {
-            if (machine === null) {
-                return;
-            }
-            setIssues(await getUserIssues(machine.id));
-        })();
-    }, [machine]);
+    const {issues} = useIssues(machine?.id);
+    const [expandedIssueId, setExpandedIssueId] = useState<number | null>(null);
 
     const handleIssueClick = (issueId: number) => {
         setExpandedIssueId(expandedIssueId === issueId ? null : issueId);
@@ -68,7 +50,7 @@ const MyIssuesPage = () => {
                 </div>
                 <div className="issues-box">
                     <div className="issues">
-                    {issues.map((issue) => (
+                    {machine !== null && issues.map((issue) => (
                     <div key={issue.id} onClick={() => handleIssueClick(issue.id)} className="issue-container">
                         <WideButton title={`${issue.headline}`}/>
                         {renderIssueDetails(issue, expandedIssueId === issue.id)}
