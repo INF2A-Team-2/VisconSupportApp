@@ -443,6 +443,10 @@ a:hover {
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
+    text-overflow: ellipsis;
+    text-wrap: none;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .tablelist-legenda p:hover {

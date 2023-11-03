@@ -17,7 +17,7 @@ const LoginPage = (): JSX.Element => {
     };
 
     const handleLogin = () => {
-        if (username.trim() !== '' && password.trim() !== '') {
+        if (username.trim() !== '') {
           onLogin(username, password);
         } else {
           toast.error("Please enter username and password");

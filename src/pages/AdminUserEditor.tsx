@@ -34,7 +34,7 @@ const AdminUserEditor = () => {
             setSelectedMachines(response.data.map(m => m.id));
         });
     }, [userId]);
-    console.log(selectedMachines);
+
     const accTypes = [
         {
             value: "0",
@@ -54,10 +54,6 @@ const AdminUserEditor = () => {
         const u = {...editedUser};
         u[p] = v;
 
-        if (typeof(v) === "string") {
-            u[p] = null;
-        }
-
         setEditedUser(u);
     };
 
@@ -71,9 +67,10 @@ const AdminUserEditor = () => {
     };
 
     const submitData = () => {
+        console.log(editedUser);
         const promises = [
             axios.put(SERVER_URL + `/api/users/${userId}`, editedUser, RequestConfig()),
-            axios.put(SERVER_URL + `/api/machines/${userId}`, selectedMachines, RequestConfig())
+            editedUser.type === AccountType.User && axios.put(SERVER_URL + `/api/machines/${userId}`, selectedMachines, RequestConfig())
         ];
 
         toast.promise(Promise.all(promises), {
@@ -109,18 +106,18 @@ const AdminUserEditor = () => {
             </div>
             {editedUser && <>
                 <p>Username</p>
-                <input type={"text"} value={editedUser.username} onChange={(e) => handleInput("username", e.target.value)}/>
+                <input type={"text"} autoComplete={"off"} value={editedUser.username ?? ""} onChange={(e) => handleInput("username", e.target.value)}/>
                 <p>Type</p>
                 <Dropdown options={accTypes} onChange={e => handleInput("type", parseInt(e.value))} value={editedUser.type.toString()}/>
                 <p>Phone number</p>
-                <input type={"tel"} value={editedUser.phoneNumber ?? ""} onChange={(e) => handleInput("phoneNumber", e.target.value)}/>
+                <input type={"tel"} autoComplete={"off"} value={editedUser.phoneNumber ?? ""} onChange={(e) => handleInput("phoneNumber", e.target.value)}/>
                 <p>Unit</p>
-                <input type={"text"} value={editedUser.unit ?? ""} onChange={(e) => handleInput("unit", e.target.value)}/>
+                <input type={"text"} autoComplete={"off"} value={editedUser.unit ?? ""} onChange={(e) => handleInput("unit", e.target.value)}/>
                 <h3>Edit password</h3>
                 <p>New password</p>
-                <input type={"password"} onChange={(e) => setNewPassword(e.target.value)}/>
+                <input type={"password"} autoComplete={"new-password"} onChange={(e) => setNewPassword(e.target.value)}/>
                 <p>Confirm new password</p>
-                <input type={"password"} onChange={(e) => setNewPasswordControl(e.target.value)}/>
+                <input type={"password"} autoComplete={"new-password"} onChange={(e) => setNewPasswordControl(e.target.value)}/>
                 <button onClick={submitPassword}>Change password</button>
                 {editedUser.type == AccountType.User && <h3>Machines</h3>}
                 <div className={"user-editor-machines-list"}>
