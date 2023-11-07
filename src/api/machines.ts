@@ -24,7 +24,7 @@ export function useMachines({ userId } : {
 
 export function editUserMachines({ userId, data } : {
     userId: number,
-    data: Array<Machine>
+    data: Array<number>
 }) {
-    return axios.put(SERVER_URL + `/api/users/${userId}/machines`, data.map(m => m.id), RequestConfig());
+    return axios.put(SERVER_URL + `/api/users/${userId}/machines`, data, RequestConfig());
 }
