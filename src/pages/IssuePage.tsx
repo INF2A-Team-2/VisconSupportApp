@@ -1,10 +1,9 @@
 import { useParams } from "react-router-dom";
 import NavigationHeader from "../components/NavigationHeader";
-import { Issue, Message } from "../models";
 import MessageBox from "../components/MessageBox";
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { RequestConfig, SERVER_URL } from "../api/auth";
+import { useRef, useState } from "react";
+import {newIssueMessage, useIssue, useIssueAttachments, useIssueMessages} from "../api/issues.ts";
+import useAuth from "../api/auth.ts";
 
 enum StyleMode {
     None,
@@ -14,22 +13,24 @@ enum StyleMode {
 }
 
 const IssuePage = () => {
-    const { issueId } = useParams();
-    const [issue, setIssue] = useState<Issue | null>();
+    useAuth();
+    const issueId = parseInt(useParams().issueId);
+
+    const {issue} = useIssue({
+        issueId: issueId
+    });
+
+    const {messages, refreshMessages} = useIssueMessages({
+        issueId: issueId
+    });
+    const {attachments} = useIssueAttachments({
+        issueId: issueId
+    });
+
     const [message, setMessage] = useState("");
-    const [messages, setMessages] = useState<Array<Message>>([]);
     const textareaRef = useRef<HTMLTextAreaElement>();
     const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None);
     const [listCount, setListCount] = useState<number>(1);
-
-    useEffect(() => {
-        (() => {
-            axios.get(SERVER_URL + "/api/issues/" + issueId , RequestConfig())
-                .then(response => setIssue(response.data));
-            axios.get(SERVER_URL + "/api/messages?issueId=" + issueId , RequestConfig())
-                .then(response => setMessages(response.data));
-        })();
-    }, [issueId]);
 
     const insertTextAtLine = (style: string) => {
         if (textareaRef.current) {
@@ -107,12 +108,12 @@ const IssuePage = () => {
             return;
         }
 
-        axios.post(SERVER_URL + "/api/messages", {
+        newIssueMessage({
             issueId: issueId,
-            body: message
-        }, RequestConfig()).finally(() => {
-            axios.get(SERVER_URL + "/api/messages?issueId=" + issueId , RequestConfig())
-                .then(response => setMessages(response.data));});
+            message: message
+        }).finally(() => {
+            refreshMessages();
+        });
 
         setMessage("");
     };
@@ -130,6 +131,14 @@ const IssuePage = () => {
 
                 <p>What did you try?</p>
                 <textarea disabled defaultValue={issue?.tried}/>
+            </div>
+            <h1>Attachments</h1>
+            <div className={"attachments-list"}>
+                {attachments.length === 0 ? <p>No attachments</p> : attachments.map(a => a.mimeType.split("/")[0] === "image"
+                    ? <img key={a.id} src={a.data} alt={a.id.toString()}></img>
+                    : <video key={a.id} controls={true}>
+                        <source src={a.data}/>
+                    </video>)}
             </div>
             <div className={"chat"}>
             <h1>Messages</h1>

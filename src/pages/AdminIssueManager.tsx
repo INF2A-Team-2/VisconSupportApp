@@ -1,36 +1,24 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import useAuth, {RequestConfig, SERVER_URL} from "../api/auth.ts";
-import {AccountType, Issue, User, Machine} from "../models.ts";
+import useAuth from "../api/auth.ts";
+import {AccountType} from "../models.ts";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import TableList from "../components/TableList.tsx";
 import strftime from "strftime";
+import {useIssues} from "../api/issues.ts";
+import {useUsers} from "../api/users.ts";
+import {useMachines} from "../api/machines.ts";
+import {useNavigate} from "react-router-dom";
 
 const AdminIssueManager = () => {
     useAuth([AccountType.Admin]);
 
-    const [issues, setIssues] = useState<Array<Issue>>([]);
-    const [users, setUsers] = useState<Array<User>>([]);
-    const [machines, setMachines] = useState<Array<Machine>>([]);
+    const navigate = useNavigate();
+
+    const {issues} = useIssues();
+    const {users} = useUsers();
+    const {machines} = useMachines();
 
     const [data, setData] = useState([]);
-
-    useEffect(() => {
-        axios.get(SERVER_URL + "/api/issues", RequestConfig())
-            .then(response => {
-            setIssues(response.data);
-        });
-
-        axios.get(SERVER_URL + "/api/users", RequestConfig())
-            .then(response => {
-                setUsers(response.data);
-            });
-
-        axios.get(SERVER_URL + "/api/machines", RequestConfig())
-            .then(response => {
-                setMachines(response.data);
-            });
-    }, []);
 
     useEffect(() => {
         const _data = [];
@@ -55,7 +43,15 @@ const AdminIssueManager = () => {
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Issues</h1>
-            <TableList columns={["ID", "Headline", "Date", "User", "Machine"]} data={data} defaultSort={{key: 2, desc: true}}/>
+            <TableList columns={["ID", "Headline", "Date", "User", "Machine"]}
+                       data={data}
+                       defaultSort={{key: 2, desc: true}}
+                       buttons={[
+                           {
+                               text: <i className="fa-solid fa-arrow-right"></i>,
+                               callback: (issueId) => navigate(`/issue/${issueId}`)
+                           }
+                       ]}/>
         </div>
     </>;
 };

@@ -1,30 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
 import {WideButton} from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
 import { Machine, Issue } from "../models.ts";
-import { useMachines } from "../api/machine.ts";
-import axios from "axios";
-import { RequestConfig, SERVER_URL } from "../api/auth.ts";
+import { useMachines } from "../api/machines.ts";
 import 'react-dropdown/style.css';
 import '../index.css';
+import {useIssues} from "../api/issues.ts";
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
-    const machines = useMachines();
-    const [issues, setIssues] = useState<Array<Issue>>([]);
+    const {machines} = useMachines();
     const [machine, setMachine] = useState<Machine>(null);
-
-    useEffect(() => {
-        (() => {
-            if (machine === null) {
-                return;
-            }
-            axios.get(SERVER_URL + "/api/issues?machineId=" + machine.id, RequestConfig())
-                .then(response => setIssues(response.data));
-        })();
-    }, [machine]);
+    const {issues} = useIssues({
+        machineId: machine?.id
+    });
 
     const onNotListed = () => {
         if (machine === null) {
@@ -50,7 +41,7 @@ const SolvedIssuesPage = () => {
             </div>
             <div className={"issues-box"}>
                 <div className={"issues"}> 
-                    {issues.map((e) => <WideButton key={e.id} title={getLine(e)} target={"test"}/>)}
+                    {machine !== null && issues.map((e) => <WideButton key={e.id} title={getLine(e)} target={"test"}/>)}
                 </div>
             </div>
             <button onClick={onNotListed}>My issues is not listed</button>

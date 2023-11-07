@@ -1,14 +1,12 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import axios, {all} from "axios";
+import axios from "axios";
 import {AccountType, User} from "../models.ts";
 import config from "../../config.json";
 
 export const SERVER_URL = config.server_url;
 
 export default function useAuth(allowedTypes: Array<AccountType> = []) {
-
-
     const navigate = useNavigate();
 
     const [user, setUser] = useState<User>(null);

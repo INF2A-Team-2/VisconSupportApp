@@ -28,9 +28,16 @@ export type Issue = {
     machineId: number;
 }
 
-export type Message =  {
+export type Message = {
     id: number;
     name: string;
     body: string;
     timestamp: string;
+}
+
+export type Attachment = {
+    id: number,
+    mimeType: string,
+    data: string,
+    issueId: number
 }

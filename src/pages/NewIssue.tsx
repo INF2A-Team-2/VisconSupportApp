@@ -3,14 +3,13 @@ import NavigationHeader from "../components/NavigationHeader.tsx";
 import 'react-dropdown/style.css';
 import InputFile from "../components/InputFile.tsx";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { RequestConfig, SERVER_URL } from "../api/auth.ts";
 import {toast} from "react-hot-toast";
+import {newIssue} from "../api/issues.ts";
 
 const NewIssue = () => {
     const navigate = useNavigate();
 
-    const machineId = sessionStorage.getItem("machineId");
+    const machineId = parseInt(sessionStorage.getItem("machineId"));
 
     useEffect(() => {
         if (machineId === null) {
@@ -55,13 +54,14 @@ const NewIssue = () => {
     };
 
     const handleSubmit = () => {
-        toast.promise(axios.post(SERVER_URL + "/api/issues", {
+        toast.promise(newIssue({
             actual: occurrence,
             expected: expectation,
             tried: tried,
             headline: title,
-            machineId: machineId
-        }, RequestConfig()), {
+            machineId: machineId,
+            attachments: media
+        }), {
             loading: "Creating issue...",
             success: "Issue created",
             error: "Failed to create issue"
@@ -80,6 +80,7 @@ const NewIssue = () => {
         reader.onload = () => {
             media.push(reader.result);
             setMedia([...media]);
+            console.log(reader.result);
         };
 
         Array.from(imageInput.current.files).forEach(f => {
