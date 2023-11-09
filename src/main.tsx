@@ -15,6 +15,7 @@ import {Toaster} from "react-hot-toast";
 import AdminIssueManager from "./pages/AdminIssueManager.tsx";
 import IssuePage from "./pages/IssuePage.tsx";
 import MyIssuesPage from "./pages/MyIssues.tsx";
+import CSVUploadPage from "./pages/CSVUploadPage.tsx";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -42,6 +43,7 @@ root.render(
                 <Route path={"403"} element={<ErrPage403 />}/>
                 <Route path={"issue/:issueId"} element={<IssuePage />}/>
                 <Route path={"my-issues"} element={<MyIssuesPage />}/>
+                <Route path={"importer"} element={ <CSVUploadPage/>}/>
             </Route>
         </Routes>
     </BrowserRouter>
