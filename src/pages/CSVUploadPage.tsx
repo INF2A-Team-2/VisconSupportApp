@@ -1,9 +1,9 @@
 import {ChangeEvent, useState} from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import useAuth, {SERVER_URL} from "../api/auth.ts";
+import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
-import axios from "axios";
 import {toast} from "react-hot-toast";
+import {useUploadMachines} from "../api/upload.ts";
 
 const CSVUploadPage = () => {
     useAuth([AccountType.Admin]);
