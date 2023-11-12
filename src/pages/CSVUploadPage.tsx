@@ -23,6 +23,7 @@ const CSVUploadPage = () => {
             uploadMachines(selectedFile).then(res => {
                 if(res){
                     toast.success("Successfully uploaded file!");
+                    setSelectedFile(null);
                 }else{
                     toast.error("Couldn't upload file!");
                 }
