@@ -3,7 +3,7 @@ import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {toast} from "react-hot-toast";
-import {useUploadMachines} from "../api/upload.ts";
+import {uploadMachines} from "../api/upload.ts";
 
 const CSVUploadPage = () => {
     useAuth([AccountType.Admin]);
@@ -20,7 +20,7 @@ const CSVUploadPage = () => {
         // You can implement the file upload logic here
         if (selectedFile) {
             console.log(`Uploading file: ${selectedFile.name}`);
-            useUploadMachines(selectedFile).then(res => {
+            uploadMachines(selectedFile).then(res => {
                 if(res){
                     toast.success("Successfully uploaded file!");
                 }else{

@@ -43,7 +43,7 @@ root.render(
                 <Route path={"403"} element={<ErrPage403 />}/>
                 <Route path={"issue/:issueId"} element={<IssuePage />}/>
                 <Route path={"my-issues"} element={<MyIssuesPage />}/>
-                <Route path={"importer"} element={ <CSVUploadPage/>}/>
+                <Route path={"admin/import"} element={ <CSVUploadPage/>}/>
             </Route>
         </Routes>
     </BrowserRouter>
