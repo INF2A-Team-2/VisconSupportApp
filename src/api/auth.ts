@@ -2,9 +2,9 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {AccountType, User} from "../models.ts";
-import config from "../../config.json";
+// import config from "../../config.json";
 
-export const SERVER_URL = config.server_url;
+export const SERVER_URL = "http://localhost:5099";
 
 export default function useAuth(allowedTypes: Array<AccountType> = []) {
     const navigate = useNavigate();

@@ -698,7 +698,7 @@ a:hover {
 }
 
 .my-issues button {
-    display: flex;
+    display: block;
     margin-left: auto;
     margin-right: 16px;
     border: none;
@@ -714,6 +714,7 @@ a:hover {
 
 }
 .issue-details {
+
     overflow: hidden;
     transition: height 0.4s ease-in-out;
 }
@@ -723,19 +724,30 @@ a:hover {
 }
 
 .expanded{
-    height: 100px;
+    height: 120px;
 }
 
 .issue-container {
     margin-bottom: 10px;
     background-color: var(--background);
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     overflow: hidden;
 }
 
+.issue-details p:first-child {
+    padding-top: 10px;
+    padding-left: 10px;
+    font-size: 1.1rem; /* Larger font size for the first paragraph (headline) */
+    font-weight: bold; /* Bold for emphasis */
+}
 
+/* rest of the text also 1.1rem */
+.issue-details p {
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
 
 .admin-landing-grid {
     display: flex;

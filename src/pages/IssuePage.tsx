@@ -31,6 +31,7 @@ const IssuePage = () => {
     const textareaRef = useRef<HTMLTextAreaElement>();
     const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None);
     const [listCount, setListCount] = useState<number>(1);
+    
 
     const insertTextAtLine = (style: string) => {
         if (textareaRef.current) {
