@@ -21,7 +21,7 @@ const AdminUserEditor = () => {
 
     const {machines} = useMachines();
 
-    const [selectedMachines, setSelectedMachines] = useState<Array<number>>(null);
+    const [selectedMachines, setSelectedMachines] = useState<Array<number>>([]);
 
     const accTypes = [
         {
@@ -117,7 +117,7 @@ const AdminUserEditor = () => {
                 <button onClick={submitPassword}>Change password</button>
                 {editedUser.type == AccountType.User && <h3>Machines</h3>}
                 <div className={"user-editor-machines-list"}>
-                    { selectedMachines !== null && editedUser?.type === AccountType.User && machines.map(m =>
+                    { selectedMachines.length > 0 && editedUser?.type === AccountType.User && machines.map(m =>
                         <SelectButton key={m.id} title={m.name} value={m.id} isSelected={selectedMachines.includes(m.id)} onChange={handleMachineInput}/>
                     )}
                 </div>
