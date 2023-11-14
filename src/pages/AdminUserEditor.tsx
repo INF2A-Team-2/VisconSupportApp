@@ -1,11 +1,11 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import Dropdown from "react-dropdown";
 import {toast} from "react-hot-toast";
-import {editUserMachines, useMachines} from "../api/machines.ts";
+import {editUserMachines, useMachines, useUserMachines} from "../api/machines.ts";
 import SelectButton from "../components/SelectButton.tsx";
 import {editUser, useUser} from "../api/users.ts";
 
@@ -21,7 +21,7 @@ const AdminUserEditor = () => {
 
     const {machines} = useMachines();
 
-    const [selectedMachines, setSelectedMachines] = useState<Array<number>>([]);
+    const {machines: selectedMachines, setMachines: setSelectedMachines} = useUserMachines({ userId: editedUser?.id });
 
     const accTypes = [
         {
@@ -46,10 +46,10 @@ const AdminUserEditor = () => {
     };
 
     const handleMachineInput = (id: number) => {
-        if (selectedMachines.includes(id)) {
-            setSelectedMachines([...selectedMachines.filter(i => i !== id)]);
+        if (selectedMachines.map(m => m.id).includes(id)) {
+            setSelectedMachines([...selectedMachines.filter(m => m.id !== id)]);
         } else {
-            selectedMachines.push(id);
+            selectedMachines.push(machines.find(m => m.id == id));
             setSelectedMachines([...selectedMachines]);
         }
     };
@@ -62,7 +62,7 @@ const AdminUserEditor = () => {
             }),
             editUserMachines({
                 userId: userId,
-                data: selectedMachines
+                data: selectedMachines.map(m => m.id)
             })
         ];
 
@@ -115,12 +115,12 @@ const AdminUserEditor = () => {
                 <p>Confirm new password</p>
                 <input type={"password"} autoComplete={"new-password"} onChange={(e) => setNewPasswordControl(e.target.value)}/>
                 <button onClick={submitPassword}>Change password</button>
-                {editedUser.type == AccountType.User && <h3>Machines</h3>}
-                <div className={"user-editor-machines-list"}>
-                    { selectedMachines.length > 0 && editedUser?.type === AccountType.User && machines.map(m =>
-                        <SelectButton key={m.id} title={m.name} value={m.id} isSelected={selectedMachines.includes(m.id)} onChange={handleMachineInput}/>
-                    )}
-                </div>
+                {/*{editedUser.type == AccountType.User && <h3>Machines</h3>}*/}
+                {/*<div className={"user-editor-machines-list"}>*/}
+                {/*    {editedUser?.type === AccountType.User && machines.map(m =>*/}
+                {/*        <SelectButton key={m.id} title={m.name} value={m.id} isSelected={selectedMachines.includes(m)} onChange={handleMachineInput}/>*/}
+                {/*    )}*/}
+                {/*</div>*/}
             </>}
         </div>
     </>;

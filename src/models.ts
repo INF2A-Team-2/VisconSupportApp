@@ -33,6 +33,7 @@ export type Message = {
     name: string;
     body: string;
     timestamp: string;
+    userID: number;
 }
 
 export type Attachment = {

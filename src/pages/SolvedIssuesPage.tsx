@@ -41,7 +41,7 @@ const SolvedIssuesPage = () => {
             </div>
             <div className={"issues-box"}>
                 <div className={"issues"}> 
-                    {machine !== null && issues.map((e) => <WideButton key={e.id} title={getLine(e)} target={"test"}/>)}
+                    {machine !== null && issues.map((e) => <WideButton key={e.id} title={getLine(e)} target={`issue/${e.id}`}/>)}
                 </div>
             </div>
             <button onClick={onNotListed}>My issues is not listed</button>
