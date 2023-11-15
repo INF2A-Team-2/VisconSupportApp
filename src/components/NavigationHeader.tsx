@@ -12,8 +12,8 @@ const CustomerNavigationHeader = () => {
 
 const EmployeeNavigationHeader = () => {
     return (<>
-            <a href={"/issues"}>My Issues</a>
-            <a href={"/new-issue"}>Create Issue</a>
+            <a href={"/my-issues"}>My Issues</a>
+            <a href={"/employee/new-issue"}>Create Issue</a>
             <a href={"/customers"}>My Customers</a>
     </>);
 };

@@ -1,42 +1,29 @@
-import {useEffect, useRef, useState} from "react";
-import NavigationHeader from "../components/NavigationHeader.tsx";
+import { useState } from "react";
+import useAuth from "../api/auth";
+import Dropdown from "react-dropdown";
 import 'react-dropdown/style.css';
-import InputFile from "../components/InputFile.tsx";
+import NavigationHeader from "../components/NavigationHeader";
+import { AccountType } from "../models";
+import { useMachines } from "../api/machines";
+import toast from "react-hot-toast";
+import { newIssue } from "../api/issues";
 import { useNavigate } from "react-router-dom";
-import {toast} from "react-hot-toast";
-import {newIssue} from "../api/issues.ts";
 
-const NewIssue = () => {
+const NewIssueEmployee = () => {
+    useAuth([AccountType.HelpDesk, AccountType.Admin]);
     const navigate = useNavigate();
 
-    const machineId = parseInt(sessionStorage.getItem("machineId"));
-
-    useEffect(() => {
-        if (machineId === null || isNaN(machineId)) {
-            navigate("/solved-issues");
-        }
-        document.title = "New Issue";
-    }, [machineId, navigate]);
-
+    const {machines} = useMachines();
+    const [machine, setMachine] = useState(null);
     const [title, setTitle] = useState("");
     const [occurrence, setOccurence] = useState("");
     const [expectation, setExpectation] = useState("");
     const [tried, setTried] = useState("");
 
-    const [media, setMedia] = useState([]);
-
-    const imageInput= useRef(null);
-
-    const onAddImage = () => {
-        if (imageInput.current === null) {
-            return;
-        }
-
-        imageInput.current.click();
-    };
-
     const onSubmit = () => {
         let missingMessage = "";
+        if (machine === null)
+            missingMessage += "Machine; ";
         if (title == "")
             missingMessage += "Title; ";
         if (occurrence == "")
@@ -59,8 +46,8 @@ const NewIssue = () => {
             expected: expectation,
             tried: tried,
             headline: title,
-            machineId: machineId,
-            attachments: media
+            machineId: machine.id,
+            attachments: []
         }), {
             loading: "Creating issue...",
             success: "Issue created",
@@ -70,35 +57,15 @@ const NewIssue = () => {
         });
     };
 
-    const onImageUpload = () => {
-        if (imageInput.current === null) {
-            return;
-        }
-
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            media.push(reader.result);
-            setMedia([...media]);
-            console.log(reader.result);
-        };
-
-        Array.from(imageInput.current.files).forEach(f => {
-            if (f) {
-                reader.readAsDataURL(f as File);
-            }
-        });
-    };
-
-    const deleteMedia = (i) => {
-        setMedia(media.filter((_, idx) => idx !== i));
-        sessionStorage.removeItem("machineId");
-    };
-
     return (<>
         <NavigationHeader/>
         <div className={"page-content new-issue"}>
             <h1>Create Issue</h1>
+            <div className={"section"}>
+                <Dropdown options={machines.map(m => m.name)} onChange={(e) => {
+                        setMachine(machines.find(machine => machine.name === e.value));
+                    }} placeholder={"Machine..."}/>
+            </div>
             <input type={"text"} onChange={e => setTitle(e.target.value)} placeholder={"Title..."}/>
             <div className={"observation-fields"}>
                 <p>What Happened?</p>
@@ -113,15 +80,9 @@ const NewIssue = () => {
                 <textarea rows={10} placeholder={"..."}
                     onChange={e => setTried(e.target.value)}/>
             </div>
-            <p>Files</p>
-            <input type={"file"} accept={".png,.jpeg,.jpg,.mp4"} ref={imageInput} onChange={onImageUpload} style={{ display: "none" }}/>
-            <div className={"files-list"}>
-                {media.map((f: string, i) => (<InputFile data={f} deleteCallback={() => deleteMedia(i)} key={i}/>))}
-                <button onClick={onAddImage}><i className="fa-solid fa-plus fa-2xl"></i></button>
-            </div>
             <button onClick={onSubmit}>Submit</button>
         </div>
-    </>);
-};
+    </>)
+}
 
-export default NewIssue;
+export default NewIssueEmployee;

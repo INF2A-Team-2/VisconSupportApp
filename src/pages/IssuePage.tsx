@@ -4,6 +4,7 @@ import MessageBox from "../components/MessageBox";
 import { useRef, useState } from "react";
 import {newIssueMessage, useIssue, useIssueAttachments, useIssueMessages} from "../api/issues.ts";
 import useAuth from "../api/auth.ts";
+import { AccountType } from "../models.ts";
 
 enum StyleMode {
     None,
@@ -13,7 +14,7 @@ enum StyleMode {
 }
 
 const IssuePage = () => {
-    useAuth();
+    const user = useAuth();
     const issueId = parseInt(useParams().issueId);
 
     const {issue} = useIssue({
@@ -121,7 +122,10 @@ const IssuePage = () => {
     return (<>
         <NavigationHeader />
         <div className={"page-content"}>
-            <h1>{issue?.headline}</h1>
+            <div className={"issue-header"}>
+                <h1>{issue?.headline}</h1>
+                {user?.type === AccountType.HelpDesk ? <button onClick={() => {}}>Resolve Issue</button> : <></>}
+            </div>
             <div className={"observation-fields"}>
                 <p>What Happened?</p>
                 <textarea disabled defaultValue={issue?.actual}/>
