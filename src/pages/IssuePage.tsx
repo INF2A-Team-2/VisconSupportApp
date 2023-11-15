@@ -132,8 +132,9 @@ const IssuePage = () => {
                 <h2>What did you try?</h2>
                 <p>{issue?.tried}</p>
             </div>
+
+            <h1 className={"attachments-header"}>Attachments</h1>
             <div className={"attachments-list"}>
-                <h1>Attachments</h1>
                 {attachments.length === 0 ? <p>No attachments</p> : attachments.map(a => a.mimeType.split("/")[0] === "image"
                     ? <img key={a.id} src={a.data} alt={a.id.toString()}></img>
                     : <video key={a.id} controls={true}>

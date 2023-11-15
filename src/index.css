@@ -550,10 +550,15 @@ a:hover {
     transform: scale(1.01);
 }
 
+.attachments-header {
+    padding-top: 32px;
+}
+
 .attachments-list {
     padding-top: 24px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: start;
     gap: 8px;
 }
@@ -566,7 +571,7 @@ a:hover {
 
 .chat {
     font-weight: normal;
-    margin-top: 46px;
+    margin-top: 32px;
     text-transform: none;
     background-color: var(--background-2);
     border-radius: 6px;
