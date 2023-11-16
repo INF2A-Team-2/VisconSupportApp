@@ -8,7 +8,7 @@ import { useMachines } from "../api/machines.ts";
 import 'react-dropdown/style.css';
 import '../index.css';
 import {useIssues} from "../api/issues.ts";
-import { RenderIssueDetails } from "./renderIssueDetails.tsx";
+import { RenderIssueDetails } from "../components/RenderIssueDetails.tsx";
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
