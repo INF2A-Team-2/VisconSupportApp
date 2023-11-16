@@ -46,9 +46,15 @@ const MyIssuesPage = () => {
             <div className="page-content my-issues">
                 <h1>My Issues</h1>
                 <div className="section">
-                    <Dropdown options={machines.map(m => m.name)} onChange={(e) => {
-                        setMachine(machines.find(machine => machine.name === e.value));
-                    }} placeholder="Select a machine" />
+                <Dropdown
+                    options={machines.map((m) => m.name)}
+                    onChange={(e) => {
+                        setMachine(machines.find((machine) => machine.name === e.value));
+                    }}
+                    placeholder="Select a machine"
+                    controlClassName="dropdown-control" // Add this class for styling the control part of the dropdown
+                    menuClassName="dropdown-menu"       // Add this class for styling the dropdown menu
+                />
                 </div>
                 <div className="issues-box">
                     <div className="issues">
@@ -57,7 +63,7 @@ const MyIssuesPage = () => {
                         <WideButton title={`${issue.headline}`}/>
                         {renderIssueDetails(issue, expandedIssueId === issue.id)}
                     </div>
-))}
+                        ))}
                     </div>
                 </div>
             </div>
