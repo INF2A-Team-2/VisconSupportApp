@@ -30,23 +30,10 @@ const MyIssuesPage = () => {
         navigate(`/issue/${issueId}`);
     };
 
-
-    const renderIssueDetails = (issue: Issue, isExpanded: boolean) => {
-        const detailClass = isExpanded ? "issue-details expanded" : "issue-details hidden";
-        return (
-            <div className={detailClass}>
-                <p>What did happen: {issue.actual}</p>
-                <p>Expectation: {issue.expected}</p>
-                <p>What was tried: {issue.tried}</p>
-                <button onClick={(e) => navigateToIssue(issue.id, e)}>View Entire Issue</button>
-            </div>
-        );
-    };
-
     return (
         <>
             <NavigationHeader />
-            <div className="page-content my-issues">
+            <div className="page-content issue-pages">
                 <h1>My Issues</h1>
                 <div className="section">
                 <Dropdown
@@ -55,8 +42,8 @@ const MyIssuesPage = () => {
                         setMachine(machines.find((machine) => machine.name === e.value));
                     }}
                     placeholder="Select a machine"
-                    controlClassName="dropdown-control" // Add this class for styling the control part of the dropdown
-                    menuClassName="dropdown-menu"       // Add this class for styling the dropdown menu
+                    controlClassName="dropdown-control"
+                    menuClassName="dropdown-menu"
                 />
                 </div>
                 <div className="issues-box">

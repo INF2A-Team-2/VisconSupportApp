@@ -342,44 +342,6 @@ a:hover {
     text-decoration: underline;
  }
 
- .solved-issues {
-
- }
-
- .solved-issues .section {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    grid-gap: 16px;
-}
-
-.solved-issues .issues-box {
-    overflow-y: auto;
-    height: 75vh;
-}
-
-
-.solved-issues .issues-box .issues {
-    display: grid;
-    grid-gap: 16px;
-}
-
-.solved-issues button {
-    display: flex;
-    margin-left: auto;
-    border: none;
-    background-color: var(--accent);
-    font-size: 16px;
-    color: var(--text);
-    padding: 10px;
-    border-radius: 16px;
-    opacity: 0.8;
-    transition: 0.1s;
-}
-
-.solved-issues button:hover {
-    opacity: 1;
-}
-
 .drop-down {
     background-color: var(--background);
 
@@ -687,28 +649,27 @@ a:hover {
 .no-list-style {
     list-style: none;
 }
-/* Kopie van solved issues om styling zelfde te houden */
-.my-issues {
+.issue-pages {
 
 }
 
-.my-issues .section {
+.issue-pages .section {
     display: grid;
     grid-template-columns: 200px 1fr;
     grid-gap: 16px;
 }
 
-.my-issues .issues-box {
+.issue-pages .issues-box {
     overflow-y: auto;
     height: 75vh;
 }
 
-.my-issues .issues-box .issues {
+.issue-pages .issues-box .issues {
     display: grid;
     grid-gap: 16px;
 }
 
-.my-issues button {
+.issue-pages button {
     display: block;
     margin-left: auto;
     margin-right: 16px;
@@ -725,7 +686,7 @@ a:hover {
 
 }
 
-.my-issues .issue-details .button{
+.issue-pages .issue-details .button{
     font-size: 26px;
 
 }

@@ -39,11 +39,9 @@ const SolvedIssuesPage = () => {
     };
 
 
-
-
     return (<>
         <NavigationHeader/>
-        <div className={"page-content solved-issues"}>
+        <div className={"page-content issue-pages"}>
             <h1>Solved Issues</h1>
             <div className={"section"}>
                 <Dropdown options={machines.map(m => m.name)} onChange={(e) => {
