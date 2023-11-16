@@ -8,6 +8,9 @@ import 'react-dropdown/style.css';
 import '../index.css';
 import { useMachines } from "../api/machines.ts";
 import { useIssues } from "../api/issues.ts";
+import { RenderIssueDetails } from "./renderIssueDetails.tsx";
+
+
 
 const MyIssuesPage = () => {
     const navigate = useNavigate();
@@ -61,7 +64,7 @@ const MyIssuesPage = () => {
                     {machine !== null && issues.map((issue) => (
                     <div key={issue.id} onClick={() => handleIssueClick(issue.id)} className="issue-container">
                         <WideButton title={`${issue.headline}`}/>
-                        {renderIssueDetails(issue, expandedIssueId === issue.id)}
+                        <RenderIssueDetails issue={issue} isExpanded={expandedIssueId === issue.id} />
                     </div>
                         ))}
                     </div>

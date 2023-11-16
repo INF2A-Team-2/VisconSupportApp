@@ -8,6 +8,7 @@ import { useMachines } from "../api/machines.ts";
 import 'react-dropdown/style.css';
 import '../index.css';
 import {useIssues} from "../api/issues.ts";
+import { RenderIssueDetails } from "./renderIssueDetails.tsx";
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
@@ -32,28 +33,12 @@ const SolvedIssuesPage = () => {
         return "Headline: " + issue.headline;
     };
 
-    const navigateToIssue = (issueId: number, event: React.MouseEvent) => {
-        event.stopPropagation();
-        navigate(`/issue/${issueId}`);
-    };
-
-
 
     const handleIssueClick = (issueId: number) => {
         setExpandedIssueId(expandedIssueId === issueId ? null : issueId);
     };
 
-    const renderIssueDetails = (issue: Issue, isExpanded: boolean) => {
-        const detailClass = isExpanded ? "issue-details expanded" : "issue-details hidden";
-        return (
-            <div className={detailClass}>
-                <p>What did happen: {issue.actual}</p>
-                <p>Expectation: {issue.expected}</p>
-                <p>What was tried: {issue.tried}</p>
-                <button onClick={(e) => navigateToIssue(issue.id, e)}>View Entire Issue</button>
-            </div>
-        );
-    };
+
 
 
     return (<>
@@ -70,7 +55,7 @@ const SolvedIssuesPage = () => {
                         {machine !== null && issues.map((issue) => (
                             <div key={issue.id} onClick={() => handleIssueClick(issue.id)} className="issue-container">
                                 <WideButton title={`${issue.headline}`} />
-                                {renderIssueDetails(issue, expandedIssueId === issue.id)}
+                                <RenderIssueDetails issue={issue} isExpanded={expandedIssueId === issue.id} />
                             </div>
                         ))}
                     </div>
