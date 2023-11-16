@@ -4,8 +4,8 @@ import 'react-dropdown/style.css';
 import InputFile from "../components/InputFile.tsx";
 import { useNavigate } from "react-router-dom";
 import {toast} from "react-hot-toast";
-import {newIssue} from "../api/issues.ts";
-import { RenderIssueDetails } from "../components/RenderIssueDetails.tsx";
+import {newIssue, uploadAttachments} from "../api/issues.ts";
+import {Media} from "../models.ts";
 
 const NewIssue = () => {
     const navigate = useNavigate();
@@ -24,7 +24,7 @@ const NewIssue = () => {
     const [expectation, setExpectation] = useState("");
     const [tried, setTried] = useState("");
 
-    const [media, setMedia] = useState([]);
+    const [media, setMedia] = useState<Array<Media>>([]);
 
     const imageInput= useRef(null);
 
@@ -61,13 +61,18 @@ const NewIssue = () => {
             tried: tried,
             headline: title,
             machineId: machineId,
-            attachments: media
         }), {
             loading: "Creating issue...",
             success: "Issue created",
             error: "Failed to create issue"
         }).then(response => {
-            navigate(`/issue/${response.data.id}`);
+            toast.promise(uploadAttachments(response.data.id, media), {
+                loading: "Uploading attachments...",
+                success: "Attachments uploaded",
+                error: "Failed to upload attachments"
+            }).finally(() => {
+                navigate(`/issue/${response.data.id}`);
+            });
         });
     };
 
@@ -79,14 +84,16 @@ const NewIssue = () => {
         const reader = new FileReader();
 
         reader.onload = () => {
-            media.push(reader.result);
+            media[media.length - 1].data = reader.result as ArrayBuffer;
             setMedia([...media]);
-            console.log(reader.result);
         };
 
-        Array.from(imageInput.current.files).forEach(f => {
+        Array.from(imageInput.current.files).forEach((f: File) => {
             if (f) {
-                reader.readAsDataURL(f as File);
+                media.push({
+                    mimeType: f.type,
+                });
+                reader.readAsArrayBuffer(f);
             }
         });
     };
@@ -117,7 +124,7 @@ const NewIssue = () => {
             <p>Files</p>
             <input type={"file"} accept={".png,.jpeg,.jpg,.mp4"} ref={imageInput} onChange={onImageUpload} style={{ display: "none" }}/>
             <div className={"files-list"}>
-                {media.map((f: string, i) => (<InputFile data={f} deleteCallback={() => deleteMedia(i)} key={i}/>))}
+                {media.map((f, i) => (<InputFile data={URL.createObjectURL(new Blob([f.data]))} deleteCallback={() => deleteMedia(i)} key={i}/>))}
                 <button onClick={onAddImage}><i className="fa-solid fa-plus fa-2xl"></i></button>
             </div>
             <button onClick={onSubmit}>Submit</button>

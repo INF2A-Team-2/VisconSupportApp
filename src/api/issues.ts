@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Attachment, Issue, Message} from "../models";
+import {Attachment, Issue, Media, Message} from "../models";
 import {useCallback, useEffect, useState} from "react";
 import { RequestConfig, SERVER_URL } from "./auth";
 
@@ -61,9 +61,32 @@ export function newIssue(data: {
     tried: string,
     headline: string,
     machineId: number,
-    attachments: Array<string>
 }) {
     return axios.post(SERVER_URL + "/api/issues", data, RequestConfig());
+}
+
+// POST /api/issues/{issueId}/attachments
+export async function uploadAttachments(issueId: number, attachments: Array<Media>) {
+    for (const m of attachments) {
+        if (m.data === undefined) {
+            continue;
+        }
+
+        const res = await axios.post(SERVER_URL + `/api/issues/${issueId}/attachments`, {
+            mimeType: m.mimeType
+        }, RequestConfig());
+
+        const aId = res.data.id;
+
+        const config = RequestConfig();
+        config.headers["Content-Type"] = m.mimeType;
+
+        const chunks = splitArrayBuffer(m.data, 8 * 1024 * 1024);
+
+        for (const c of chunks) {
+            await axios.post(SERVER_URL + `/api/issues/${issueId}/attachments/${aId}`, c, config);
+        }
+    }
 }
 
 // GET /api/issues/{issueId}/messages
@@ -112,4 +135,20 @@ export function useIssueAttachments({ issueId } : {
     }, [fetchData]);
 
     return {attachments, setAttachments, refreshAttachments: fetchData};
+}
+
+function splitArrayBuffer(arrayBuffer: ArrayBuffer, chunkSize: number): ArrayBuffer[] {
+    const chunks: ArrayBuffer[] = [];
+    const uint8Array = new Uint8Array(arrayBuffer);
+
+    if (arrayBuffer.byteLength <= chunkSize) {
+        chunks.push(arrayBuffer);
+    } else {
+        for (let i = 0; i < uint8Array.length; i += chunkSize) {
+            const chunk = uint8Array.slice(i, i + chunkSize);
+            chunks.push(chunk.buffer);
+        }
+    }
+
+    return chunks;
 }

@@ -42,3 +42,8 @@ export type Attachment = {
     data: string,
     issueId: number
 }
+
+export type Media = {
+    data?: ArrayBuffer,
+    mimeType: string
+};
