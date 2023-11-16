@@ -133,9 +133,9 @@ const IssuePage = () => {
                 <h1>{issue?.headline}</h1>
                 {user?.type === AccountType.HelpDesk ? <button onClick={() => {}}>Resolve Issue</button> : <></>}
             </div>
-            <div className={"observation-fields"}>
-                <p>What Happened?</p>
-                <textarea disabled defaultValue={issue?.actual}/>
+            <div>
+                <h2>What Happened?</h2>
+                <p>{issue?.actual}</p>
 
                 <h2>Expectations</h2>
                 <p>{issue?.expected}</p>
