@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import NavigationHeader from "../components/NavigationHeader";
 import MessageBox from "../components/MessageBox";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {newIssueMessage, useIssue, useIssueAttachments, useIssueMessages} from "../api/issues.ts";
 import useAuth from "../api/auth.ts";
+import { AccountType } from "../models.ts";
 
 enum StyleMode {
     None,
@@ -13,7 +14,7 @@ enum StyleMode {
 }
 
 const IssuePage = () => {
-    useAuth();
+    const user = useAuth();
     const issueId = parseInt(useParams().issueId);
 
     const {issue} = useIssue({
@@ -29,9 +30,16 @@ const IssuePage = () => {
 
     const [message, setMessage] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>();
+    const chatHistoryRef = useRef<HTMLDivElement>();
     const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None);
     const [listCount, setListCount] = useState<number>(1);
     
+
+    useEffect(() => {
+        if (chatHistoryRef.current) {
+            chatHistoryRef.current.scrollTop = chatHistoryRef.current.scrollHeight;
+        }
+    }, [messages]);
 
     const insertTextAtLine = (style: string) => {
         if (textareaRef.current) {
@@ -122,7 +130,10 @@ const IssuePage = () => {
     return (<>
         <NavigationHeader />
         <div className={"page-content"}>
-            <h1>{issue?.headline}</h1>
+            <div className={"issue-header"}>
+                <h1>{issue?.headline}</h1>
+                {user?.type === AccountType.HelpDesk ? <button onClick={() => {}}>Resolve Issue</button> : <></>}
+            </div>
             <div>
                 <h2>What Happened?</h2>
                 <p>{issue?.actual}</p>
@@ -144,7 +155,7 @@ const IssuePage = () => {
             </div>
             <div className={"chat"}>
             <h1>Messages</h1>
-                <div className={"chat-history"}>
+                <div className={"chat-history"} ref={chatHistoryRef}>
                     <ul className={"no-list-style"}>
                         {messages.map(m =>
                             <MessageBox key={m.id} name={m.name} time={m.timestamp} message={m.body}/>)}

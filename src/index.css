@@ -202,6 +202,12 @@ a:hover {
     opacity: 1;
 }
 
+.new-issue .section {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-gap: 16px;
+}
+
 .files-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, 200px);
@@ -773,5 +779,25 @@ a:hover {
 }
 
 
+.issue-header {
+    display: flex;
+}
 
-  
+.issue-header button {
+    margin-left: auto;
+    height: fit-content;
+    background-color: var(--accent);
+    font-size: 16px;
+    color: var(--text);
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 16px;
+    opacity: 0.8;
+    transition: 0.1s;
+}
+
+.issue-header button:hover {
+    opacity: 1;
+}
+

@@ -4,9 +4,10 @@ import {useCallback, useEffect, useState} from "react";
 import { RequestConfig, SERVER_URL } from "./auth";
 
 // GET /api/issues
-export function useIssues({ machineId, userId } : {
+export function useIssues({ machineId, userId, quantity } : {
     machineId?: number,
-    userId?: number
+    userId?: number,
+    quantity?: number
 } = {}) {
     const [issues, setIssues] = useState<Array<Issue>>([]);
 
@@ -19,6 +20,10 @@ export function useIssues({ machineId, userId } : {
 
         if (userId !== undefined) {
             url.searchParams.set("userId", userId.toString());
+        }
+
+        if (quantity !== undefined) {
+            url.searchParams.set("quantity", quantity.toString());
         }
 
         axios.get(url.toString(), RequestConfig())
