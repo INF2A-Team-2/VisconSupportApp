@@ -16,7 +16,8 @@ const LoginPage = (): JSX.Element => {
         setPassword(e.target.value);
     };
 
-    const handleLogin = () => {
+    const handleLogin = (e: any) => {
+        e.preventDefault();
         if (username.trim() !== '') {
           onLogin(username, password);
         } else {
@@ -42,26 +43,28 @@ const LoginPage = (): JSX.Element => {
     </div>
     <div className={"page-content"}>
         <div className={"login-box"}>
-            <div className={"field"}>
-                <div className={"overlap-group"}>
-                    <input className={"text-wrapper"} type="text"
-                        id="username" value={username}
-                        onChange={handleUsernameChange} placeholder="Username" />
-                    <i className="fa-solid fa-user"></i>
-                </div>
+            <form onSubmit={handleLogin}>
                 <div className={"field"}>
                     <div className={"overlap-group"}>
-                        <input className={"text-wrapper"} type="password"
-                            id="password" value={password}
-                            onChange={handlePasswordChange} placeholder="Password"/>
-                        <i className="fa-solid fa-lock"></i>
+                        <input className={"text-wrapper"} type="text"
+                            id="username" value={username}
+                            onChange={handleUsernameChange} placeholder="Username" />
+                        <i className="fa-solid fa-user"></i>
                     </div>
                     <div className={"field"}>
-                        <button onClick={handleLogin} className={"login-btn"}>LOGIN</button>
-                        <div className="text-wrapper-2" onClick={handleForgot}>Forgot password?</div>
+                        <div className={"overlap-group"}>
+                            <input className={"text-wrapper"} type="password"
+                                id="password" value={password}
+                                onChange={handlePasswordChange} placeholder="Password"/>
+                            <i className="fa-solid fa-lock"></i>
+                        </div>
+                        <div className={"field"}>
+                            <button type={"submit"} className={"login-btn"}>LOGIN</button>
+                            <div className="text-wrapper-2" onClick={handleForgot}>Forgot password?</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
      </div>
     </>;

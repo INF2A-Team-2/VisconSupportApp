@@ -53,7 +53,7 @@ export async function getToken(username: string, password: string) : Promise<boo
 export const RequestConfig = () => {
     return {
         headers: {
-            "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`
         }
     };
 };
