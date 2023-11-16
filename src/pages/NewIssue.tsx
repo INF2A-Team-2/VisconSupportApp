@@ -5,6 +5,7 @@ import InputFile from "../components/InputFile.tsx";
 import { useNavigate } from "react-router-dom";
 import {toast} from "react-hot-toast";
 import {newIssue} from "../api/issues.ts";
+import { RenderIssueDetails } from "../components/RenderIssueDetails.tsx";
 
 const NewIssue = () => {
     const navigate = useNavigate();

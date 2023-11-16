@@ -8,6 +8,9 @@ import 'react-dropdown/style.css';
 import '../index.css';
 import { useMachines } from "../api/machines.ts";
 import { useIssues } from "../api/issues.ts";
+import { RenderIssueDetails } from "../components/RenderIssueDetails.tsx";
+
+
 
 const MyIssuesPage = () => {
     const navigate = useNavigate();
@@ -27,37 +30,30 @@ const MyIssuesPage = () => {
         navigate(`/issue/${issueId}`);
     };
 
-
-    const renderIssueDetails = (issue: Issue, isExpanded: boolean) => {
-        const detailClass = isExpanded ? "issue-details expanded" : "issue-details hidden";
-        return (
-            <div className={detailClass}>
-                <p>What did happen: {issue.actual}</p>
-                <p>Expectation: {issue.expected}</p>
-                <p>What was tried: {issue.tried}</p>
-                <button onClick={(e) => navigateToIssue(issue.id, e)}>View Entire Issue</button>
-            </div>
-        );
-    };
-
     return (
         <>
             <NavigationHeader />
-            <div className="page-content my-issues">
+            <div className="page-content issue-pages">
                 <h1>My Issues</h1>
                 <div className="section">
-                    <Dropdown options={machines.map(m => m.name)} onChange={(e) => {
-                        setMachine(machines.find(machine => machine.name === e.value));
-                    }} placeholder="Select a machine" />
+                <Dropdown
+                    options={machines.map((m) => m.name)}
+                    onChange={(e) => {
+                        setMachine(machines.find((machine) => machine.name === e.value));
+                    }}
+                    placeholder="Select a machine"
+                    controlClassName="dropdown-control"
+                    menuClassName="dropdown-menu"
+                />
                 </div>
                 <div className="issues-box">
                     <div className="issues">
                     {machine !== null && issues.map((issue) => (
                     <div key={issue.id} onClick={() => handleIssueClick(issue.id)} className="issue-container">
                         <WideButton title={`${issue.headline}`}/>
-                        {renderIssueDetails(issue, expandedIssueId === issue.id)}
+                        <RenderIssueDetails issue={issue} isExpanded={expandedIssueId === issue.id} />
                     </div>
-))}
+                        ))}
                     </div>
                 </div>
             </div>

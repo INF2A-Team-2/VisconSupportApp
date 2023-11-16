@@ -8,11 +8,14 @@ import { useMachines } from "../api/machines.ts";
 import 'react-dropdown/style.css';
 import '../index.css';
 import {useIssues} from "../api/issues.ts";
+import { RenderIssueDetails } from "../components/RenderIssueDetails.tsx";
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
     const {machines} = useMachines();
     const [machine, setMachine] = useState<Machine>(null);
+    const [expandedIssueId, setExpandedIssueId] = useState<number | null>(null);
+
     const {issues} = useIssues({
         machineId: machine?.id
     });
@@ -30,20 +33,31 @@ const SolvedIssuesPage = () => {
         return "Headline: " + issue.headline;
     };
 
+
+    const handleIssueClick = (issueId: number) => {
+        setExpandedIssueId(expandedIssueId === issueId ? null : issueId);
+    };
+
+
     return (<>
         <NavigationHeader/>
-        <div className={"page-content solved-issues"}>
+        <div className={"page-content issue-pages"}>
             <h1>Solved Issues</h1>
             <div className={"section"}>
                 <Dropdown options={machines.map(m => m.name)} onChange={(e) => {
                     setMachine(machines.find(machine => machine.name === e.value));
                 }} placeholder={"Machine..."}/>
             </div>
-            <div className={"issues-box"}>
-                <div className={"issues"}> 
-                    {machine !== null && issues.map((e) => <WideButton key={e.id} title={getLine(e)} target={`issue/${e.id}`}/>)}
+            <div className="issues-box">
+                    <div className="issues">
+                        {machine !== null && issues.map((issue) => (
+                            <div key={issue.id} onClick={() => handleIssueClick(issue.id)} className="issue-container">
+                                <WideButton title={`${issue.headline}`} />
+                                <RenderIssueDetails issue={issue} isExpanded={expandedIssueId === issue.id} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
             <button onClick={onNotListed}>My issues is not listed</button>
         </div>
     </>);

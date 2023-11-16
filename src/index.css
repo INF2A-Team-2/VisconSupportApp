@@ -348,46 +348,9 @@ a:hover {
     text-decoration: underline;
  }
 
- .solved-issues {
-
- }
-
- .solved-issues .section {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    grid-gap: 16px;
-}
-
-.solved-issues .issues-box {
-    overflow-y: auto;
-    height: 75vh;
-}
-
-
-.solved-issues .issues-box .issues {
-    display: grid;
-    grid-gap: 16px;
-}
-
-.solved-issues button {
-    display: flex;
-    margin-left: auto;
-    border: none;
-    background-color: var(--accent);
-    font-size: 16px;
-    color: var(--text);
-    padding: 10px;
-    border-radius: 16px;
-    opacity: 0.8;
-    transition: 0.1s;
-}
-
-.solved-issues button:hover {
-    opacity: 1;
-}
-
 .drop-down {
     background-color: var(--background);
+
 }
 
 .observation-fields  {
@@ -692,29 +655,32 @@ a:hover {
 .no-list-style {
     list-style: none;
 }
-/* Kopie van solved issues om styling zelfde te houden */
-.my-issues {
+
+
+
+
+.issue-pages {
 
 }
 
-.my-issues .section {
+.issue-pages .section {
     display: grid;
     grid-template-columns: 200px 1fr;
     grid-gap: 16px;
 }
 
-.my-issues .issues-box {
+.issue-pages .issues-box {
     overflow-y: auto;
     height: 75vh;
 }
 
-.my-issues .issues-box .issues {
+.issue-pages .issues-box .issues {
     display: grid;
     grid-gap: 16px;
 }
 
-.my-issues button {
-    display: flex;
+.issue-pages button {
+    display: block;
     margin-left: auto;
     margin-right: 16px;
     border: none;
@@ -722,36 +688,62 @@ a:hover {
     opacity: 0.8;
     transition: 0.1s;
     margin-bottom: 0;
+    background-color: var(--accent);
+    font-size: 16px;
+    color: var(--text);
+    padding: 10px;
+    border-radius: 16px;
 
 }
 
-.my-issues .issue-details .button{
+.issue-pages .issue-details .button{
     font-size: 26px;
 
 }
+
 .issue-details {
+
     overflow: hidden;
     transition: height 0.4s ease-in-out;
+
 }
 
 .hidden{
-    height: 0;
+    height: 0px;
 }
 
 .expanded{
-    height: 100px;
+    height: 140px;
+    padding-bottom: 4px;;
 }
 
+
+
 .issue-container {
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     background-color: var(--background);
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     overflow: hidden;
 }
 
+.issue-details p:first-child {
+    padding-top: 10px;
+    padding-left: 10px;
+    font-size: 1.1rem; 
+    font-weight: bold; 
+}
 
+
+.issue-details p {
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.small-text {
+    font-size: 0.8em; 
+  }
 
 .admin-landing-grid {
     display: flex;
@@ -786,6 +778,7 @@ a:hover {
     margin: 0;
 }
 
+
 .issue-header {
     display: flex;
 }
@@ -807,3 +800,4 @@ a:hover {
 .issue-header button:hover {
     opacity: 1;
 }
+

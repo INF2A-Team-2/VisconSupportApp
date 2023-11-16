@@ -33,6 +33,7 @@ const IssuePage = () => {
     const chatHistoryRef = useRef<HTMLDivElement>();
     const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None);
     const [listCount, setListCount] = useState<number>(1);
+    
 
     useEffect(() => {
         if (chatHistoryRef.current) {
