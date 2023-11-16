@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 @font-face {
@@ -9,6 +10,7 @@
 :root {
     font-family: "Montserrat", sans-serif;
     text-transform: uppercase;
+    font-weight: 700;
 
     --accent: rgba(13, 135, 154, 1);
     --accent-2: rgba(242, 67, 51, 1);
@@ -411,6 +413,7 @@ a:hover {
 .observation-fields textarea:disabled {
     height: auto;
     min-height: 16vh;
+    border: none;
 }
 
 .admin-users-add-user {
@@ -553,9 +556,15 @@ a:hover {
     transform: scale(1.01);
 }
 
+.attachments-header {
+    padding-top: 32px;
+}
+
 .attachments-list {
+    padding-top: 24px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: start;
     gap: 8px;
 }
@@ -567,8 +576,8 @@ a:hover {
 }
 
 .chat {
-    font-family: 'Roboto', sans-serif;
-    margin-top: 46px;
+    font-weight: normal;
+    margin-top: 32px;
     text-transform: none;
     background-color: var(--background-2);
     border-radius: 6px;
@@ -601,6 +610,7 @@ a:hover {
     font-size: 14px;
     border-radius: 6px;
     position: relative;
+    margin-bottom: 12px;
 }
 
 .message-border {

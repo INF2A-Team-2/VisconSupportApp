@@ -130,13 +130,14 @@ const IssuePage = () => {
                 <p>What Happened?</p>
                 <textarea disabled defaultValue={issue?.actual}/>
 
-                <p>Expectations</p>
-                <textarea disabled defaultValue={issue?.expected}/>
+                <h2>Expectations</h2>
+                <p>{issue?.expected}</p>
 
-                <p>What did you try?</p>
-                <textarea disabled defaultValue={issue?.tried}/>
+                <h2>What did you try?</h2>
+                <p>{issue?.tried}</p>
             </div>
-            <h1>Attachments</h1>
+
+            <h1 className={"attachments-header"}>Attachments</h1>
             <div className={"attachments-list"}>
                 {attachments.length === 0 ? <p>No attachments</p> : attachments.map(a => a.mimeType.split("/")[0] === "image"
                     ? <img key={a.id} src={a.data} alt={a.id.toString()}></img>
