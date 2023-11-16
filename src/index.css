@@ -649,6 +649,10 @@ a:hover {
 .no-list-style {
     list-style: none;
 }
+
+
+
+
 .issue-pages {
 
 }
@@ -695,14 +699,15 @@ a:hover {
 
     overflow: hidden;
     transition: height 0.4s ease-in-out;
+
 }
 
 .hidden{
-    height: 0;
+    height: 0px;
 }
 
 .expanded{
-    height: 130px;
+    height: 140px;
 }
 
 
@@ -726,8 +731,12 @@ a:hover {
 
 .issue-details p {
     padding-left: 10px;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
 }
+
+.small-text {
+    font-size: 0.8em; 
+  }
 
 .admin-landing-grid {
     display: flex;
