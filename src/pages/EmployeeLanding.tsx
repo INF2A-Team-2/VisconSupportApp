@@ -7,7 +7,7 @@ import { WideButton } from "../components/WideButton.tsx";
 const EmployeeLanding = () => {
     const user = useAuth([AccountType.HelpDesk]);
 
-    const {issues} = useIssues({ userId: user?.id});
+    const {issues} = useIssues({quantity: 5});
 
     return (<>
         <NavigationHeader/>

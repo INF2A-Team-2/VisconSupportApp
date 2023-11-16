@@ -3,17 +3,20 @@ import useAuth from "../api/auth";
 import Dropdown from "react-dropdown";
 import 'react-dropdown/style.css';
 import NavigationHeader from "../components/NavigationHeader";
-import { AccountType } from "../models";
-import { useMachines } from "../api/machines";
+import { AccountType, User } from "../models";
+import { useUserMachines } from "../api/machines";
 import toast from "react-hot-toast";
 import { newIssue } from "../api/issues";
 import { useNavigate } from "react-router-dom";
+import { useUsers } from "../api/users";
 
 const NewIssueEmployee = () => {
-    useAuth([AccountType.HelpDesk, AccountType.Admin]);
+    const currentUser = useAuth([AccountType.HelpDesk, AccountType.Admin]);
     const navigate = useNavigate();
 
-    const {machines} = useMachines();
+    const {users} = useUsers();
+    const [user, setUser] = useState<User>();
+    const {machines} = useUserMachines({userId: user?.id});
     const [machine, setMachine] = useState(null);
     const [title, setTitle] = useState("");
     const [occurrence, setOccurence] = useState("");
@@ -22,6 +25,8 @@ const NewIssueEmployee = () => {
 
     const onSubmit = () => {
         let missingMessage = "";
+        if (user === null)
+            missingMessage += "User; ";
         if (machine === null)
             missingMessage += "Machine; ";
         if (title == "")
@@ -62,6 +67,9 @@ const NewIssueEmployee = () => {
         <div className={"page-content new-issue"}>
             <h1>Create Issue</h1>
             <div className={"section"}>
+                <Dropdown options={users.map(u => u.username)} onChange={(e) => {
+                        setUser(users.find(u => u.username === e.value));}}
+                        placeholder={"User..."}/>
                 <Dropdown options={machines.map(m => m.name)} onChange={(e) => {
                         setMachine(machines.find(machine => machine.name === e.value));
                     }} placeholder={"Machine..."}/>
