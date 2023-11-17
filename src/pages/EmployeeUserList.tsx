@@ -2,13 +2,16 @@ import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {useEffect, useState} from "react";
+import { useContext} from "react";
 import TableList from "../components/TableList.tsx";
 import {useUsers} from "../api/users.ts";
 
 const EmployeeUserList = () => {
-    useAuth([AccountType.HelpDesk, AccountType.Admin]);
 
-    const {users} = useUsers();
+    const currentUser = useAuth([AccountType.HelpDesk, AccountType.Admin]);
+
+    
+    const {users, refreshUsers} = useUsers();
 
     const [data, setData] = useState([]);
 

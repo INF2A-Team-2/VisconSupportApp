@@ -10,6 +10,9 @@ export function useUsers() {
         axios.get(SERVER_URL + "/api/users", RequestConfig())
             .then(response => {
                 setUsers(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching users:", error.response?.data || error.message);
             });
     }, []);
 
@@ -17,18 +20,19 @@ export function useUsers() {
         fetchData();
     }, [fetchData]);
 
-    return {users, setUsers, refreshUsers: fetchData};
+    return { users, setUsers, refreshUsers: fetchData };
 }
 
-export function useUser({ userId } : {
-    userId: number
-}) {
+export function useUser({ userId } : { userId: number }) {
     const [user, setUser] = useState<User>(null);
 
     const fetchData = useCallback(() => {
         axios.get(SERVER_URL + `/api/users/${userId}`, RequestConfig())
             .then(response => {
                 setUser(response.data);
+            })
+            .catch(error => {
+                console.error(`Error fetching user with ID ${userId}:`, error.response?.data || error.message);
             });
     }, [userId]);
 
@@ -36,7 +40,7 @@ export function useUser({ userId } : {
         fetchData();
     }, [fetchData]);
 
-    return {user, setUser, refreshUser: fetchData};
+    return { user, setUser, refreshUser: fetchData };
 }
 
 export function newUser({ username, password } : {
