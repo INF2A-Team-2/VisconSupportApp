@@ -18,6 +18,8 @@ import MyIssuesPage from "./pages/MyIssues.tsx";
 import CSVUploadPage from "./pages/CSVUploadPage.tsx";
 import NewIssueEmployee from "./pages/NewIssueEmployee.tsx";
 import EmployeeUserList from "./pages/EmployeeUserList.tsx";
+import UserMachinesPage from "./pages/EmployeeUserInformation.tsx";
+import EmployeeUserInformation from "./pages/EmployeeUserInformation.tsx";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -48,6 +50,7 @@ root.render(
                 <Route path={"admin/import"} element={ <CSVUploadPage/>}/>
                 <Route path={"employee/new-issue"} element={<NewIssueEmployee />}/>
                 <Route path={"employee/users"} element={<EmployeeUserList />}/>
+                <Route path="/users/:userId/info" element={<EmployeeUserInformation />} />
             </Route>
         </Routes>
     </BrowserRouter>
