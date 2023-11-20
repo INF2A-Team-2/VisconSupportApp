@@ -6,7 +6,7 @@ import {newIssueMessage, useIssue, useIssueAttachments, useIssueMessages} from "
 import useAuth from "../api/auth.ts";
 import { AccountType } from "../models.ts";
 import { getConnection } from "../api/socket.ts";
-import { HubConnection } from "@microsoft/signalr";
+import { HubConnection, HubConnectionState } from "@microsoft/signalr";
 
 enum StyleMode {
     None,
@@ -45,14 +45,17 @@ const IssuePage = () => {
 
     useEffect(() => {
         if (connection) {
+            if (connection.state === HubConnectionState.Connected) {
+                return;
+            }
             connection.start()
                 .then(result => {
                     console.log('Connected!');
+                    connection.invoke("AddToGroup", issueId.toString())
 
-                    connection.on('ReceiveMessage', message => {
-                        // Update your state or do something with the incoming message
-                        console.log('Received message: ', message);
-                    });
+                    connection.on("Send", (message) => { console.log(message)});
+
+                    connection.on('message', message => { refreshMessages(); });
                 })
                 .catch(e => console.log('Connection failed: ', e));
         }
@@ -141,6 +144,7 @@ const IssuePage = () => {
             issueId: issueId,
             message: message
         }).finally(() => {
+            connection.invoke("SendMessage", issueId.toString(), "Incoming Message");
             refreshMessages();
         });
 
