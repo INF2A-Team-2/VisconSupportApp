@@ -1,7 +1,13 @@
 import config from "../../config.json";
-import signalR from "@microsoft/signalr";
+import { HubConnectionBuilder } from "@microsoft/signalr";
 
 export const SERVER_URL = config.server_url;
-export const connection = new signalR.HubConnectionBuilder()
+// export const connection = new HubConnectionBuilder()
+//     .withUrl(SERVER_URL + "/messageHub")
+//     .build();
+
+export function getConnection() {
+    return new HubConnectionBuilder()
     .withUrl(SERVER_URL + "/messageHub")
     .build();
+}

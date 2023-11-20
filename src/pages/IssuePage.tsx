@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import {newIssueMessage, useIssue, useIssueAttachments, useIssueMessages} from "../api/issues.ts";
 import useAuth from "../api/auth.ts";
 import { AccountType } from "../models.ts";
+import { getConnection } from "../api/socket.ts";
+import { HubConnection } from "@microsoft/signalr";
 
 enum StyleMode {
     None,
@@ -33,13 +35,31 @@ const IssuePage = () => {
     const chatHistoryRef = useRef<HTMLDivElement>();
     const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None);
     const [listCount, setListCount] = useState<number>(1);
-    
+    const [connection, setConnection] = useState<HubConnection>(null);
 
     useEffect(() => {
         if (chatHistoryRef.current) {
             chatHistoryRef.current.scrollTop = chatHistoryRef.current.scrollHeight;
         }
     }, [messages]);
+
+    useEffect(() => {
+        if (connection) {
+            connection.start()
+                .then(result => {
+                    console.log('Connected!');
+
+                    connection.on('ReceiveMessage', message => {
+                        // Update your state or do something with the incoming message
+                        console.log('Received message: ', message);
+                    });
+                })
+                .catch(e => console.log('Connection failed: ', e));
+        }
+        if (connection === null) {
+            setConnection(getConnection());
+        }
+    }, [connection]);
 
     const insertTextAtLine = (style: string) => {
         if (textareaRef.current) {
