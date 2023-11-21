@@ -23,6 +23,7 @@ const AdminNavigationHeader = () => {
         <a href={"/admin/issues"}>Issues</a>
         <a href={"/admin/users"}>Users</a>
         <a href={"/admin/import"}>Import</a>
+        <a href={"/admin/new-machine"}>Add Machine</a>
     </>);
 };
 
