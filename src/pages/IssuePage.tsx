@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import {newIssueMessage, useIssue, useIssueAttachments, useIssueMessages} from "../api/issues.ts";
 import useAuth from "../api/auth.ts";
 import { AccountType } from "../models.ts";
+import { getConnection } from "../api/socket.ts";
+import { HubConnection, HubConnectionState } from "@microsoft/signalr";
 
 enum StyleMode {
     None,
@@ -33,13 +35,34 @@ const IssuePage = () => {
     const chatHistoryRef = useRef<HTMLDivElement>();
     const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None);
     const [listCount, setListCount] = useState<number>(1);
-    
+    const [connection, setConnection] = useState<HubConnection>(null);
 
     useEffect(() => {
         if (chatHistoryRef.current) {
             chatHistoryRef.current.scrollTop = chatHistoryRef.current.scrollHeight;
         }
     }, [messages]);
+
+    useEffect(() => {
+        if (connection) {
+            if (connection.state === HubConnectionState.Connected) {
+                return;
+            }
+            connection.start()
+                .then(result => {
+                    console.log('Connected!');
+                    connection.invoke("AddToGroup", issueId.toString())
+
+                    connection.on("Send", (message) => { console.log(message)});
+
+                    connection.on('message', message => { refreshMessages(); });
+                })
+                .catch(e => console.log('Connection failed: ', e));
+        }
+        if (connection === null) {
+            setConnection(getConnection());
+        }
+    }, [connection]);
 
     const insertTextAtLine = (style: string) => {
         if (textareaRef.current) {
@@ -121,6 +144,7 @@ const IssuePage = () => {
             issueId: issueId,
             message: message
         }).finally(() => {
+            connection.invoke("SendMessage", issueId.toString(), "Incoming Message");
             refreshMessages();
         });
 
