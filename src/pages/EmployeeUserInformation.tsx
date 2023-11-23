@@ -20,15 +20,15 @@ const EmployeeUserInformation = () => {
 
     const machineData = machines.map(machine => [machine.id, machine.name]);
     const issueData = issues.map(issue => [issue.id, issue.headline, issue.machineId, "(Not implemented)"]);
+
     
 
     return (
         <>
             <NavigationHeader />
             <div className={"page-content"}>
-                <h1> Gebruikersnaam Info (todo)</h1>
-
-                <h2>User's Machines</h2>
+                <h1> {user?.username}'s information</h1>
+                <h2>User's machines</h2>
                 <TableList columns={machineColumns} data={machineData}
                  />
 
