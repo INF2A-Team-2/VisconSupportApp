@@ -7,22 +7,30 @@ import NavigationHeader from "../components/NavigationHeader.tsx";
 import { RenderIssueDetails } from "../components/RenderIssueDetails.tsx";
 import TableList from "../components/TableList.tsx";
 import {useNavigate} from "react-router-dom";
+import useAuth from "../api/auth.ts";
+import { AccountType } from "../models.ts";
 
 
 const EmployeeUserInformation = () => {
     const { userId } = useParams();
+    const authUser = useAuth([AccountType.HelpDesk, AccountType.Admin]);
     const { machines } = useUserMachines({ userId: parseInt(userId, 10) });
+    const employeeId = authUser?.id;
     const { issues } = useIssues({ userId: parseInt(userId, 10) });
     const { user } = useUser({ userId: parseInt(userId, 10) });
     const navigate = useNavigate();
+
     const machineColumns = ["ID", "Name"];
     const issueColumns = ["ID", "Headline", "Machine", "Status"];
 
     const machineData = machines.map(machine => [machine.id, machine.name]);
     const issueData = issues.map(issue => [issue.id, issue.headline, issue.machineId, "(Not implemented)"]);
 
-    
 
+    
+    if (!authUser) {
+        return <div>Access Denied</div>;
+    }
     return (
         <>
             <NavigationHeader />

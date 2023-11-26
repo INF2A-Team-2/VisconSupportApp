@@ -18,8 +18,9 @@ const EmployeeUserList = () => {
     const [data, setData] = useState([]);
 
     const ViewUserInformation = (userId) => {
-        navigate(`/users/${userId}/info`);
+        navigate(`/employee/${userId}/info`);
     };
+
 
 
     useEffect(() => {
@@ -45,7 +46,7 @@ const EmployeeUserList = () => {
                         buttons={[
                             {
                                 text: <i className="fa-solid fa-arrow-right"></i>,
-                                callback: (userId) => navigate(`/users/${userId}/info`)
+                                callback: (userId) => ViewUserInformation(userId)
                             }
                         ]}
                         />
