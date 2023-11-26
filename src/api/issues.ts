@@ -2,6 +2,7 @@ import axios from "axios";
 import {Attachment, Issue, Media, Message} from "../models";
 import {useCallback, useEffect, useState} from "react";
 import { RequestConfig, SERVER_URL } from "./auth";
+import {uploadAttachment} from "./socket.ts";
 
 // GET /api/issues
 export function useIssues({ machineId, userId, quantity } : {
@@ -83,14 +84,7 @@ export async function uploadAttachments(issueId: number, attachments: Array<Medi
 
         const aId = res.data.id;
 
-        const config = RequestConfig();
-        config.headers["Content-Type"] = m.mimeType;
-
-        const chunks = splitArrayBuffer(m.data, 8 * 1024 * 1024);
-
-        for (const c of chunks) {
-            await axios.post(SERVER_URL + `/api/issues/${issueId}/attachments/${aId}`, c, config);
-        }
+        uploadAttachment(m, aId);
     }
 }
 
@@ -131,7 +125,13 @@ export function useIssueAttachments({ issueId } : {
     const fetchData = useCallback(() => {
         axios.get(SERVER_URL + `/api/issues/${issueId}/attachments`, RequestConfig())
             .then(response => {
-                setAttachments(response.data);
+                const attachmentsData = response.data.map((a: Attachment) => {
+                    a.url = SERVER_URL + `/api/issues/${issueId}/attachments/${a.id}`;
+
+                    return a;
+                });
+
+                setAttachments(attachmentsData);
             });
     }, [issueId]);
 
@@ -140,20 +140,4 @@ export function useIssueAttachments({ issueId } : {
     }, [fetchData]);
 
     return {attachments, setAttachments, refreshAttachments: fetchData};
-}
-
-function splitArrayBuffer(arrayBuffer: ArrayBuffer, chunkSize: number): ArrayBuffer[] {
-    const chunks: ArrayBuffer[] = [];
-    const uint8Array = new Uint8Array(arrayBuffer);
-
-    if (arrayBuffer.byteLength <= chunkSize) {
-        chunks.push(arrayBuffer);
-    } else {
-        for (let i = 0; i < uint8Array.length; i += chunkSize) {
-            const chunk = uint8Array.slice(i, i + chunkSize);
-            chunks.push(chunk.buffer);
-        }
-    }
-
-    return chunks;
 }
