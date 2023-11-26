@@ -34,17 +34,25 @@ root.render(
             }
         }}/>
         <Routes>
+            <Route index element={<LandingRouter />} />
+            <Route path={"*"} element={<ErrPage404 />}/>
+            <Route path="/admin">
+                <Route path={"users"} element={<AdminUserManager />} />
+                <Route path={"users/edit/:userId"} element={<AdminUserEditor />}/>
+                <Route path={"issues"} element={<AdminIssueManager />}/>
+                <Route path={"import"} element={ <CSVUploadPage/>}/>
+                <Route path={"new-machine"} element={<AdminAddMachine />}/>
+            </Route>
+            <Route path="/employee">
+                <Route path={"new-issue"} element={<NewIssueEmployee />}/>
+                <Route path={"users"} element={<EmployeeUserList />}/>
+            </Route>
             <Route path="/">
-                <Route index element={<LandingRouter />} />
                 <Route path={"new-issue"} element={<NewIssue />}/>
                 <Route path={"login"} element={<LoginPage />}/>
                 <Route path={"logout"} element={<LogoutPage />}/>
                 <Route path={"404"} element={<ErrPage404 />}/>
                 <Route path={"solved-issues"} element={<SolvedIssuesPage />}/>
-                <Route path={"admin/users"} element={<AdminUserManager />} />
-                <Route path={"admin/users/edit/:userId"} element={<AdminUserEditor />}/>
-                <Route path={"admin/issues"} element={<AdminIssueManager />}/>
-                <Route path={"*"} element={<ErrPage404 />}/>
                 <Route path={"403"} element={<ErrPage403 />}/>
                 <Route path={"issue/:issueId"} element={<IssuePage />}/>
                 <Route path={"my-issues"} element={<MyIssuesPage />}/>
