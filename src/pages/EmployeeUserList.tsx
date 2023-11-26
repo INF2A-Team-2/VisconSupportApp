@@ -18,7 +18,7 @@ const EmployeeUserList = () => {
     const [data, setData] = useState([]);
 
     const ViewUserInformation = (userId) => {
-        navigate(`/employee/${userId}/info`);
+        navigate(`/employee/users/${userId}`);
     };
 
 
