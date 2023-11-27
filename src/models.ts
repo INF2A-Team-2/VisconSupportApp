@@ -39,6 +39,11 @@ export type Message = {
 export type Attachment = {
     id: number,
     mimeType: string,
-    data: string,
-    issueId: number
+    issueId: number,
+    url?: string
 }
+
+export type Media = {
+    data?: ArrayBuffer,
+    mimeType: string
+};

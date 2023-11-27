@@ -1,7 +1,8 @@
 import axios from "axios";
-import {Attachment, Issue, Message} from "../models";
+import {Attachment, Issue, Media, Message} from "../models";
 import {useCallback, useEffect, useState} from "react";
 import { RequestConfig, SERVER_URL } from "./auth";
+import {uploadAttachment} from "./socket.ts";
 
 // GET /api/issues
 export function useIssues({ machineId, userId, quantity } : {
@@ -66,9 +67,25 @@ export function newIssue(data: {
     tried: string,
     headline: string,
     machineId: number,
-    attachments: Array<string>
 }) {
     return axios.post(SERVER_URL + "/api/issues", data, RequestConfig());
+}
+
+// POST /api/issues/{issueId}/attachments
+export async function uploadAttachments(issueId: number, attachments: Array<Media>) {
+    for (const m of attachments) {
+        if (m.data === undefined) {
+            continue;
+        }
+
+        const res = await axios.post(SERVER_URL + `/api/issues/${issueId}/attachments`, {
+            mimeType: m.mimeType
+        }, RequestConfig());
+
+        const aId = res.data.id;
+
+        uploadAttachment(m, aId);
+    }
 }
 
 // GET /api/issues/{issueId}/messages
@@ -108,7 +125,13 @@ export function useIssueAttachments({ issueId } : {
     const fetchData = useCallback(() => {
         axios.get(SERVER_URL + `/api/issues/${issueId}/attachments`, RequestConfig())
             .then(response => {
-                setAttachments(response.data);
+                const attachmentsData = response.data.map((a: Attachment) => {
+                    a.url = SERVER_URL + `/api/issues/${issueId}/attachments/${a.id}`;
+
+                    return a;
+                });
+
+                setAttachments(attachmentsData);
             });
     }, [issueId]);
 

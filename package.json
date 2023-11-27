@@ -22,7 +22,8 @@
     "recharts": "^2.9.3",
     "sanitize-html": "^2.11.0",
     "strftime": "^0.10.2",
-    "toaster": "^0.1.2"
+    "toaster": "^0.1.2",
+    "ws": "^8.14.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
