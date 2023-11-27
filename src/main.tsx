@@ -18,6 +18,8 @@ import MyIssuesPage from "./pages/MyIssues.tsx";
 import CSVUploadPage from "./pages/CSVUploadPage.tsx";
 import NewIssueEmployee from "./pages/NewIssueEmployee.tsx";
 import EmployeeUserList from "./pages/EmployeeUserList.tsx";
+import UserMachinesPage from "./pages/EmployeeUserInformation.tsx";
+import EmployeeUserInformation from "./pages/EmployeeUserInformation.tsx";
 import AdminAddMachine from "./pages/AdminAddMachine.tsx";
 
 const root = ReactDOM.createRoot(
@@ -54,6 +56,11 @@ root.render(
                 <Route path={"403"} element={<ErrPage403 />}/>
                 <Route path={"issue/:issueId"} element={<IssuePage />}/>
                 <Route path={"my-issues"} element={<MyIssuesPage />}/>
+                <Route path={"admin/import"} element={ <CSVUploadPage/>}/>
+                <Route path={"employee/new-issue"} element={<NewIssueEmployee />}/>
+                <Route path={"employee/users"} element={<EmployeeUserList />}/>
+                <Route path="/employee/users/:userId" element={<EmployeeUserInformation />} />
+                <Route path={"admin/new-machine"} element={<AdminAddMachine />}/>
             </Route>
         </Routes>
     </BrowserRouter>
