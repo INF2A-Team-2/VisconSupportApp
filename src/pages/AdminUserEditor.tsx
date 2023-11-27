@@ -1,12 +1,11 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useParams} from "react-router-dom";
 import Dropdown from "react-dropdown";
 import {toast} from "react-hot-toast";
 import {editUserMachines, useMachines, useUserMachines} from "../api/machines.ts";
-import SelectButton from "../components/SelectButton.tsx";
 import {editUser, useUser} from "../api/users.ts";
 
 const AdminUserEditor = () => {
@@ -60,11 +59,15 @@ const AdminUserEditor = () => {
                 userId: userId,
                 data: editedUser
             }),
-            editUserMachines({
+        ];
+
+        if (editedUser.type === AccountType.User)
+        {
+            promises.push(editUserMachines({
                 userId: userId,
                 data: selectedMachines.map(m => m.id)
-            })
-        ];
+            }));
+        }
 
         toast.promise(Promise.all(promises), {
             loading: "Loading...",
