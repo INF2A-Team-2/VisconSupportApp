@@ -84,7 +84,7 @@ export async function uploadAttachments(issueId: number, attachments: Array<Medi
 
         const aId = res.data.id;
 
-        uploadAttachment(m, aId);
+        await uploadAttachment(m, aId);
     }
 }
 
