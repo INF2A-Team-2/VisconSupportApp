@@ -100,7 +100,6 @@ const NewIssue = () => {
 
     const deleteMedia = (i) => {
         setMedia(media.filter((_, idx) => idx !== i));
-        sessionStorage.removeItem("machineId");
     };
 
     return (<>
