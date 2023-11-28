@@ -7,11 +7,12 @@ const InputFile = ({data, mimeType, fileName, deleteCallback}) => {
                 return <video controls={true}>
                     <source src={data}/>
                 </video>;
-            case "application":
-                switch (mimeType.split("/")[1]) {
-                    case "pdf":
-                        return <p>{fileName}</p>;
-                }
+            case "audio":
+                return <audio controls>
+                    <source src={data}/>
+                </audio>;
+            default:
+                return <p>{fileName}</p>;
         }
     };
 

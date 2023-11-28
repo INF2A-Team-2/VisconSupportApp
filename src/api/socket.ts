@@ -20,6 +20,7 @@ export async function uploadAttachment(m: Media, attachmentId: number) {
 
             const data = JSON.stringify({
                 id: attachmentId,
+                name: m.name,
                 mimeType: m.mimeType,
                 size: m.data.byteLength,
                 token: sessionStorage.getItem("token")
