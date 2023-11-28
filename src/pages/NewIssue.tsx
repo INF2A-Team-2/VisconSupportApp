@@ -123,7 +123,7 @@ const NewIssue = () => {
             <p>Files</p>
             <input type={"file"} accept={".png,.jpeg,.jpg,.mp4"} ref={imageInput} onChange={onImageUpload} style={{ display: "none" }}/>
             <div className={"files-list"}>
-                {media.map((f, i) => (<InputFile data={URL.createObjectURL(new Blob([f.data]))} deleteCallback={() => deleteMedia(i)} key={i}/>))}
+                {media.map((f, i) => (<InputFile data={URL.createObjectURL(new Blob([f.data]))} mimeType={f.mimeType} deleteCallback={() => deleteMedia(i)} key={i}/>))}
                 <button onClick={onAddImage}><i className="fa-solid fa-plus fa-2xl"></i></button>
             </div>
             <button onClick={onSubmit}>Submit</button>
