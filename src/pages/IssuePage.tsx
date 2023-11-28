@@ -173,7 +173,7 @@ const IssuePage = () => {
             <h1 className={"attachments-header"}>Attachments</h1>
             <div className={"attachments-list"}>
                 {attachments.length === 0 ? <p>No attachments</p> : attachments.map(a => a.mimeType.split("/")[0] === "image"
-                    ? <img key={a.id} src={a.url} alt={a.id.toString()}></img>
+                    ? <img key={a.id} src={a.url} alt={a.id.toString()} onClick={() => window.open(a.url)}></img>
                     : <video key={a.id} controls={true}>
                         <source src={a.url}/>
                     </video>)}
