@@ -9,6 +9,7 @@ import TableList from "../components/TableList.tsx";
 import {useNavigate} from "react-router-dom";
 import useAuth from "../api/auth.ts";
 import { AccountType } from "../models.ts";
+import PageFooter from "../components/PageFooter.tsx";
 
 
 const EmployeeUserInformation = () => {
@@ -31,27 +32,26 @@ const EmployeeUserInformation = () => {
     if (!authUser) {
         return <div>Access Denied</div>;
     }
-    return (
-        <>
-            <NavigationHeader />
-            <div className={"page-content"}>
-                <h1> {user?.username}'s information</h1>
-                <h2>User's machines</h2>
-                <TableList columns={machineColumns} data={machineData}
-                 />
+    return <>
+        <NavigationHeader />
+        <div className={"page-content"}>
+            <h1> {user?.username}'s information</h1>
+            <h2>User's machines</h2>
+            <TableList columns={machineColumns} data={machineData}
+             />
 
-                <h2>User's Issues</h2>
-                <TableList columns={issueColumns} data={issueData}
-                buttons={[
-                    {
-                        text: <i className="fa-solid fa-arrow-right"></i>,
-                        callback: (issueId) => navigate(`/issue/${issueId}`)
-                    }
-                ]}
-                />
-            </div>
-        </>
-    );
+            <h2>User's Issues</h2>
+            <TableList columns={issueColumns} data={issueData}
+            buttons={[
+                {
+                    text: <i className="fa-solid fa-arrow-right"></i>,
+                    callback: (issueId) => navigate(`/issue/${issueId}`)
+                }
+            ]}
+            />
+        </div>
+        <PageFooter />
+    </>;
 };
 
 export default EmployeeUserInformation;

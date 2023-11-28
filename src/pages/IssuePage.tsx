@@ -7,6 +7,7 @@ import useAuth from "../api/auth.ts";
 import {AccountType, Attachment} from "../models.ts";
 import { getConnection } from "../api/socket.ts";
 import { HubConnection, HubConnectionState } from "@microsoft/signalr";
+import PageFooter from "../components/PageFooter.tsx";
 import {useUser} from "../api/users.ts";
 import {useMachine} from "../api/machines.ts";
 
@@ -239,6 +240,7 @@ const IssuePage = () => {
                 <button onClick={sendMessage}>Send</button>
             </div>
         </div>
+        <PageFooter />
     </>);
 };
 

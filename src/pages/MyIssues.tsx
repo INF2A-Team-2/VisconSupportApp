@@ -9,6 +9,7 @@ import '../index.css';
 import { useMachines } from "../api/machines.ts";
 import { useIssues } from "../api/issues.ts";
 import { RenderIssueDetails } from "../components/RenderIssueDetails.tsx";
+import PageFooter from "../components/PageFooter.tsx";
 
 
 
@@ -30,35 +31,34 @@ const MyIssuesPage = () => {
         navigate(`/issue/${issueId}`);
     };
 
-    return (
-        <>
-            <NavigationHeader />
-            <div className="page-content issue-pages">
-                <h1>My Issues</h1>
-                <div className="section">
-                <Dropdown
-                    options={machines.map((m) => m.name)}
-                    onChange={(e) => {
-                        setMachine(machines.find((machine) => machine.name === e.value));
-                    }}
-                    placeholder="Select a machine"
-                    controlClassName="dropdown-control"
-                    menuClassName="dropdown-menu"
-                />
+    return <>
+        <NavigationHeader />
+        <div className="page-content issue-pages">
+            <h1>My Issues</h1>
+            <div className="section">
+            <Dropdown
+                options={machines.map((m) => m.name)}
+                onChange={(e) => {
+                    setMachine(machines.find((machine) => machine.name === e.value));
+                }}
+                placeholder="Select a machine"
+                controlClassName="dropdown-control"
+                menuClassName="dropdown-menu"
+            />
+            </div>
+            <div className="issues-box">
+                <div className="issues">
+                {machine !== null && issues.map((issue) => (
+                <div key={issue.id} onClick={() => handleIssueClick(issue.id)} className="issue-container">
+                    <WideButton title={`${issue.headline}`}/>
+                    <RenderIssueDetails issue={issue} isExpanded={expandedIssueId === issue.id} />
                 </div>
-                <div className="issues-box">
-                    <div className="issues">
-                    {machine !== null && issues.map((issue) => (
-                    <div key={issue.id} onClick={() => handleIssueClick(issue.id)} className="issue-container">
-                        <WideButton title={`${issue.headline}`}/>
-                        <RenderIssueDetails issue={issue} isExpanded={expandedIssueId === issue.id} />
-                    </div>
-                        ))}
-                    </div>
+                    ))}
                 </div>
             </div>
-        </>
-    );
+        </div>
+        <PageFooter />
+    </>;
 };
 
 export default MyIssuesPage;

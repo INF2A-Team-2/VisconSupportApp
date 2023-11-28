@@ -1,4 +1,5 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
+import PageFooter from "../components/PageFooter.tsx";
 
 const ErrPage403 = () => {
     return <>
@@ -6,6 +7,7 @@ const ErrPage403 = () => {
         <div className={"page-content"}>
             <h1>Verboden toegang la</h1>
         </div>
+        <PageFooter />
     </>;
 };
 
