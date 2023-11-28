@@ -539,10 +539,30 @@ a:hover {
     gap: 8px;
 }
 
-.attachments-list img, video {
+.attachments-list img {
     width: 25%;
     object-fit: contain;
     border-radius: 8px;
+    background-color: var(--background-3);
+}
+
+.attachments-list video {
+    width: 25%;
+    object-fit: contain;
+    border-radius: 8px;
+    background-color: var(--background-3);
+}
+
+.attachments-list p {
+    width: 25%;
+    object-fit: contain;
+    border-radius: 8px;
+    background-color: var(--background-3);
+    padding: 4px;
+}
+
+.attachments-list img:hover, .attachments-list p:hover {
+    cursor: pointer;
 }
 
 .chat {

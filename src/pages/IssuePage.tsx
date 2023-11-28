@@ -4,9 +4,10 @@ import MessageBox from "../components/MessageBox";
 import { useEffect, useRef, useState } from "react";
 import {newIssueMessage, useIssue, useIssueAttachments, useIssueMessages} from "../api/issues.ts";
 import useAuth from "../api/auth.ts";
-import { AccountType } from "../models.ts";
+import {AccountType, Attachment} from "../models.ts";
 import { getConnection } from "../api/socket.ts";
 import { HubConnection, HubConnectionState } from "@microsoft/signalr";
+import {getFormSubmissionInfo} from "react-router-dom/dist/dom";
 
 enum StyleMode {
     None,
@@ -151,6 +152,23 @@ const IssuePage = () => {
         setMessage("");
     };
 
+
+    const getFileComponent = (a: Attachment, i: number) => {
+        switch (a.mimeType.split("/")[0]) {
+            case "image":
+                return <img src={a.url} key={i} alt={a.name} onClick={() => window.open(a.url)}></img>;
+            case "video":
+                return <video controls={true} key={i}>
+                    <source src={a.url}/>
+                </video>;
+            case "application":
+                switch (a.mimeType.split("/")[1]) {
+                    case "pdf":
+                        return <p key={i} onClick={() => window.open(a.url)}>{a.name}</p>;
+                }
+        }
+    };
+
     return (<>
         <NavigationHeader />
         <div className={"page-content"}>
@@ -171,11 +189,7 @@ const IssuePage = () => {
 
             <h1 className={"attachments-header"}>Attachments</h1>
             <div className={"attachments-list"}>
-                {attachments.length === 0 ? <p>No attachments</p> : attachments.map(a => a.mimeType.split("/")[0] === "image"
-                    ? <img key={a.id} src={a.url} alt={a.id.toString()} onClick={() => window.open(a.url)}></img>
-                    : <video key={a.id} controls={true}>
-                        <source src={a.url}/>
-                    </video>)}
+                {attachments.length === 0 ? <p>No attachments</p> : attachments.map((a, i) => getFileComponent(a, i))}
             </div>
             <div className={"chat"}>
             <h1>Messages</h1>
