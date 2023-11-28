@@ -32,7 +32,7 @@ const AdminAddMachine = () => {
         }).then();
     };
 
-    return<>
+    return(<>
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Add Machine</h1>
@@ -41,7 +41,7 @@ const AdminAddMachine = () => {
                     <input className={"text-wrapper"} type="text"
                            id="machineName" value={machineName}
                            onChange={handleUsernameChange} placeholder="Username" />
-                    <Dropdown options={users.map(u => u.username)} onChange={(e) => {
+                    <Dropdown options={users.filter(u => u.type === AccountType.User).map(u => u.username)} onChange={(e) => {
                         setUser(users.find(u => u.username === e.value));}}
                               placeholder={"User..."}/>
                     <button type={"submit"}>
@@ -51,7 +51,7 @@ const AdminAddMachine = () => {
             </form>
         </div>
         <PageFooter/>
-    </>;
+    </>);
 };
 
 export default AdminAddMachine;
