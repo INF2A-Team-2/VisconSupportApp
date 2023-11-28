@@ -849,6 +849,44 @@ a:hover {
     opacity: 1;
 }
 
+.page-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    margin-top: 32px;
+}
+
+.page-footer-app {
+    font-size: 1rem;
+}
+
+.page-footer-divider-v {
+    height: 1px;
+    width: 100px;
+    background-color: var(--text);
+    margin: 8px 0;
+}
+
+.page-footer-divider-h {
+    height: 16px;
+    width: 1px;
+    background-color: var(--text);
+    margin: 0 8px;
+}
+
+.page-footer-section {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.page-footer svg {
+    margin-right: 8px;
+}
+
+
 .issue-content h2 {
     margin-top: 16px;
     margin-bottom: 4px;
