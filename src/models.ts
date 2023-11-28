@@ -38,12 +38,14 @@ export type Message = {
 
 export type Attachment = {
     id: number,
+    name?: string,
     mimeType: string,
     issueId: number,
     url?: string
 }
 
 export type Media = {
+    name?: string,
     data?: ArrayBuffer,
     mimeType: string
 };

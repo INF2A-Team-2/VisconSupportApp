@@ -82,6 +82,7 @@ export function uploadAttachments(issueId: number, attachments: Array<Media>) {
 
                 try {
                     const res = await axios.post(SERVER_URL + `/api/issues/${issueId}/attachments`, {
+                        name: m.name,
                         mimeType: m.mimeType
                     }, RequestConfig());
 
