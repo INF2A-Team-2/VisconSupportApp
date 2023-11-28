@@ -7,6 +7,7 @@ import useAuth from "../api/auth.ts";
 import { AccountType } from "../models.ts";
 import { getConnection } from "../api/socket.ts";
 import { HubConnection, HubConnectionState } from "@microsoft/signalr";
+import PageFooter from "../components/PageFooter.tsx";
 
 enum StyleMode {
     None,
@@ -151,7 +152,7 @@ const IssuePage = () => {
         setMessage("");
     };
 
-    return (<>
+    return <>
         <NavigationHeader />
         <div className={"page-content"}>
             <div className={"issue-header"}>
@@ -216,7 +217,8 @@ const IssuePage = () => {
                 <button onClick={sendMessage}>Send</button>
             </div>
         </div>
-    </>);
+        <PageFooter />
+    </>;
 };
 
 export default IssuePage;

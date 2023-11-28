@@ -4,6 +4,7 @@ import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {toast} from "react-hot-toast";
 import {uploadMachines} from "../api/upload.ts";
+import PageFooter from "../components/PageFooter.tsx";
 
 const CSVUploadPage = () => {
     useAuth([AccountType.Admin]);
@@ -34,15 +35,15 @@ const CSVUploadPage = () => {
         }
     };
 
-    return (
-        <>
-            <NavigationHeader/>
-            <div className={"page-content"}>
-                <input type="file" onChange={handleFileChange} />
-                <button onClick={handleUpload}>Upload</button>
-            </div>
-        </>
-    );
+    return <>
+        <NavigationHeader/>
+        <div className={"page-content"}>
+            <input type="file" onChange={handleFileChange} />
+            <button onClick={handleUpload}>Upload</button>
+        </div>
+        <PageFooter />
+    </>
+    ;
 };
 
 

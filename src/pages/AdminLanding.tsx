@@ -5,6 +5,7 @@ import StatCard from "../components/StatCard.tsx";
 import {CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
 import {useEffect, useState} from "react";
 import {useIssues} from "../api/issues.ts";
+import PageFooter from "../components/PageFooter.tsx";
 
 const AdminLanding = () => {
     const user = useAuth([AccountType.Admin]);
@@ -66,6 +67,7 @@ const AdminLanding = () => {
                 </LineChart>
             </div>
         </div>
+        <PageFooter />
     </>);
 };
 

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import {toast} from "react-hot-toast";
 import {newIssue, uploadAttachments} from "../api/issues.ts";
 import {Media} from "../models.ts";
+import PageFooter from "../components/PageFooter.tsx";
 
 const NewIssue = () => {
     const navigate = useNavigate();
@@ -102,7 +103,7 @@ const NewIssue = () => {
         setMedia(media.filter((_, idx) => idx !== i));
     };
 
-    return (<>
+    return <>
         <NavigationHeader/>
         <div className={"page-content new-issue"}>
             <h1>Create Issue</h1>
@@ -128,7 +129,8 @@ const NewIssue = () => {
             </div>
             <button onClick={onSubmit}>Submit</button>
         </div>
-    </>);
+        <PageFooter />
+    </>;
 };
 
 export default NewIssue;

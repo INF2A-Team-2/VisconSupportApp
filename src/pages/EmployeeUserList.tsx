@@ -6,6 +6,7 @@ import { useContext} from "react";
 import TableList from "../components/TableList.tsx";
 import {useUsers} from "../api/users.ts";
 import { useNavigate } from "react-router-dom";
+import PageFooter from "../components/PageFooter.tsx";
 
 const EmployeeUserList = () => {
 
@@ -52,6 +53,7 @@ const EmployeeUserList = () => {
                         />
             
         </div>
+        <PageFooter />
     </>;
 };
 
