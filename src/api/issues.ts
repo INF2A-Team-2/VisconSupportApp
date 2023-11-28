@@ -72,20 +72,33 @@ export function newIssue(data: {
 }
 
 // POST /api/issues/{issueId}/attachments
-export async function uploadAttachments(issueId: number, attachments: Array<Media>) {
-    for (const m of attachments) {
-        if (m.data === undefined) {
-            continue;
-        }
+export function uploadAttachments(issueId: number, attachments: Array<Media>) {
+    return new Promise<void>((resolve, reject) => {
+        const uploadAsync = async () => {
+            for (const m of attachments) {
+                if (m.data === undefined) {
+                    continue;
+                }
 
-        const res = await axios.post(SERVER_URL + `/api/issues/${issueId}/attachments`, {
-            mimeType: m.mimeType
-        }, RequestConfig());
+                try {
+                    const res = await axios.post(SERVER_URL + `/api/issues/${issueId}/attachments`, {
+                        mimeType: m.mimeType
+                    }, RequestConfig());
 
-        const aId = res.data.id;
+                    const aId = res.data.id;
 
-        await uploadAttachment(m, aId);
-    }
+                    await uploadAttachment(m, aId);
+                } catch (error) {
+                    reject(error);
+                    return;
+                }
+            }
+
+            resolve();
+        };
+
+        uploadAsync();
+    });
 }
 
 // GET /api/issues/{issueId}/messages
