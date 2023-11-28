@@ -139,7 +139,7 @@ export function useIssueAttachments({ issueId } : {
         axios.get(SERVER_URL + `/api/issues/${issueId}/attachments`, RequestConfig())
             .then(response => {
                 const attachmentsData = response.data.map((a: Attachment) => {
-                    a.url = SERVER_URL + `/api/issues/${issueId}/attachments/${a.id}`;
+                    a.url = SERVER_URL + `/api/attachments/${a.id}`;
 
                     return a;
                 });
