@@ -232,7 +232,7 @@ const IssuePage = () => {
             </div>
         </div>
         <PageFooter />
-    </>;
+    </>);
 };
 
 export default IssuePage;
