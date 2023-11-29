@@ -37,6 +37,16 @@ export default function useAuth(allowedTypes: Array<AccountType> = []) {
     return user;
 }
 
+export async function checkPassword(username: string, password: string) : Promise<boolean> {
+    const res = await axios.post(SERVER_URL + "/api/login", {
+        username: username,
+        password: password
+    });
+
+    return res.status === 200;
+
+}
+
 export async function getToken(username: string, password: string) : Promise<boolean> {
     const res = await axios.post(SERVER_URL + "/api/login", {
         username: username,
