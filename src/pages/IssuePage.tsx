@@ -7,6 +7,8 @@ import useAuth from "../api/auth.ts";
 import {AccountType, Attachment} from "../models.ts";
 import { getConnection } from "../api/socket.ts";
 import { HubConnection, HubConnectionState } from "@microsoft/signalr";
+import PageFooter from "../components/PageFooter.tsx";
+import {getFormSubmissionInfo} from "react-router-dom/dist/dom";
 
 enum StyleMode {
     None,
@@ -151,7 +153,6 @@ const IssuePage = () => {
         setMessage("");
     };
 
-
     const getFileComponent = (a: Attachment, i: number) => {
         switch (a.mimeType.split("/")[0]) {
             case "image":
@@ -230,7 +231,8 @@ const IssuePage = () => {
                 <button onClick={sendMessage}>Send</button>
             </div>
         </div>
-    </>);
+        <PageFooter />
+    </>;
 };
 
 export default IssuePage;
