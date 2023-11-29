@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {useNavigate} from "react-router-dom";
 import {getToken} from "../api/auth.ts";
 import {toast} from "react-hot-toast";
-import PageFooter from "../components/PageFooter.tsx";
 
 const LoginPage = (): JSX.Element => {
     const navigate = useNavigate();
@@ -39,36 +38,35 @@ const LoginPage = (): JSX.Element => {
     };
 
     return <>
-        <div className={"navigation-header"}>
-          <img className="logo" alt="Vector" src="logo.svg" />
-        </div>
-        <div className={"page-content"}>
-            <div className={"login-box"}>
-                <form onSubmit={handleLogin}>
+    <div className={"navigation-header"}>
+      <img className="logo" alt="Vector" src="logo.svg" />
+    </div>
+    <div className={"page-content"}>
+        <div className={"login-box"}>
+            <form onSubmit={handleLogin}>
+                <div className={"field"}>
+                    <div className={"overlap-group"}>
+                        <input className={"text-wrapper"} type="text"
+                            id="username" value={username}
+                            onChange={handleUsernameChange} placeholder="Username" />
+                        <i className="fa-solid fa-user"></i>
+                    </div>
                     <div className={"field"}>
                         <div className={"overlap-group"}>
-                            <input className={"text-wrapper"} type="text"
-                                id="username" value={username}
-                                onChange={handleUsernameChange} placeholder="Username" />
-                            <i className="fa-solid fa-user"></i>
+                            <input className={"text-wrapper"} type="password"
+                                id="password" value={password}
+                                onChange={handlePasswordChange} placeholder="Password"/>
+                            <i className="fa-solid fa-lock"></i>
                         </div>
                         <div className={"field"}>
-                            <div className={"overlap-group"}>
-                                <input className={"text-wrapper"} type="password"
-                                    id="password" value={password}
-                                    onChange={handlePasswordChange} placeholder="Password"/>
-                                <i className="fa-solid fa-lock"></i>
-                            </div>
-                            <div className={"field"}>
-                                <button type={"submit"} className={"login-btn"}>LOGIN</button>
-                                <div className="text-wrapper-2" onClick={handleForgot}>Forgot password?</div>
-                            </div>
+                            <button type={"submit"} className={"login-btn"}>LOGIN</button>
+                            <div className="text-wrapper-2" onClick={handleForgot}>Forgot password?</div>
                         </div>
                     </div>
-                </form>
-            </div>
-         </div>
-        <PageFooter />
+                </div>
+            </form>
+        </div>
+     </div>
     </>;
 };
 

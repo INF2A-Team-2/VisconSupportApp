@@ -3,14 +3,13 @@ import {WideButton} from "../components/WideButton.tsx";
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {useIssues} from "../api/issues.ts";
-import PageFooter from "../components/PageFooter.tsx";
 
 const CustomerLanding = () => {
     const user = useAuth([AccountType.User]);
 
     const {issues} = useIssues({quantity: 5});
 
-    return <>
+    return (<>
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Welcome {user?.username}</h1>
@@ -18,8 +17,7 @@ const CustomerLanding = () => {
             {issues.sort((a, b) => new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime())
                 .map((i) => <WideButton key={i.id} title={i.headline} target={`issue/${i.id}`}/>)}
         </div>
-        <PageFooter />
-    </>;
+    </>);
 };
 
 export default CustomerLanding;

@@ -7,7 +7,6 @@ import Dropdown from "react-dropdown";
 import {toast} from "react-hot-toast";
 import {editUserMachines, useMachines, useUserMachines} from "../api/machines.ts";
 import {editUser, useUser} from "../api/users.ts";
-import PageFooter from "../components/PageFooter.tsx";
 
 const AdminUserEditor = () => {
     const userId = parseInt(useParams().userId);
@@ -127,7 +126,6 @@ const AdminUserEditor = () => {
                 {/*</div>*/}
             </>}
         </div>
-        <PageFooter />
     </>;
 };
 

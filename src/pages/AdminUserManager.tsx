@@ -6,7 +6,6 @@ import {useNavigate} from "react-router-dom";
 import {toast} from "react-hot-toast";
 import TableList from "../components/TableList.tsx";
 import {deleteUser, newUser, useUsers} from "../api/users.ts";
-import PageFooter from "../components/PageFooter.tsx";
 
 const AdminUserManager = () => {
     useAuth([AccountType.Admin]);
@@ -110,7 +109,6 @@ const AdminUserManager = () => {
                            }
                        ]}/>
         </div>
-        <PageFooter />
     </>;
 };
 

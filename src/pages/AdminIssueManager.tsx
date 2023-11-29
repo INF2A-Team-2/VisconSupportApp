@@ -8,7 +8,6 @@ import {useIssues} from "../api/issues.ts";
 import {useUsers} from "../api/users.ts";
 import {useMachines} from "../api/machines.ts";
 import {useNavigate} from "react-router-dom";
-import PageFooter from "../components/PageFooter.tsx";
 
 const AdminIssueManager = () => {
     useAuth([AccountType.Admin]);
@@ -54,7 +53,6 @@ const AdminIssueManager = () => {
                            }
                        ]}/>
         </div>
-        <PageFooter />
     </>;
 };
 

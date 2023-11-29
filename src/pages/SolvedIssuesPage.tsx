@@ -9,7 +9,6 @@ import 'react-dropdown/style.css';
 import '../index.css';
 import {useIssues} from "../api/issues.ts";
 import { RenderIssueDetails } from "../components/RenderIssueDetails.tsx";
-import PageFooter from "../components/PageFooter.tsx";
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
@@ -61,7 +60,6 @@ const SolvedIssuesPage = () => {
                 </div>
             <button onClick={onNotListed}>My issues is not listed</button>
         </div>
-        <PageFooter />
     </>);
 };
 

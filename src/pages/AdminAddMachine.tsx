@@ -6,7 +6,6 @@ import React, {useState} from "react";
 import Dropdown from "react-dropdown";
 import toast from "react-hot-toast";
 import {createMachine} from "../api/machines.ts";
-import PageFooter from "../components/PageFooter.tsx";
 
 
 const AdminAddMachine = () => {
@@ -32,26 +31,25 @@ const AdminAddMachine = () => {
         }).then();
     };
 
-    return<>
-        <NavigationHeader/>
-        <div className={"page-content"}>
-            <h1>Add Machine</h1>
-            <form onSubmit={handleSubmit}>
-                <div className={"section"}>
-                    <input className={"text-wrapper"} type="text"
-                           id="machineName" value={machineName}
-                           onChange={handleUsernameChange} placeholder="Username" />
-                    <Dropdown options={users.map(u => u.username)} onChange={(e) => {
-                        setUser(users.find(u => u.username === e.value));}}
-                              placeholder={"User..."}/>
-                    <button type={"submit"}>
-                        Submit
-                    </button>
-                </div>
-            </form>
-        </div>
-        <PageFooter/>
-    </>;
-};
+    return(
+    <>
+    <NavigationHeader/>
+        <h1>Add Machine</h1>
+        <form onSubmit={handleSubmit}>
+            <div className={"section"}>
+                <input className={"text-wrapper"} type="text"
+                       id="machineName" value={machineName}
+                       onChange={handleUsernameChange} placeholder="Username" />
+                <Dropdown options={users.map(u => u.username)} onChange={(e) => {
+                    setUser(users.find(u => u.username === e.value));}}
+                          placeholder={"User..."}/>
+                <button type={"submit"}>
+                    Submit
+                </button>
+            </div>
+        </form>
+    </>
+    );
+}
 
 export default AdminAddMachine;
