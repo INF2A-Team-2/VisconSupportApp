@@ -1,5 +1,5 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import useAuth from "../api/auth.ts";
+import useAuth, {checkPassword} from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {useState} from "react";
 import {useParams} from "react-router-dom";
@@ -16,6 +16,7 @@ const AdminUserEditor = () => {
 
     const {user: editedUser, setUser: setEditedUser} = useUser({userId: userId});
 
+    const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordControl, setNewPasswordControl] = useState("");
 
@@ -77,7 +78,11 @@ const AdminUserEditor = () => {
         });
     };
 
-    const submitPassword = () => {
+    const submitPassword = async () => {
+        if (!await checkPassword(editedUser.username, oldPassword)) {
+            toast.error("Invalid old password entered!");
+            return;
+        }
         if (newPassword !== newPasswordControl) {
             toast.error("Passwords don't match");
             return;
@@ -114,6 +119,8 @@ const AdminUserEditor = () => {
                 <p>Unit</p>
                 <input type={"text"} autoComplete={"off"} value={editedUser.unit ?? ""} onChange={(e) => handleInput("unit", e.target.value)}/>
                 <h3>Edit password</h3>
+                <p>Old password</p>
+                <input type={"password"} autoComplete={"old-password"} onChange={(e => setOldPassword(e.target.value))}/>
                 <p>New password</p>
                 <input type={"password"} autoComplete={"new-password"} onChange={(e) => setNewPassword(e.target.value)}/>
                 <p>Confirm new password</p>
