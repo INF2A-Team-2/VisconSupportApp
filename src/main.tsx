@@ -20,6 +20,7 @@ import EmployeeUserList from "./pages/EmployeeUserList.tsx";
 import UserMachinesPage from "./pages/EmployeeUserInformation.tsx";
 import EmployeeUserInformation from "./pages/EmployeeUserInformation.tsx";
 import AdminAddMachine from "./pages/AdminAddMachine.tsx";
+import UserEditPage from "./pages/UserEditorPage.tsx";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -55,6 +56,7 @@ root.render(
                 <Route path={"403"} element={<ErrPage403 />}/>
                 <Route path={"issue/:issueId"} element={<IssuePage />}/>
                 <Route path={"my-issues"} element={<MyIssuesPage />}/>
+                <Route path={"user/:userId/edit"} element={<UserEditPage/>}/>
             </Route>
         </Routes>
     </BrowserRouter>
