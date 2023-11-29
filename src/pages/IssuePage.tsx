@@ -161,11 +161,12 @@ const IssuePage = () => {
                 return <video controls={true} key={i}>
                     <source src={a.url}/>
                 </video>;
-            case "application":
-                switch (a.mimeType.split("/")[1]) {
-                    case "pdf":
-                        return <p key={i} onClick={() => window.open(a.url)}>{a.name}</p>;
-                }
+            case "audio":
+                return <audio controls>
+                    <source src={a.url}/>
+                </audio>;
+            default:
+                return <p key={i} onClick={() => window.open(a.url)}>{a.name}</p>;
         }
     };
 
