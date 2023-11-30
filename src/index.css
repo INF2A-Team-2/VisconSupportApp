@@ -849,6 +849,11 @@ a:hover {
     opacity: 1;
 }
 
+.issue-content h2 {
+    margin-top: 16px;
+    margin-bottom: 4px;
+}
+
 .page-footer {
     display: flex;
     flex-direction: column;
