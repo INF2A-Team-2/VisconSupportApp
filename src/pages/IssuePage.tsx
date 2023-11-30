@@ -28,6 +28,7 @@ const IssuePage = () => {
     const {messages, refreshMessages} = useIssueMessages({
         issueId: issueId
     });
+
     const {attachments} = useIssueAttachments({
         issueId: issueId
     });
@@ -197,7 +198,7 @@ const IssuePage = () => {
                 <div className={"chat-history"} ref={chatHistoryRef}>
                     <ul className={"no-list-style"}>
                         {messages.map(m =>
-                            <MessageBox key={m.id} name={m.name} time={m.timestamp} message={m.body}/>)}
+                            <MessageBox key={m.id} message={m}/>)}
                     </ul>
                 </div>
                 <div className={"message-options"}>

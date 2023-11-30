@@ -1,7 +1,7 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
 import {AccountType, User} from "../models.ts";
-import {useCustomers} from "../api/users.ts";
+import {useUsers} from "../api/users.ts";
 import React, {useState} from "react";
 import Dropdown from "react-dropdown";
 import toast from "react-hot-toast";
@@ -12,7 +12,7 @@ import PageFooter from "../components/PageFooter.tsx";
 const AdminAddMachine = () => {
     useAuth([AccountType.Admin]);
 
-    const {users} = useCustomers();
+    const {users} = useUsers();
     const [user, setUser] = useState<User>();
     const [machineName, setMachineName] = useState("");
 
@@ -24,7 +24,7 @@ const AdminAddMachine = () => {
         e.preventDefault();
         toast.promise(createMachine({
             userId : user.id,
-            machineName : machineName
+            name : machineName
         }), {
             loading: "Creating machine...",
             success: "Machine created",
