@@ -50,9 +50,9 @@ export function editUserMachines({ userId, data } : {
     return axios.put(SERVER_URL + `/api/users/${userId}/machines`, data, RequestConfig());
 }
 
-export function createMachine({userId, machineName}:{
+export function createMachine({userId, name}:{
     userId : number,
-    machineName : string
+    name : string
 }) {
-return axios.post(SERVER_URL + `/api/machines`,  {userId : userId ,machineName: machineName}, RequestConfig());
+return axios.post(SERVER_URL + `/api/machines`,  {userId : userId ,name: name}, RequestConfig());
 }

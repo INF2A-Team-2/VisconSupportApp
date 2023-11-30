@@ -32,8 +32,9 @@ export type Message = {
     id: number;
     name: string;
     body: string;
-    timestamp: string;
-    userID: number;
+    timeStamp: string;
+    userId: number;
+    issueId: number;
 }
 
 export type Attachment = {
