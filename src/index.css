@@ -71,6 +71,10 @@ h1 {
     margin: 0;
 }
 
+h2 {
+    margin: 0;
+}
+
 p {
     margin: 0;
 }
@@ -622,6 +626,10 @@ a:hover {
     padding-left: 14px;
 }
 
+.message-data-name svg {
+    margin-right: 4px;
+}
+
 .message-data-time {
     padding-left: 6px;
     opacity: 50%;
@@ -808,6 +816,19 @@ a:hover {
 
 .issue-header {
     display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.issue-header h2 {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    padding: 2px 0;
+}
+
+.issue-header h2 svg {
+    width: 32px;
 }
 
 .issue-header button {
@@ -826,5 +847,10 @@ a:hover {
 
 .issue-header button:hover {
     opacity: 1;
+}
+
+.issue-content h2 {
+    margin-top: 16px;
+    margin-bottom: 4px;
 }
 

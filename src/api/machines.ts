@@ -20,6 +20,25 @@ export function useMachines() {
     return {machines, setMachines, refreshMachines: fetchData};
 }
 
+export function useMachine({ machineId } : {
+    machineId: number
+}){
+    const [machine, setMachine] = useState<Machine>(null);
+
+    const fetchData = useCallback(() => {
+        axios.get(SERVER_URL +  `/api/machines/${machineId}`, RequestConfig())
+            .then(response => {
+                setMachine(response.data);
+            });
+    }, [machineId]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    return {machine, setMachine, refreshMachine: fetchData};
+}
+
 export function useUserMachines({ userId } : {
     userId?: number
 } = {}) {
