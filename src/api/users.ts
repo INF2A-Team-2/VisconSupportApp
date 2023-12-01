@@ -23,26 +23,6 @@ export function useUsers() {
     return { users, setUsers, refreshUsers: fetchData };
 }
 
-export function useCustomers() {
-    const [users, setUsers] = useState<Array<User>>([]);
-
-    const fetchData = useCallback(() => {
-        axios.get(SERVER_URL + "/api/users/customers", RequestConfig())
-            .then(response => {
-                setUsers(response.data);
-            })
-            .catch(error => {
-                console.error("Error fetching users:", error.response?.data || error.message);
-            });
-    }, []);
-
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
-
-    return { users, setUsers, refreshUsers: fetchData };
-}
-
 export function useUser({ userId } : { userId: number }) {
     const [user, setUser] = useState<User>(null);
 

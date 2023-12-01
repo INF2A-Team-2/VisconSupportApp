@@ -7,6 +7,11 @@ import useAuth from "../api/auth.ts";
 import {AccountType, Attachment} from "../models.ts";
 import { getConnection } from "../api/socket.ts";
 import { HubConnection, HubConnectionState } from "@microsoft/signalr";
+import {useUser} from "../api/users.ts";
+import {useMachine} from "../api/machines.ts";
+import PageFooter from "../components/PageFooter.tsx";
+import {useUser} from "../api/users.ts";
+import {useMachine} from "../api/machines.ts";
 import PageFooter from "../components/PageFooter.tsx";
 import {getFormSubmissionInfo} from "react-router-dom/dist/dom";
 
@@ -28,9 +33,14 @@ const IssuePage = () => {
     const {messages, refreshMessages} = useIssueMessages({
         issueId: issueId
     });
+
     const {attachments} = useIssueAttachments({
         issueId: issueId
     });
+
+    const {user: issueUser} = useUser({ userId: issue?.userId });
+
+    const {machine} = useMachine({ machineId: issue?.machineId });
 
     const [message, setMessage] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>();
@@ -175,9 +185,11 @@ const IssuePage = () => {
         <div className={"page-content"}>
             <div className={"issue-header"}>
                 <h1>{issue?.headline}</h1>
+                <h2><i className="fa-solid fa-user"></i>{user?.username}</h2>
+                <h2><i className="fa-solid fa-gears"></i>{machine?.name}</h2>
                 {user?.type === AccountType.HelpDesk ? <button onClick={() => {}}>Resolve Issue</button> : <></>}
             </div>
-            <div>
+            <div className={"issue-content"}>
                 <h2>What Happened?</h2>
                 <p>{issue?.actual}</p>
 
@@ -197,7 +209,7 @@ const IssuePage = () => {
                 <div className={"chat-history"} ref={chatHistoryRef}>
                     <ul className={"no-list-style"}>
                         {messages.map(m =>
-                            <MessageBox key={m.id} name={m.name} time={m.timestamp} message={m.body}/>)}
+                            <MessageBox key={m.id} message={m}/>)}
                     </ul>
                 </div>
                 <div className={"message-options"}>
