@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import NavigationHeader from "../components/NavigationHeader";
 import MessageBox from "../components/MessageBox";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {newIssueMessage, useIssue, useIssueAttachments, useIssueMessages} from "../api/issues.ts";
 import useAuth from "../api/auth.ts";
 import {AccountType, Attachment} from "../models.ts";
@@ -10,10 +10,6 @@ import { HubConnection, HubConnectionState } from "@microsoft/signalr";
 import {useUser} from "../api/users.ts";
 import {useMachine} from "../api/machines.ts";
 import PageFooter from "../components/PageFooter.tsx";
-import {useUser} from "../api/users.ts";
-import {useMachine} from "../api/machines.ts";
-import PageFooter from "../components/PageFooter.tsx";
-import {getFormSubmissionInfo} from "react-router-dom/dist/dom";
 
 enum StyleMode {
     None,
@@ -61,13 +57,13 @@ const IssuePage = () => {
                 return;
             }
             connection.start()
-                .then(result => {
+                .then(() => {
                     console.log('Connected!');
-                    connection.invoke("AddToGroup", issueId.toString())
+                    connection.invoke("AddToGroup", issueId.toString());
 
-                    connection.on("Send", (message) => { console.log(message)});
+                    connection.on("Send", (message) => { console.log(message);});
 
-                    connection.on('message', message => { refreshMessages(); });
+                    connection.on('message', () => { refreshMessages(); });
                 })
                 .catch(e => console.log('Connection failed: ', e));
         }
@@ -185,7 +181,7 @@ const IssuePage = () => {
         <div className={"page-content"}>
             <div className={"issue-header"}>
                 <h1>{issue?.headline}</h1>
-                <h2><i className="fa-solid fa-user"></i>{user?.username}</h2>
+                <h2><i className="fa-solid fa-user"></i>{issueUser?.username}</h2>
                 <h2><i className="fa-solid fa-gears"></i>{machine?.name}</h2>
                 {user?.type === AccountType.HelpDesk ? <button onClick={() => {}}>Resolve Issue</button> : <></>}
             </div>
