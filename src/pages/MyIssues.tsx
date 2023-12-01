@@ -3,7 +3,7 @@ import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
 import { WideButton } from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
-import { Machine, Issue } from "../models.ts";
+import { Machine } from "../models.ts";
 import 'react-dropdown/style.css';
 import '../index.css';
 import { useMachines } from "../api/machines.ts";
@@ -14,7 +14,6 @@ import PageFooter from "../components/PageFooter.tsx";
 
 
 const MyIssuesPage = () => {
-    const navigate = useNavigate();
     const {machines} = useMachines();
     const [machine, setMachine] = useState<Machine | null>(null);
     const {issues} = useIssues({
@@ -24,11 +23,6 @@ const MyIssuesPage = () => {
 
     const handleIssueClick = (issueId: number) => {
         setExpandedIssueId(expandedIssueId === issueId ? null : issueId);
-    };
-
-    const navigateToIssue = (issueId: number, event: React.MouseEvent) => {
-        event.stopPropagation();
-        navigate(`/issue/${issueId}`);
     };
 
     return <>

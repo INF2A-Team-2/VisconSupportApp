@@ -273,6 +273,7 @@ a:hover {
 }
 
 .login-box {
+    margin-top: 5%;
     position: relative;
     display: flex;
     flex-flow: row nowrap;
@@ -281,19 +282,16 @@ a:hover {
 }
 
 .login-box .field {
-    padding-top: 10%;
-}
-
-.login-box .overlap-group {
     border: 1px solid;
-    border-color: rgba(216, 219, 226, 1);
+    border-color: var(--platinum);
     border-radius: 4px;
     height: 45px;
     position: relative;
     width: 300px;
+    margin-bottom: 10%
 }
 
-.login-box .text-wrapper {
+.text-wrapper {
     color: rgba(216, 219, 226, 1);
     font-weight: 300;
     font-size: 16px;
@@ -305,11 +303,6 @@ a:hover {
     border: none;
     top: 12px;
     white-space: nowrap;
-
-}
-
-.login-box .text-wrapper:focus {
-    outline: none;
 }
 
 .login-box svg {
@@ -338,26 +331,6 @@ a:hover {
 
 .login-box .login-btn:hover {
     opacity: 1;
-}
-
-.login-box .text-wrapper-2 {
-    padding-top: 8px;
-    color: rgba(216, 219, 226, 1);
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-}
-
-.login-box .text-wrapper-2:hover {
-    text-decoration: underline;
- }
-
-.drop-down {
-    background-color: var(--background);
-
 }
 
 .observation-fields  {
@@ -539,14 +512,7 @@ a:hover {
     gap: 8px;
 }
 
-.attachments-list img {
-    width: 25%;
-    object-fit: contain;
-    border-radius: 8px;
-    background-color: var(--background-3);
-}
-
-.attachments-list video {
+.attachments-list img video p {
     width: 25%;
     object-fit: contain;
     border-radius: 8px;
@@ -554,10 +520,6 @@ a:hover {
 }
 
 .attachments-list p {
-    width: 25%;
-    object-fit: contain;
-    border-radius: 8px;
-    background-color: var(--background-3);
     padding: 4px;
 }
 
@@ -683,9 +645,6 @@ a:hover {
     list-style: none;
 }
 
-
-
-
 .issue-pages {
 
 }
@@ -725,17 +684,14 @@ a:hover {
 
 .issue-pages .issue-details .button{
     font-size: 26px;
-
 }
 
 .issue-details {
-
     overflow: hidden;
     transition: height 0.4s ease-in-out;
-
 }
 
-.hidden{
+.hidden {
     height: 0px;
 }
 
@@ -743,8 +699,6 @@ a:hover {
     height: 140px;
     padding-bottom: 4px;;
 }
-
-
 
 .issue-container {
     margin-bottom: 0px;
@@ -762,7 +716,6 @@ a:hover {
     font-weight: bold; 
 }
 
-
 .issue-details p {
     padding-left: 10px;
     padding-bottom: 10px;
@@ -770,7 +723,7 @@ a:hover {
 
 .small-text {
     font-size: 0.8em; 
-  }
+}
 
 .admin-landing-grid {
     display: flex;
@@ -804,7 +757,6 @@ a:hover {
     font-family: Montserrat;
     margin: 0;
 }
-
 
 .issue-header {
     display: flex;
@@ -864,5 +816,3 @@ a:hover {
 .page-footer svg {
     margin-right: 8px;
 }
-
-
