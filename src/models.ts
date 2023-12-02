@@ -50,3 +50,22 @@ export type Media = {
     data?: ArrayBuffer,
     mimeType: string
 };
+
+export enum FieldType {
+    Text,
+    Password,
+    Number,
+    Selection
+}
+
+export type Field = {
+    name: string,
+    key: string,
+    type: FieldType,
+    required: boolean,
+    options?: Array<{
+        value: string,
+        label: string
+    }>,
+    isNumber?: boolean
+}
