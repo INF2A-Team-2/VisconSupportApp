@@ -1,12 +1,13 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
-import {AccountType} from "../models.ts";
-import {useEffect, useState} from "react";
+import {AccountType, Field, FieldType} from "../models.ts";
+import {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {toast} from "react-hot-toast";
 import TableList from "../components/TableList.tsx";
 import {deleteUser, newUser, useUsers} from "../api/users.ts";
 import PageFooter from "../components/PageFooter.tsx";
+import PopupForm from "../components/PopupForm.tsx";
 
 const AdminUserManager = () => {
     useAuth([AccountType.Admin]);
@@ -16,6 +17,8 @@ const AdminUserManager = () => {
     const {users, refreshUsers} = useUsers();
 
     const [data, setData] = useState([]);
+
+    const userCreationPopup = useRef<PopupForm>();
 
     const getType = (t: number) => {
         switch (t) {
@@ -70,27 +73,104 @@ const AdminUserManager = () => {
         navigate(`/admin/users/edit/${userId}`);
     };
 
-    const handleNewUser = () => {
+    const handleNewUser = (data : {
+        username: string,
+        password: string,
+        passwordControl: string,
+        type: number,
+        phoneNumber?: string,
+        unit?: string,
+    }) => {
+        if (data.password !== data.passwordControl) {
+            toast.error("Passwords don't match");
+            return;
+        }
+
+        const phoneNumberPattern: RegExp = /^\+\d{11}$/;
+
+        if (!phoneNumberPattern.test(data.phoneNumber))
+        {
+            toast.error("Invalid phone number");
+            return;
+        }
+
         const promise = newUser({
-            username: `new_user_${Math.floor(Math.random() * 100)}`,
-            password: ""
+            username: data.username,
+            password: data.password,
+            type: data.type,
+            phoneNumber: data.phoneNumber,
+            unit: data.unit
         });
 
         toast.promise(promise, {
             loading: "Creating user...",
             success: "Created user",
             error: "Failed to create user"
-        }).then(response => {
-            const id = response.data.id;
-            navigate(`/admin/users/edit/${id}`);
+        }).then(() => {
+            userCreationPopup.current.show(false);
+            refreshUsers();
         });
     };
+
+    const userCreationFields: Array<Field> =  [
+        {
+            name: "Username",
+            key: "username",
+            type: FieldType.Text,
+            required: true
+        },
+        {
+            name: "Type",
+            key: "type",
+            type: FieldType.Selection,
+            required: true,
+            options: [
+                {
+                    value: "0",
+                    label: "Customer"
+                },
+                {
+                    value: "1",
+                    label: "Employee"
+                },
+                {
+                    value: "2",
+                    label: "Admin"
+                }
+            ],
+            isNumber: true
+        },
+        {
+            name: "Phone number",
+            key: "phoneNumber",
+            type: FieldType.Text,
+            required: false
+        },
+        {
+            name: "Unit",
+            key: "unit",
+            type: FieldType.Text,
+            required: false
+        },
+        {
+            name: "Password",
+            key: "password",
+            type: FieldType.Password,
+            required: true
+        },
+        {
+            name: "Confirm password",
+            key: "passwordControl",
+            type: FieldType.Password,
+            required: true
+        },
+    ];
 
     return <>
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Users</h1>
-            <button onClick={handleNewUser}
+            <button onClick={() => userCreationPopup.current.show()}
                     style={{
                         width: "100px",
                         borderRadius: "4px"
@@ -110,6 +190,10 @@ const AdminUserManager = () => {
                            }
                        ]}/>
         </div>
+        <PopupForm ref={userCreationPopup}
+                   title={"New user"}
+                   fields={userCreationFields}
+                   onSubmit={handleNewUser} />
         <PageFooter />
     </>;
 };

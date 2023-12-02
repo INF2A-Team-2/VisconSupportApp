@@ -43,13 +43,19 @@ export function useUser({ userId } : { userId: number }) {
     return { user, setUser, refreshUser: fetchData };
 }
 
-export function newUser({ username, password } : {
+export function newUser({ username, password, type, phoneNumber, unit } : {
     username: string,
-    password: string
+    password: string,
+    type: AccountType,
+    phoneNumber?: string,
+    unit?: string
 }) {
     return axios.post(SERVER_URL + "/api/users", {
         username: username,
-        password: password
+        password: password,
+        type: type,
+        phoneNumber: phoneNumber,
+        unit: unit
     }, RequestConfig());
 }
 
