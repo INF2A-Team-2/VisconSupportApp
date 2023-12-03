@@ -10,6 +10,12 @@ export interface User {
     type: AccountType;
     phoneNumber: string;
     unit: string;
+    companyId: number;
+}
+
+export interface Company {
+    id: number;
+    name: string;
 }
 
 export type Machine = {

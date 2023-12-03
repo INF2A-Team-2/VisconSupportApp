@@ -8,11 +8,14 @@ import {toast} from "react-hot-toast";
 import {editUserMachines, useMachines, useUserMachines} from "../api/machines.ts";
 import {editUser, useUser} from "../api/users.ts";
 import PageFooter from "../components/PageFooter.tsx";
+import {useCompanies} from "../api/companies.ts";
 
 const AdminUserEditor = () => {
     const userId = parseInt(useParams().userId);
 
     useAuth([AccountType.Admin]);
+
+    const {companies} = useCompanies();
 
     const {user: editedUser, setUser: setEditedUser} = useUser({userId: userId});
 
@@ -39,9 +42,25 @@ const AdminUserEditor = () => {
         }
     ];
 
+    const companyData = [
+        {
+            value: "0",
+            label: "None"
+        },
+        ...[...companies.map(c => { return {
+            value: c.id.toString(),
+            label: c.name
+        };})]
+    ];
+
     const handleInput = (p: string, v) => {
         const u = {...editedUser};
         u[p] = v;
+
+        if (p === "companyId" && v === 0)
+        {
+            u[p] = null;
+        }
 
         setEditedUser(u);
     };
@@ -65,10 +84,10 @@ const AdminUserEditor = () => {
 
         if (editedUser.type === AccountType.User)
         {
-            promises.push(editUserMachines({
-                userId: userId,
-                data: selectedMachines.map(m => m.id)
-            }));
+            // promises.push(editUserMachines({
+            //     userId: userId,
+            //     data: selectedMachines.map(m => m.id)
+            // }));
         }
 
         toast.promise(Promise.all(promises), {
@@ -114,6 +133,10 @@ const AdminUserEditor = () => {
                 <input type={"text"} autoComplete={"off"} value={editedUser.username ?? ""} onChange={(e) => handleInput("username", e.target.value)}/>
                 <p>Type</p>
                 <Dropdown options={accTypes} onChange={e => handleInput("type", parseInt(e.value))} value={editedUser.type.toString()}/>
+                {editedUser.type === AccountType.User && <>
+                    <p>Company</p>
+                    <Dropdown options={companyData} onChange={e => handleInput("companyId", parseInt(e.value))} value={editedUser.companyId?.toString() ?? "None"}/>
+                </>}
                 <p>Phone number</p>
                 <input type={"tel"} autoComplete={"off"} value={editedUser.phoneNumber ?? ""} onChange={(e) => handleInput("phoneNumber", e.target.value)}/>
                 <p>Unit</p>

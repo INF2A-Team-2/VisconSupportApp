@@ -8,6 +8,7 @@ import TableList from "../components/TableList.tsx";
 import {deleteUser, newUser, useUsers} from "../api/users.ts";
 import PageFooter from "../components/PageFooter.tsx";
 import PopupForm from "../components/PopupForm.tsx";
+import {useCompanies} from "../api/companies.ts";
 
 const AdminUserManager = () => {
     useAuth([AccountType.Admin]);
@@ -15,6 +16,8 @@ const AdminUserManager = () => {
     const navigate = useNavigate();
 
     const {users, refreshUsers} = useUsers();
+
+    const {companies} = useCompanies();
 
     const [data, setData] = useState([]);
 
@@ -43,13 +46,13 @@ const AdminUserManager = () => {
                 u.id,
                 u.username,
                 getType(u.type),
+                companies.find(c => c.id == u.companyId)?.name,
                 u.phoneNumber,
-                u.unit
-            ]);
+                u.unit,]);
         });
 
         setData(_data);
-    }, [users]);
+    }, [users, companies]);
 
     const handleDelete = (userId) => {
         if (!window.confirm("Are you sure that you want to delete this user?")) {
@@ -80,6 +83,7 @@ const AdminUserManager = () => {
         type: number,
         phoneNumber?: string,
         unit?: string,
+        company?: number;
     }) => {
         if (data.password !== data.passwordControl) {
             toast.error("Passwords don't match");
@@ -94,12 +98,18 @@ const AdminUserManager = () => {
             return;
         }
 
+        if (data.company === 0)
+        {
+            data.company = null;
+        }
+
         const promise = newUser({
             username: data.username,
             password: data.password,
             type: data.type,
             phoneNumber: data.phoneNumber,
-            unit: data.unit
+            unit: data.unit,
+            companyId: data.company
         });
 
         toast.promise(promise, {
@@ -147,6 +157,23 @@ const AdminUserManager = () => {
             required: false
         },
         {
+            name: "Company",
+            key: "company",
+            type: FieldType.Selection,
+            required: false,
+            options: [
+                {
+                    value: "0",
+                    label: "None"
+                },
+                ...[...companies.map(c => { return {
+                    value: c.id.toString(),
+                    label: c.name
+                };})]
+            ],
+            isNumber: true
+        },
+        {
             name: "Unit",
             key: "unit",
             type: FieldType.Text,
@@ -177,7 +204,7 @@ const AdminUserManager = () => {
                     }}>
                 Add user <i className="fa-solid fa-user-plus"></i>
             </button>
-            <TableList columns={["ID", "Username", "Type", "Phone number", "unit"]}
+            <TableList columns={["ID", "Username", "Type", "Company", "Phone number", "unit"]}
                        data={data}
                        buttons={[
                            {

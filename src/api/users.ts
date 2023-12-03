@@ -43,19 +43,21 @@ export function useUser({ userId } : { userId: number }) {
     return { user, setUser, refreshUser: fetchData };
 }
 
-export function newUser({ username, password, type, phoneNumber, unit } : {
+export function newUser({ username, password, type, phoneNumber, unit, companyId } : {
     username: string,
     password: string,
     type: AccountType,
     phoneNumber?: string,
-    unit?: string
+    unit?: string,
+    companyId?: number;
 }) {
     return axios.post(SERVER_URL + "/api/users", {
         username: username,
         password: password,
         type: type,
         phoneNumber: phoneNumber,
-        unit: unit
+        unit: unit,
+        companyId: companyId
     }, RequestConfig());
 }
 
@@ -65,15 +67,17 @@ export function deleteUser({ userId } : {
     return axios.delete(SERVER_URL + `/api/users/${userId}`, RequestConfig());
 }
 
-export function editUser({ userId, data} : {
+export function editUser({ userId, data } : {
     userId: number,
     data: {
         username?: string,
         password?: string,
         type: AccountType,
         phoneNumber?: string,
-        unit?: string
+        unit?: string,
+        companyId?: number;
     }
 }) {
+    console.log(data);
     return axios.put(SERVER_URL + `/api/users/${userId}`, data, RequestConfig());
 }
