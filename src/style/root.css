@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("/JetBrainsMono.ttf");
+}
+
+:root {
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
+
+    --accent: rgba(13, 135, 154, 1);
+    --accent-2: rgba(242, 67, 51, 1);
+    --accent-3: rgb(208, 56, 42);
+    --background: rgba(46, 46, 50, 1);
+    --background-2: rgba(55, 63, 81, 1);
+    --background-3: rgb(50, 50, 54);
+    --platinum: rgba(169, 188, 208, 1);
+    --platinum-hover: rgb(152, 169, 187);
+    --text: rgba(216, 219, 226, 1);
+    --text-hover: rgb(195, 198, 205);
+
+    background-color: var(--background);
+    color: var(--text);
+}

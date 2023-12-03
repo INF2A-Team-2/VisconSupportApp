@@ -49,4 +49,16 @@ export type Media = {
     name?: string,
     data?: ArrayBuffer,
     mimeType: string
+}
+
+export type Log = {
+    id: number,
+    timeStamp: string,
+    authorId: number,
+    descripion: string,
+    issueId?: number,
+    userId?: number,
+    machineId?: number,
+    messageId?: number,
+    attachmentId?: number
 };
