@@ -40,34 +40,30 @@ const LoginPage = (): JSX.Element => {
 
     return <>
         <div className={"navigation-header"}>
-          <img className="logo" alt="Vector" src="logo.svg" />
+            <img className="logo" alt="Vector" src="logo.svg" />
         </div>
         <div className={"page-content"}>
             <div className={"login-box"}>
                 <form onSubmit={handleLogin}>
                     <div className={"field"}>
-                        <div className={"overlap-group"}>
-                            <input className={"text-wrapper"} type="text"
-                                id="username" value={username}
-                                onChange={handleUsernameChange} placeholder="Username" />
-                            <i className="fa-solid fa-user"></i>
-                        </div>
-                        <div className={"field"}>
-                            <div className={"overlap-group"}>
-                                <input className={"text-wrapper"} type="password"
-                                    id="password" value={password}
-                                    onChange={handlePasswordChange} placeholder="Password"/>
-                                <i className="fa-solid fa-lock"></i>
-                            </div>
-                            <div className={"field"}>
-                                <button type={"submit"} className={"login-btn"}>LOGIN</button>
-                                <div className="text-wrapper-2" onClick={handleForgot}>Forgot password?</div>
-                            </div>
-                        </div>
+                        <input className={"text-wrapper"} type="text"
+                            id="username" value={username}
+                            onChange={handleUsernameChange} placeholder="Username" />
+                        <i className="fa-solid fa-user"></i>
                     </div>
+                    <div className={"field"}>
+                        <input className={"text-wrapper"} type="password"
+                            id="password" value={password}
+                            onChange={handlePasswordChange} placeholder="Password"/>
+                        <i className="fa-solid fa-lock"></i>
+                    </div>
+                    <div>
+                        <button type={"submit"} className={"login-btn"}>LOGIN</button>
+                    </div>
+                    <a onClick={handleForgot}>Forgot Password</a>
                 </form>
             </div>
-         </div>
+        </div>
         <PageFooter />
     </>;
 };
