@@ -59,6 +59,10 @@ input:focus {
     outline: none;
 }
 
+input.required {
+    border: #ff0000 1px solid;
+}
+
 textarea {
     font-family: "Montserrat", sans-serif;
 }
@@ -934,4 +938,66 @@ a:hover {
     margin-right: 8px;
 }
 
+.popup-form-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
 
+.popup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--background-3);
+    width: 500px;
+    margin: auto;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.popup-form h1 {
+    font-size: 1.25rem;
+}
+
+.popup-form-field-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.popup-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+}
+
+.popup-form-field input {
+    width: auto;
+    height: 24px;
+}
+
+.popup-form-footer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.popup-form-footer button {
+    width: 100%;
+    border-radius: 4px;
+    background-color: var(--background-2);
+    color: var(--text);
+    text-transform: uppercase;
+    font-weight: 600;
+}
