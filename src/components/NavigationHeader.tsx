@@ -52,8 +52,13 @@ const NavigationHeader = () => {
             <img src={logo} alt={"Logo"} onClick={() => navigate("/")}/>
              {headerComponent}
             <div>
-                <p>{user && user.username}</p>
-                <a href={"/logout"}>Log Out</a>
+                <div className={"navigation-header-user-dropdown"}>
+                    <p className={"navigation-header-user-dropdown-button"}>{user && user.username}</p>
+                    <div className={"navigation-header-user-dropdown-content"}>
+                        <a href={""}><i className="fa-solid fa-gears"></i>Settings</a>
+                        <a href={"/logout"}><i className="fa-solid fa-right-from-bracket"></i>Logout</a>
+                    </div>
+                </div>
             </div>
         </div>
     </>;

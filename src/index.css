@@ -2,26 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-@font-face {
-    font-family: "JetBrains Mono";
-    src: url("/JetBrainsMono.ttf");
-}
-
 :root {
     font-family: "Montserrat", sans-serif;
-    text-transform: uppercase;
-    font-weight: 700;
 
     --accent: rgba(13, 135, 154, 1);
     --accent-2: rgba(242, 67, 51, 1);
     --accent-3: rgb(208, 56, 42);
-    --background: rgba(46, 46, 50, 1);
-    --background-2: rgba(55, 63, 81, 1);
-    --background-3: rgb(50, 50, 54);
-    --platinum: rgba(169, 188, 208, 1);
-    --platinum-hover: rgb(152, 169, 187);
-    --text: rgba(216, 219, 226, 1);
-    --text-hover: rgb(195, 198, 205);
+    --background: #121212;
+    --background-2: #181818;
+    --background-3: #404040;
+    --text: #ffffff;
+    --text-hover: #c8c8c8;
 
     background-color: var(--background);
     color: var(--text);
@@ -39,6 +30,10 @@
 
 ::-webkit-scrollbar-thumb {
 	background-color: var(--platinum);
+}
+
+body {
+    margin: 0;
 }
 
 button {
@@ -97,9 +92,18 @@ a:hover {
     display: flex;
     align-items: center;
     gap: 12px;
-    height: 32px;
-    margin-top: 16px;
-    margin-right: 16px;
+    height: 64px;
+    padding: 0px 16px;
+    background-color: var(--background-2);
+    font-weight: 700;
+}
+
+.navigation-header > a {
+    transition: transform 100ms;
+}
+
+.navigation-header > a:hover {
+    transform: scale(105%);
 }
 
 .navigation-header img {
@@ -116,30 +120,58 @@ a:hover {
     margin-left: auto;
 }
 
-.navigation-header div {
+.navigation-header > div {
     display: flex;
     align-items: center;
     gap: 16px;
 }
 
-.navigation-header div a {
-    background-color: var(--background-2);
-    padding: 8px;
-    border-radius: 4px;
-    transition: transform 100ms;
+.navigation-header-user-dropdown {
+    position: relative;
+    display: inline-block;
 }
 
-.navigation-header div a:hover {
-    transform: scale(105%);
+.navigation-header-user-dropdown-button {
+    background-color: var(--background-3);
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.navigation-header-user-dropdown-content {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    z-index: 1;
+    flex-direction: column;
+    gap: 12px;
+    background-color: var(--background-3);
+    padding: 12px;
+    border-radius: 4px;
+    width: 128px;
+}
+
+.navigation-header-user-dropdown-content a {
+
+}
+
+.navigation-header-user-dropdown-content a svg {
+    margin-right: 8px;
+}
+
+.navigation-header-user-dropdown-content a:hover {
+
+}
+
+.navigation-header-user-dropdown:hover .navigation-header-user-dropdown-content {
+    display: flex;
 }
 
 .page-content {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    background-color: var(--background-2);
     border-radius: 16px;
-    margin: 16px;
     height: calc(100vh - 96px - 36px);
     padding: 24px;
     overflow-y: auto;
@@ -156,7 +188,7 @@ a:hover {
 .wide-button {
     display: flex;
     padding: 8px;
-    background-color: var(--platinum);
+    background-color: #ffffff;
     color: var(--background);
     border-radius: 8px;
     transition: background-color 200ms;
@@ -165,7 +197,7 @@ a:hover {
 
 .wide-button:hover {
     color: var(--background);
-    background-color: var(--platinum-hover);
+    background-color: var(--text-hover);
 }
 
 .wide-button:hover svg {
@@ -425,19 +457,23 @@ a:hover {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     grid-gap: 8px;
     align-items: center;
-    background-color: var(--background);
+    background-color: #1f1f1f;
     padding: 4px 6px;
     border-radius: 4px;
+    transition: background-color 75ms;
 }
 
 .tablelist-list-item:nth-child(odd) {
+    background-color: #2d2d2d;
+}
+
+.tablelist-list-item:hover {
     background-color: var(--background-3);
 }
 
 .tablelist-list-item p {
     font-size: 0.75rem;
     text-transform: none;
-    font-family: "JetBrains Mono";
     text-overflow: ellipsis;
     text-wrap: none;
     overflow: hidden;
@@ -467,6 +503,11 @@ a:hover {
     width: 24px;
     height: 24px;
     border-radius: 4px;
+    transition: transform 100ms;
+}
+
+.tablelist-button:hover {
+    transform: scale(105%);
 }
 
 .tablelist-delete-button svg {
@@ -860,6 +901,8 @@ a:hover {
     gap: 8px;
     font-size: 0.75rem;
     margin-top: 32px;
+    padding-top: 16px;
+    background-color: var(--background-2);
 }
 
 .page-footer-app {
