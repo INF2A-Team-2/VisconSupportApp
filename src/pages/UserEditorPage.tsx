@@ -9,9 +9,11 @@ import { editUser, useUser } from "../api/users.ts";
 const UserEditorPage = () => {
     const userId = parseInt(useParams().userId);
 
-    useAuth([AccountType.User]);
+
+    useAuth([AccountType.User, AccountType.Admin, AccountType.HelpDesk]);
 
     const { user: editedUser, setUser: setEditedUser } = useUser({ userId: userId });
+
 
     const handlePhoneNumberChange = (phoneNumber: string) => {
         setEditedUser({
@@ -21,7 +23,13 @@ const UserEditorPage = () => {
     };
 
     const submitData = () => {
-        // Ensure that the user type is included in the data being submitted
+        const mobileRegex = /^06\d{8}$/; 
+        const internationalRegex = /^\+\d{1,4}\d{6,}$/;
+        if (!(mobileRegex.test(editedUser.phoneNumber) || internationalRegex.test(editedUser.phoneNumber))) {
+            toast.error("Invalid phone number format");
+            return;
+        }
+    
         const userDataToUpdate = {
             phoneNumber: editedUser.phoneNumber,
             type: editedUser.type
