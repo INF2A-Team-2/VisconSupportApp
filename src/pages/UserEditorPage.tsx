@@ -56,13 +56,15 @@ const UserEditorPage = () => {
                 <button onClick={submitData}>Apply changes</button>
             </div>
             {editedUser && <>
+            {/*TODO: Waiting for UI meeting before changing this, its not clear what is readonly and what isnt */}
                 <p>Username</p>
                 <input type={"text"} value={editedUser.username ?? ""} readOnly/>
                 <p>Account Type</p>
                 <input type={"text"} value={AccountType[editedUser.type] ?? ""} readOnly/>
                 <p>Phone number</p>
                 <input type={"tel"} autoComplete={"off"} value={editedUser.phoneNumber ?? ""} onChange={(e) => handlePhoneNumberChange(e.target.value)}/>
-                {/* Other non-editable fields can be added here */}
+                <p>Company</p>
+                <input type={"text"} value={editedUser.company ?? ""} readOnly/>
             </>}
         </div>
     </>;
