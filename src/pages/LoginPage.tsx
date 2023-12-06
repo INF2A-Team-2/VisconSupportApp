@@ -39,28 +39,31 @@ const LoginPage = (): JSX.Element => {
     };
 
     return <>
-        <div className={"navigation-header"}>
-            <img className="logo" alt="Vector" src="logo.svg" />
-        </div>
         <div className={"page-content"}>
+            <img className="logo-login" alt="Vector" src="logo.svg" />
             <div className={"login-box"}>
                 <form onSubmit={handleLogin}>
                     <div className={"field"}>
-                        <input className={"text-wrapper"} type="text"
-                            id="username" value={username}
-                            onChange={handleUsernameChange} placeholder="Username" />
+                        <input className={"text-wrapper"}
+                               type="text"
+                               id="username" value={username}
+                               onChange={handleUsernameChange}
+                               placeholder="Username"/>
+
                         <i className="fa-solid fa-user"></i>
                     </div>
                     <div className={"field"}>
-                        <input className={"text-wrapper"} type="password"
-                            id="password" value={password}
-                            onChange={handlePasswordChange} placeholder="Password"/>
+                        <input className={"text-wrapper"}
+                               type="password"
+                               id="password" value={password}
+                               onChange={handlePasswordChange}
+                               placeholder="Password"/>
                         <i className="fa-solid fa-lock"></i>
                     </div>
-                    <div>
-                        <button type={"submit"} className={"login-btn"}>LOGIN</button>
-                    </div>
                     <a onClick={handleForgot}>Forgot Password</a>
+                    <div>
+                        <button type={"submit"} className={"login-btn"}>Login</button>
+                    </div>
                 </form>
             </div>
         </div>

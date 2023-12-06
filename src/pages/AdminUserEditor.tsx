@@ -13,7 +13,7 @@ import {useCompanies} from "../api/companies.ts";
 const AdminUserEditor = () => {
     const userId = parseInt(useParams().userId);
 
-    useAuth([AccountType.Admin]);
+    const user = useAuth([AccountType.Admin]);
 
     const {companies} = useCompanies();
 
@@ -98,7 +98,7 @@ const AdminUserEditor = () => {
     };
 
     const submitPassword = async () => {
-        if (!await checkPassword(editedUser.username, oldPassword)) {
+        if (!await checkPassword(user.username, oldPassword)) {
             toast.error("Invalid old password entered!");
             return;
         }
@@ -126,11 +126,10 @@ const AdminUserEditor = () => {
         <div className={"page-content user-editor"}>
             <div className={"page-header"}>
                 <h1>Edit user</h1>
-                <button onClick={submitData}>Apply changes</button>
             </div>
             {editedUser && <>
                 <p>Username</p>
-                <input type={"text"} autoComplete={"off"} value={editedUser.username ?? ""} onChange={(e) => handleInput("username", e.target.value)}/>
+                <input type={"text"} autoComplete={"off"} value={editedUser.username ?? ""} placeholder={"Username"} onChange={(e) => handleInput("username", e.target.value)}/>
                 <p>Type</p>
                 <Dropdown options={accTypes} onChange={e => handleInput("type", parseInt(e.value))} value={editedUser.type.toString()}/>
                 {editedUser.type === AccountType.User && <>
@@ -138,16 +137,17 @@ const AdminUserEditor = () => {
                     <Dropdown options={companyData} onChange={e => handleInput("companyId", parseInt(e.value))} value={editedUser.companyId?.toString() ?? "None"}/>
                 </>}
                 <p>Phone number</p>
-                <input type={"tel"} autoComplete={"off"} value={editedUser.phoneNumber ?? ""} onChange={(e) => handleInput("phoneNumber", e.target.value)}/>
+                <input type={"tel"} autoComplete={"off"} value={editedUser.phoneNumber ?? ""} placeholder={"+316........"} onChange={(e) => handleInput("phoneNumber", e.target.value)}/>
                 <p>Unit</p>
-                <input type={"text"} autoComplete={"off"} value={editedUser.unit ?? ""} onChange={(e) => handleInput("unit", e.target.value)}/>
+                <input type={"text"} autoComplete={"off"} value={editedUser.unit ?? ""} placeholder={"None"} onChange={(e) => handleInput("unit", e.target.value)}/>
+                <button onClick={submitData}>Apply changes</button>
                 <h3>Edit password</h3>
-                <p>Old password</p>
-                <input type={"password"} autoComplete={"old-password"} onChange={(e => setOldPassword(e.target.value))}/>
+                <p>Your password</p>
+                <input type={"password"} autoComplete={"password"} placeholder={"Enter password..."} onChange={(e => setOldPassword(e.target.value))}/>
                 <p>New password</p>
-                <input type={"password"} autoComplete={"new-password"} onChange={(e) => setNewPassword(e.target.value)}/>
+                <input type={"password"} autoComplete={"new-password"} placeholder={"Enter password..."} onChange={(e) => setNewPassword(e.target.value)}/>
                 <p>Confirm new password</p>
-                <input type={"password"} autoComplete={"new-password"} onChange={(e) => setNewPasswordControl(e.target.value)}/>
+                <input type={"password"} autoComplete={"new-password"} placeholder={"Enter password..."} onChange={(e) => setNewPasswordControl(e.target.value)}/>
                 <button onClick={submitPassword}>Change password</button>
                 {/*{editedUser.type == AccountType.User && <h3>Machines</h3>}*/}
                 {/*<div className={"user-editor-machines-list"}>*/}

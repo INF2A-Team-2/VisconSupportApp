@@ -204,7 +204,7 @@ const AdminUserManager = () => {
                     }}>
                 Add user <i className="fa-solid fa-user-plus"></i>
             </button>
-            <TableList columns={["ID", "Username", "Type", "Company", "Phone number", "unit"]}
+            <TableList columns={["ID", "Username", "Type", "Company", "Phone number", "Unit"]}
                        data={data}
                        buttons={[
                            {

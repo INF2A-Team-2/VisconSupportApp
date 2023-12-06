@@ -20,8 +20,8 @@ export default function TableList({ columns, data, buttons = [], defaultSort = {
                 const dateB = new Date(b);
 
                 if (isNaN(dateA.getTime())) {
-                    const sA = a.toLowerCase();
-                    const sB = b.toLowerCase();
+                    const sA = a?.toLowerCase();
+                    const sB = b?.toLowerCase();
                     if (sA > sB) {
                         res = -1;
                     } else if (sA < sB) {
@@ -41,7 +41,7 @@ export default function TableList({ columns, data, buttons = [], defaultSort = {
 
         setParsedData(searchQuery.length === 0
             ? _data
-            : _data.filter(x => x.some(y => y?.toString().includes(searchQuery))));
+            : _data.filter(x => x.some(y => y?.toString().toLowerCase().includes(searchQuery?.toLowerCase()))));
 
     }, [data, sortMode, searchQuery]);
 

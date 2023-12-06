@@ -17,9 +17,12 @@ import IssuePage from "./pages/IssuePage.tsx";
 import MyIssuesPage from "./pages/MyIssues.tsx";
 import CSVUploadPage from "./pages/CSVUploadPage.tsx";
 import EmployeeUserList from "./pages/EmployeeUserList.tsx";
-import UserMachinesPage from "./pages/EmployeeUserInformation.tsx";
 import EmployeeUserInformation from "./pages/EmployeeUserInformation.tsx";
 import AdminAddMachine from "./pages/AdminAddMachine.tsx";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faB }from "@fortawesome/free-solid-svg-icons";
+
+library.add(faB);
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

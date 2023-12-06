@@ -10,7 +10,7 @@
     --accent-3: rgb(208, 56, 42);
     --background: #121212;
     --background-2: #181818;
-    --background-3: #404040;
+    --background-3: #353535;
     --text: #ffffff;
     --text-hover: #c8c8c8;
 
@@ -19,13 +19,12 @@
 }
 
 ::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	background-color: var(--background)
 }
 
 ::-webkit-scrollbar {
 	width: 8px;
-	background-color: var(--background)
+	background-color: #ffffff;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -128,10 +127,13 @@ a:hover {
 
 .navigation-header-user-dropdown {
     position: relative;
-    display: inline-block;
+    display: flex;
 }
 
 .navigation-header-user-dropdown-button {
+    display: flex;
+    gap: 4px;
+    align-items: center;
     background-color: var(--background-3);
     padding: 8px;
     border-radius: 4px;
@@ -139,6 +141,7 @@ a:hover {
 
 .navigation-header-user-dropdown-content {
     display: none;
+    overflow: hidden;
     position: absolute;
     top: 30px;
     right: 0;
@@ -171,10 +174,9 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    min-height: 100vh;
     border-radius: 16px;
-    height: calc(100vh - 96px - 36px);
     padding: 24px;
-    overflow-y: auto;
 }
 
 .page-header {
@@ -219,10 +221,10 @@ a:hover {
 .new-issue input {
     color: var(--text);
     background-color: transparent;
-    border-radius: 6px;
-    border: 3px solid;
-    border-color: var(--platinum);
+    border: none;
+    border-bottom: 1px solid var(--text);
     font-size: large;
+    padding: 4px;
 }
 
 .new-issue button {
@@ -254,7 +256,11 @@ a:hover {
     grid-gap: 8px;
 }
 
-.files-list button {
+.files-list > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
     background-color: transparent;
     border: none;
     color: var(--platinum);
@@ -273,7 +279,10 @@ a:hover {
 }
 
 .input-file {
+    width: 200px;
+    height: 100px;
     position: relative;
+    background-color: var(--background-2);
 }
 
 .input-file img {
@@ -354,43 +363,51 @@ a:hover {
 }
 
 .login-box .login-btn {
-    background-color: rgba(216, 219, 226, 1);
+    background-color: var(--text);
     border: none;
     border-radius: 4px;
     box-shadow: 0 4px 4px #0000004c;
     height: 45px;
     position: relative;
     width: 300px;
-    color: rgba(13, 135, 154, 1);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 600;
-    line-height: 20px;
-    transition-duration: 0.2s;
-    opacity: 0.8;
+    margin-top: 16px;
+    transition: background-color 100ms;
 }
 
 .login-box .login-btn:hover {
-    opacity: 1;
+    background-color: var(--text-hover);
+}
+
+.logo-login {
+    width: 400px;
+    margin: 0 auto;
 }
 
 .observation-fields  {
-    padding-top: 8px;
-    display: grid;
+    padding: 32px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     grid-template-rows: 36px auto;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-flow: column;
 }
 
+.observation-fields p {
+    font-size: 1.15rem;
+}
+
 .observation-fields textarea {
-    max-width: 25vw;
-    height: 50vh;
-    border-radius: 6px;
+    height: 300px;
+    border: none;
+    border-bottom: 1px solid var(--text);
     resize: none;
-    border-color: var(--platinum);
-    border-width: 3px;
     color: var(--text);
-    background-color: transparent;
+    background-color: var(--background-2);
     font-size: 18px;
+    margin-bottom: 32px;
 }
 
 .observation-fields textarea:disabled {
@@ -425,7 +442,7 @@ a:hover {
     grid-gap: 8px;
     padding: 2px 4px;
     height: 24px;
-    border-bottom: 1px solid var(--platinum);
+    border-bottom: 1px solid var(--text);
     margin-bottom: 8px;
 }
 
@@ -449,7 +466,6 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    overflow-y: auto;
 }
 
 .tablelist-list-item {
@@ -460,7 +476,7 @@ a:hover {
     background-color: #1f1f1f;
     padding: 4px 6px;
     border-radius: 4px;
-    transition: background-color 75ms;
+    transition: background-color 100ms, transform 100ms;
 }
 
 .tablelist-list-item:nth-child(odd) {
@@ -468,7 +484,9 @@ a:hover {
 }
 
 .tablelist-list-item:hover {
-    background-color: var(--background-3);
+    cursor: pointer;
+    background-color: var(--accent);
+    transform: scaleX(101%);
 }
 
 .tablelist-list-item p {
@@ -521,9 +539,19 @@ a:hover {
     height: 32px;
     color: var(--text);
     background-color: transparent;
-    border-radius: 6px;
-    border: 3px solid;
-    border-color: var(--platinum);
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    margin-bottom: 16px;
+}
+
+.user-editor .Dropdown-root {
+    margin-bottom: 16px;
+}
+
+.user-editor button {
+    height: 32px;
+    border-radius: 4px;
+    font-weight: 600;
 }
 
 .user-editor-machines-list {
@@ -561,9 +589,12 @@ a:hover {
     gap: 8px;
 }
 
-.attachments-list img video p {
-    width: 25%;
-    object-fit: contain;
+.attachments-list img,
+.attachments-list video,
+.attachments-list p {
+    width: 256px;
+    height: 200px;
+    object-fit: cover;
     border-radius: 8px;
     background-color: var(--background-3);
 }
@@ -580,22 +611,16 @@ a:hover {
     font-weight: normal;
     margin-top: 32px;
     text-transform: none;
-    background-color: var(--background-2);
     border-radius: 6px;
     color: var(--text);
-    height: 50vw;
     vertical-align: baseline;
 }
 
 .chat .chat-history {
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     padding: 30px 0 20px;
-    overflow-y: scroll;
-    height: 40vh;
-    border-bottom: 4px solid var(--background-3);
-    background-color: var(--background);
+    border-top: 1px solid var(--text);
 
 }
 
@@ -615,11 +640,9 @@ a:hover {
 }
 
 .message-border {
-    border-color: var(--platinum);
-    border-style: solid;
-    border-radius: 6px;
     margin-bottom: 18px;
-    margin-right: 48px;
+    border: 1px solid var(--background-3);
+    border-radius: 4px;
 }
 
 .message-data {
@@ -647,7 +670,7 @@ a:hover {
 }
 
 .message-input textarea {
-    background-color: var(--background-3);
+    background-color: var(--background-2);
     border: 8px solid var(--background);
     color: var(--text);
     font-size: 16px;
@@ -778,10 +801,10 @@ a:hover {
     font-size: 0.8em; 
 }
 
-.admin-landing-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.landing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    column-gap: 16px;
 }
 
 .stat-card {
@@ -789,15 +812,15 @@ a:hover {
     flex-direction: column;
     gap: 4px;
     height: 100px;
-    background-color: var(--platinum);
-    color: var(--background);
+    background-color: var(--background-2);
+    color: var(--text);
     border-radius: 4px;
     padding: 8px;
     transition: transform 100ms;
 }
 
 .stat-card:hover {
-    background-color: var(--platinum-hover);
+    background-color: var(--background-3);
     transform: scale(101%);
     cursor: pointer;
 }
@@ -814,6 +837,10 @@ a:hover {
 .issue-header {
     display: flex;
     flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.issue-header h1 {
     margin-bottom: 16px;
 }
 
@@ -847,7 +874,7 @@ a:hover {
 }
 
 .issue-content h2 {
-    margin-top: 16px;
+    margin-top: 32px;
     margin-bottom: 4px;
 }
 
@@ -857,51 +884,7 @@ a:hover {
     align-items: center;
     gap: 8px;
     font-size: 0.75rem;
-    margin-top: 32px;
-}
-
-.page-footer-app {
-    font-size: 1rem;
-}
-
-.page-footer-divider-v {
-    height: 1px;
-    width: 100px;
-    background-color: var(--text);
-    margin: 8px 0;
-}
-
-.page-footer-divider-h {
-    height: 16px;
-    width: 1px;
-    background-color: var(--text);
-    margin: 0 8px;
-}
-
-.page-footer-section {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-}
-
-.page-footer svg {
-    margin-right: 8px;
-}
-
-
-.issue-content h2 {
-    margin-top: 16px;
-    margin-bottom: 4px;
-}
-
-.page-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.75rem;
-    margin-top: 32px;
-    padding-top: 16px;
+    padding: 32px 0;
     background-color: var(--background-2);
 }
 
@@ -942,7 +925,7 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .popup-form {
@@ -950,7 +933,7 @@ a:hover {
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    background-color: var(--background-3);
+    background-color: var(--background-2);
     width: 500px;
     margin: auto;
     padding: 16px;
@@ -985,14 +968,13 @@ a:hover {
     width: 100%;
     justify-content: center;
     gap: 16px;
-    margin-top: 8px;
+    margin-top: 32px;
 }
 
 .popup-form-footer button {
     width: 100%;
     border-radius: 4px;
-    background-color: var(--background-2);
-    color: var(--text);
-    text-transform: uppercase;
+    background-color: var(--text);
+    color: var(--background);
     font-weight: 600;
 }
