@@ -749,10 +749,12 @@ a:hover {
     grid-gap: 16px;
 }
 
-.issue-pages button {
+
+.create-new-ticket {
     display: block;
     margin-left: auto;
     margin-right: 16px;
+    margin-top: 20px;
     border: none;
     border-radius: 16px;
     opacity: 0.8;
@@ -764,6 +766,12 @@ a:hover {
     padding: 10px;
     border-radius: 16px;
 
+}
+
+.create-new-ticket:hover {
+    background-color: #0056b3; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    scale: 110%;
 }
 
 .issue-pages .issue-details .button{

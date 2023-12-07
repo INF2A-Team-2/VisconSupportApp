@@ -64,7 +64,7 @@ const SolvedIssuesPage = () => {
                     }]}
                 />
                 <div className="action-button">
-                    <button onClick={onNotListed} className="my-issue-not-listed-button">My issue is not listed</button>
+                    <button onClick={onNotListed} className="create-new-ticket">Create new ticket</button>
                 </div>
             </div>
             <PageFooter />
