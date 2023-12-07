@@ -1,25 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
-import {WideButton} from "../components/WideButton.tsx";
 import { useNavigate } from "react-router-dom";
-import { Machine, Issue } from "../models.ts";
-import { useMachines } from "../api/machines.ts";
 import 'react-dropdown/style.css';
 import '../index.css';
-import {useIssues} from "../api/issues.ts";
-import { RenderIssueDetails } from "../components/RenderIssueDetails.tsx";
+import { useMachines } from "../api/machines.ts";
+import { useIssues } from "../api/issues.ts";
 import PageFooter from "../components/PageFooter.tsx";
+import TableList from "../components/TableList.tsx";
+import strftime from "strftime";
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
     const {machines} = useMachines();
-    const [machine, setMachine] = useState<Machine>(null);
-    const [expandedIssueId, setExpandedIssueId] = useState<number | null>(null);
+    const {issues} = useIssues();
+    const [machine, setMachine] = useState(null);
+    const [filteredIssues, setFilteredIssues] = useState([]);
 
-    const {issues} = useIssues({
-        machineId: machine?.id
-    });
+    useEffect(() => {
+        if (machine) {
+            setFilteredIssues(issues.filter(issue => issue.machineId === machine.id));
+        } else {
+            null;
+        }
+    }, [machine, issues]);
+
+    const issueData = filteredIssues.map(i => [
+        i.id,
+        i.headline,
+        strftime("%F %H:%M", new Date(i.timeStamp)),
+        machines.find(m => m.id === i.machineId)?.name || "null"
+    ]);
+
+    const navigateToIssue = issueId => navigate(`/issue/${issueId}`);
 
     const onNotListed = () => {
         if (machine === null) {
@@ -30,39 +43,33 @@ const SolvedIssuesPage = () => {
         }
     };
 
-    const getLine = (issue: Issue): string => {
-        return "Headline: " + issue.headline;
-    };
-
-
-    const handleIssueClick = (issueId: number) => {
-        setExpandedIssueId(expandedIssueId === issueId ? null : issueId);
-    };
-
-
-    return (<>
-        <NavigationHeader/>
-        <div className={"page-content issue-pages"}>
-            <h1>Solved Issues</h1>
-            <div className={"section"}>
-                <Dropdown options={machines.map(m => m.name)} onChange={(e) => {
-                    setMachine(machines.find(machine => machine.name === e.value));
-                }} placeholder={"Machine..."}/>
-            </div>
-            <div className="issues-box">
-                    <div className="issues">
-                        {machine !== null && issues.map((issue) => (
-                            <div key={issue.id} onClick={() => handleIssueClick(issue.id)} className="issue-container">
-                                <WideButton title={`${issue.headline}`} />
-                                <RenderIssueDetails issue={issue} isExpanded={expandedIssueId === issue.id} />
-                            </div>
-                        ))}
-                    </div>
+    return (
+        <>
+            <NavigationHeader />
+            <div className={"page-content issue-pages"}>
+                <h1>Solved Issues</h1>
+                <div className={"section"}>
+                    <Dropdown
+                        options={machines.map(m => m.name)}
+                        onChange={(e) => setMachine(machines.find(m => m.name === e.value))}
+                        placeholder={"Select a Machine..."}
+                    />
                 </div>
-            <button onClick={onNotListed}>My issues is not listed</button>
-        </div>
-        <PageFooter />
-    </>);
+                <TableList 
+                    columns={["ID", "Headline", "Date", "Machine"]}
+                    data={issueData}
+                    buttons={[{
+                        text: <i className="fa-solid fa-arrow-right"></i>,
+                        callback: navigateToIssue
+                    }]}
+                />
+                <div className="action-button">
+                    <button onClick={onNotListed} className="my-issue-not-listed-button">My issue is not listed</button>
+                </div>
+            </div>
+            <PageFooter />
+        </>
+    );
 };
 
 export default SolvedIssuesPage;
