@@ -10,8 +10,10 @@ type PopupFormProps = {
     fields: Field[];
     submitText?: string;
     visible?: boolean;
+    default?: any;
     onSubmit: (data: object) => void;
     onCanceled?: () => void;
+    onPrevious?: () => void;
 }
 
 type PopupFormState = {
@@ -34,7 +36,7 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
     }
 
     resetFields = () => {
-        this.props.fields.forEach(f => this.handleInput(f, undefined));
+        this.props.fields.forEach(f => this.handleInput(f, this.props.default ?? undefined));
     };
 
     show = (visible: boolean = true) => {
@@ -88,6 +90,9 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
         }
 
         if (this.state.media.length > 0) {
+            if (this.state.media === undefined) {
+                return;
+            }
            this.props.onSubmit({ ...this.state.data, media: this.state.media });
         } else {
             this.props.onSubmit(this.state.data);
@@ -104,6 +109,8 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
     };
 
     deleteMedia = (i) => {
+        console.log(i);
+        console.log(this.state.media);
         this.setState((prevState) => ({
             ...prevState,
             media: prevState.media.filter((_, idx) => idx !== i)
@@ -139,7 +146,9 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                 return (
                     <div className={"popup-form-field"} key={f.key}>
                         <p>{f.name}</p>
-                        <input type={"text"} onChange={e => this.handleInput(f, e.target.value)}/>
+                        <input type={"text"}
+                            onChange={e => this.handleInput(f, e.target.value)}
+                            defaultValue={this.props.default ?? ""}/>
                     </div>
                 );
             case FieldType.Password:
@@ -167,10 +176,14 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                 return (
                     <div className={"popup-form-field"} key={f.key}>
                         <p>{f.name}</p>
-                        <textarea onChange={e => this.handleInput(f, e.target.value)}/>
+                        <textarea defaultValue={this.props.default ?? ""}
+                            onChange={e => this.handleInput(f, e.target.value)}/>
                     </div>
                 );
             case FieldType.Files:
+                if (this.props.default !== undefined) {
+                    this.state.media = this.props.default;
+                }
                 return (
                     <div>
                         <p>{f.name}</p>
@@ -204,6 +217,7 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                         </div>
                         <div className={"popup-form-footer"}>
                             <button onClick={this.onCanceled}>Cancel</button>
+                            {this.props.onPrevious !== undefined ? <button onClick={this.props.onPrevious}>Previous</button> : null}
                             <button onClick={this.handleSubmit}>{this.props.submitText === undefined ? "Submit" : this.props.submitText}</button>
                         </div>
                     </div>
