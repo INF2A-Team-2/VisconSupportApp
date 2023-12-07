@@ -61,7 +61,9 @@ export enum FieldType {
     Text,
     Password,
     Number,
-    Selection
+    Selection,
+    TextArea,
+    Files
 }
 
 export type Field = {

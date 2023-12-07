@@ -963,6 +963,14 @@ a:hover {
     height: 24px;
 }
 
+.popup-form-field textarea {
+    height: 300px;
+    border: none;
+    resize: none;
+    font-size: 14px;
+    margin-bottom: 32px;
+}
+
 .popup-form-footer {
     display: flex;
     width: 100%;

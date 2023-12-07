@@ -1,23 +1,32 @@
 import {Component} from "react";
 import {toast} from "react-hot-toast";
 import Dropdown from "react-dropdown";
-import {Field, FieldType} from "../models.ts";
+import {Field, FieldType, Media} from "../models.ts";
+import InputFile from "./InputFile.tsx";
+import React from "react";
 
 type PopupFormProps = {
     title: string;
     fields: Field[];
+    submitText?: string;
+    visible?: boolean;
     onSubmit: (data: object) => void;
+    onCanceled?: () => void;
 }
 
 type PopupFormState = {
     visible: boolean
     data: object
+    media: Array<Media>
+    imageInput: React.MutableRefObject<any>
 }
 
 class PopupForm extends Component<PopupFormProps, PopupFormState> {
     state: PopupFormState = {
-        visible: false,
+        visible: this.props.visible ?? false,
         data: {},
+        media: [],
+        imageInput: React.createRef(),
     };
 
     componentDidMount() {
@@ -78,7 +87,50 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
             return;
         }
 
-        this.props.onSubmit(this.state.data);
+        if (this.state.media.length > 0) {
+           this.props.onSubmit({ ...this.state.data, media: this.state.media });
+        } else {
+            this.props.onSubmit(this.state.data);
+        }
+
+    };
+
+    onAddImage = () => {
+        if (this.state.imageInput.current === null) {
+            return;
+        }
+
+        this.state.imageInput.current.click();
+    };
+
+    deleteMedia = (i) => {
+        this.setState((prevState) => ({
+            ...prevState,
+            media: prevState.media.filter((_, idx) => idx !== i)
+        }));
+    };
+
+    onImageUpload = () => {
+        if (this.state.imageInput.current === null) {
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            this.state.media[this.state.media.length - 1].data = reader.result as ArrayBuffer;
+            this.setState((prevState) => ({ ...prevState, media: [...prevState.media] }));
+        };
+
+        Array.from(this.state.imageInput.current.files).forEach((f: File) => {
+            if (f) {
+                this.state.media.push({
+                    name: f.name,
+                    mimeType: f.type,
+                });
+                reader.readAsArrayBuffer(f);
+            }
+        });
     };
 
     getField = (f: Field) => {
@@ -111,9 +163,34 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                         <Dropdown options={f.options} onChange={e => this.handleInput(f, e.value)} />
                     </div>
                 );
+            case FieldType.TextArea:
+                return (
+                    <div className={"popup-form-field"} key={f.key}>
+                        <p>{f.name}</p>
+                        <textarea onChange={e => this.handleInput(f, e.target.value)}/>
+                    </div>
+                );
+            case FieldType.Files:
+                return (
+                    <div>
+                        <p>{f.name}</p>
+                        <input type={"file"} ref={this.state.imageInput} onChange={this.onImageUpload} style={{ display: "none" }}/>
+                        <div className={"files-list"}>
+                            {this.state.media.map((f, i) => (<InputFile data={URL.createObjectURL(new Blob([f.data]))} mimeType={f.mimeType} fileName={f.name} deleteCallback={() => this.deleteMedia(i)} key={i}/>))}
+                        <button onClick={this.onAddImage}><i className="fa-solid fa-plus fa-2xl"></i></button>
+                        </div>
+                    </div>
+                );
             default:
                 return null;
         }
+    };
+
+    onCanceled = () => {
+        if (this.props.onCanceled) {
+            this.props.onCanceled();
+        }
+        this.show(false);
     };
 
     render() {
@@ -126,8 +203,8 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                             {this.props.fields.map(this.getField)}
                         </div>
                         <div className={"popup-form-footer"}>
-                            <button onClick={() => this.show(false)}>Cancel</button>
-                            <button onClick={this.handleSubmit}>Submit</button>
+                            <button onClick={this.onCanceled}>Cancel</button>
+                            <button onClick={this.handleSubmit}>{this.props.submitText === undefined ? "Submit" : this.props.submitText}</button>
                         </div>
                     </div>
                 </div>

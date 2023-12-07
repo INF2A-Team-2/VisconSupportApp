@@ -1,9 +1,7 @@
-import React from "react";
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 import LandingRouter from './pages/LandingRouter.tsx';
-import NewIssue from "./pages/NewIssue.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import ErrPage404 from "./pages/404.tsx";
 import LogoutPage from "./pages/LogoutPage.tsx";
@@ -50,7 +48,6 @@ root.render(
                 <Route path="users/:userId" element={<EmployeeUserInformation />} />
             </Route>
             <Route path="/">
-                <Route path={"new-issue"} element={<NewIssue />}/>
                 <Route path={"login"} element={<LoginPage />}/>
                 <Route path={"logout"} element={<LogoutPage />}/>
                 <Route path={"404"} element={<ErrPage404 />}/>
