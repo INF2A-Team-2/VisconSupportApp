@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import { editUser, useUser } from "../api/users.ts";
 import { useEffect } from "react";
 import axios from "axios";
+import { useCompany } from '../api/companies.ts'; // import the useCompany hook
 import { SERVER_URL, RequestConfig } from "../api/auth.ts";
 
 const UserEditorPage = () => {
@@ -16,6 +17,8 @@ const UserEditorPage = () => {
     const requestedId = useParams().id;
     const userId = currentUser?.id;
     const { user: editedUser, setUser: setEditedUser } = useUser({ userId: userId });
+    const { company } = useCompany({ companyId: editedUser ? editedUser.companyId : 0 });
+
 
     
     useEffect(() => {
@@ -71,13 +74,13 @@ const UserEditorPage = () => {
             {editedUser && <>
             {/*TODO: Waiting for UI meeting before changing this, its not clear what is readonly and what isnt */}
                 <p>Username</p>
-                <input type={"text"} value={editedUser.username ?? ""} readOnly/>
+                <input type={"text"} value={editedUser.username ?? "loading..."} readOnly/>
                 <p>Account Type</p>
-                <input type={"text"} value={AccountType[editedUser.type] ?? ""} readOnly/>
+                <input type={"text"} value={AccountType[editedUser.type] ?? "loading..."} readOnly/>
                 <p>Phone number</p>
-                <input type={"tel"} autoComplete={"off"} value={editedUser.phoneNumber ?? ""} onChange={(e) => handlePhoneNumberChange(e.target.value)}/>
+                <input type={"tel"} autoComplete={"off"} value={editedUser.phoneNumber ?? "loading..."} onChange={(e) => handlePhoneNumberChange(e.target.value)}/>
                 <p>Company</p>
-                <input type={"text"} value={editedUser.company ?? "COMPANY NAME TEMPORAIRY"} readOnly/>
+                <input type={"text"} value={company ? company.name : "Loading..."} readOnly/>
             </>}
         </div>
     </>;
