@@ -484,7 +484,6 @@ a:hover {
 }
 
 .tablelist-list-item:hover {
-    cursor: pointer;
     background-color: var(--accent);
     transform: scaleX(101%);
 }
