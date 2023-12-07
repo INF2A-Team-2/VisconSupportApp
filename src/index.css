@@ -372,13 +372,22 @@ a:hover {
     width: 300px;
     font-size: 1rem;
     font-weight: 600;
-    margin-top: 16px;
+    margin-top: 0px;
     transition: background-color 100ms;
 }
 
 .login-box .login-btn:hover {
     background-color: var(--text-hover);
 }
+.forgot-password-link {
+    text-decoration: underline; 
+    cursor: pointer; 
+}
+.forgot-password-container {
+    padding-top: 10px;
+    text-align: right;
+  }
+
 
 .logo-login {
     width: 400px;
