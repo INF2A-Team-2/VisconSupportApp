@@ -54,9 +54,7 @@ const NavigationHeader = () => {
              {headerComponent}
              <div>
                     {user && (
-                        <Link to={`/user/${user.id}/edit`}>
-                            <p>{user.username}</p>
-                        </Link>
+                        <a href={"/account"}>{user.username}</a>
                     )}
                     <a href={"/logout"}>Log Out</a>
                 </div>

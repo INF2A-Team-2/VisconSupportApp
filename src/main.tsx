@@ -56,7 +56,7 @@ root.render(
                 <Route path={"403"} element={<ErrPage403 />}/>
                 <Route path={"issue/:issueId"} element={<IssuePage />}/>
                 <Route path={"my-issues"} element={<MyIssuesPage />}/>
-                <Route path={"user/:userId/edit"} element={<UserEditPage/>}/>
+                <Route path={"account"} element={<UserEditPage/>}/>
             </Route>
         </Routes>
     </BrowserRouter>

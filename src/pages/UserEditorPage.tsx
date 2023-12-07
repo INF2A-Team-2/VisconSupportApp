@@ -5,14 +5,26 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { editUser, useUser } from "../api/users.ts";
+import { useEffect } from "react";
+import axios from "axios";
+import { SERVER_URL, RequestConfig } from "../api/auth.ts";
 
 const UserEditorPage = () => {
-    const userId = parseInt(useParams().userId);
 
-
-    useAuth([AccountType.User, AccountType.Admin, AccountType.HelpDesk]);
-
+    
+    const currentUser = useAuth([AccountType.User, AccountType.Admin, AccountType.HelpDesk]);
+    const requestedId = useParams().id;
+    const userId = currentUser?.id;
     const { user: editedUser, setUser: setEditedUser } = useUser({ userId: userId });
+
+    
+    useEffect(() => {
+        if (!currentUser) {
+            axios.get(`${SERVER_URL}/account`, RequestConfig())
+                .then(response => setEditedUser(response.data))
+                .catch(error => console.error("Error fetching account details:", error));
+        }
+    }, [currentUser]);
 
 
     const handlePhoneNumberChange = (phoneNumber: string) => {
@@ -22,6 +34,7 @@ const UserEditorPage = () => {
         });
     };
 
+    
     const submitData = () => {
         const mobileRegex = /^06\d{8}$/; 
         const internationalRegex = /^\+\d{1,4}\d{6,}$/;
@@ -64,7 +77,7 @@ const UserEditorPage = () => {
                 <p>Phone number</p>
                 <input type={"tel"} autoComplete={"off"} value={editedUser.phoneNumber ?? ""} onChange={(e) => handlePhoneNumberChange(e.target.value)}/>
                 <p>Company</p>
-                <input type={"text"} value={editedUser.company ?? ""} readOnly/>
+                <input type={"text"} value={editedUser.company ?? "COMPANY NAME TEMPORAIRY"} readOnly/>
             </>}
         </div>
     </>;
