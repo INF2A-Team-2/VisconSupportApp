@@ -749,6 +749,10 @@ a:hover {
     grid-gap: 16px;
 }
 
+.issue-pages .section .Dropdown-root {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 
 .create-new-ticket {
     display: block;

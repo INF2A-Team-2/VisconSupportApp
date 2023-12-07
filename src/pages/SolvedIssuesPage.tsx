@@ -9,6 +9,7 @@ import { useIssues } from "../api/issues.ts";
 import PageFooter from "../components/PageFooter.tsx";
 import TableList from "../components/TableList.tsx";
 import strftime from "strftime";
+import toast from "react-hot-toast";
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
@@ -36,7 +37,7 @@ const SolvedIssuesPage = () => {
 
     const onNotListed = () => {
         if (machine === null) {
-            alert("Please select a machine!");
+            toast.error("Please select a machine");
         } else {
             sessionStorage.setItem("machineId", String(machine.id));
             navigate("/new-issue");
