@@ -2,33 +2,36 @@ import {Component} from "react";
 import {toast} from "react-hot-toast";
 import Dropdown from "react-dropdown";
 import {Field, FieldType, Media} from "../models.ts";
-import InputFile from "./InputFile.tsx";
+import InputFile, { FilePreview } from "./InputFile.tsx";
 import React from "react";
 
 type PopupFormProps = {
     title: string;
-    fields: Field[];
-    submitText?: string;
-    visible?: boolean;
-    default?: any;
+    forms: Field[][];
     onSubmit: (data: object) => void;
-    onCanceled?: () => void;
-    onPrevious?: () => void;
 }
 
 type PopupFormState = {
     visible: boolean
-    data: object
+    currentData: object
     media: Array<Media>
-    imageInput: React.MutableRefObject<any>
+    imageInput: React.MutableRefObject<any>,
+    currentForm: number,
+    isLastForm: boolean,
+    dataHistory: object[],
+    done: boolean,
 }
 
 class PopupForm extends Component<PopupFormProps, PopupFormState> {
     state: PopupFormState = {
-        visible: this.props.visible ?? false,
-        data: {},
+        visible: false,
+        currentData: {},
         media: [],
         imageInput: React.createRef(),
+        currentForm: 0,
+        isLastForm: false,
+        dataHistory: [],
+        done: false,
     };
 
     componentDidMount() {
@@ -36,7 +39,7 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
     }
 
     resetFields = () => {
-        this.props.fields.forEach(f => this.handleInput(f, this.props.default ?? undefined));
+        this.props.forms[this.state.currentForm].forEach(f => this.handleInput(f, undefined));
     };
 
     show = (visible: boolean = true) => {
@@ -62,8 +65,8 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
 
         this.setState((prevState) => ({
             ...prevState,
-            data: {
-                ...prevState.data,
+            currentData: {
+                ...prevState.currentData,
                 [field.key]: v,
             },
         }));
@@ -72,8 +75,8 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
     handleSubmit = () => {
         let failed = false;
 
-        for (const [k, v] of Object.entries(this.state.data)) {
-            const f = this.props.fields.find(f => f.key === k);
+        for (const [k, v] of Object.entries(this.state.currentData)) {
+            const f = this.props.forms[this.state.currentForm].find(f => f.key === k);
 
             if (f === undefined) {
                 continue;
@@ -89,15 +92,41 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
             return;
         }
 
-        if (this.state.media.length > 0) {
-            if (this.state.media === undefined) {
-                return;
-            }
-           this.props.onSubmit({ ...this.state.data, media: this.state.media });
-        } else {
-            this.props.onSubmit(this.state.data);
+        if (this.props.forms.length === 1) {
+            this.props.onSubmit(this.state.currentData);
+            return;
         }
 
+        this.setState((prevState) => ({
+            ...prevState,
+            currentForm: prevState.currentForm + 1,
+            dataHistory: [...prevState.dataHistory, prevState.currentData],
+            currentData: {},
+        }));
+
+        if (this.state.done) {
+            var data = {};
+            this.state.dataHistory.forEach(d => {
+                data = {...data, ...d};
+            });
+            if (this.state.media.length > 0) {
+                this.props.onSubmit({ ...data, media: this.state.media });
+            } else {
+                this.props.onSubmit(data);
+            }
+        } else if (this.state.currentForm + 1 === this.props.forms.length) {
+            this.setState((prevState) => ({
+                ...prevState,
+                currentForm: prevState.currentForm,
+                done: true,
+            }));
+        } else if (this.state.currentForm + 1 === this.props.forms.length - 1) {
+            this.setState((prevState) => ({
+                ...prevState,
+                currentForm: prevState.currentForm,
+                isLastForm: true,
+            }));
+        }
     };
 
     onAddImage = () => {
@@ -109,8 +138,6 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
     };
 
     deleteMedia = (i) => {
-        console.log(i);
-        console.log(this.state.media);
         this.setState((prevState) => ({
             ...prevState,
             media: prevState.media.filter((_, idx) => idx !== i)
@@ -141,6 +168,11 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
     };
 
     getField = (f: Field) => {
+        let prevValue = undefined;
+        if (this.state.dataHistory[this.state.currentForm] !== undefined) {
+            prevValue = this.state.dataHistory[this.state.currentForm][f.key];
+        }
+
         switch (f.type) {
             case FieldType.Text:
                 return (
@@ -148,7 +180,7 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                         <p>{f.name}</p>
                         <input type={"text"}
                             onChange={e => this.handleInput(f, e.target.value)}
-                            defaultValue={this.props.default ?? ""}/>
+                            defaultValue={prevValue ?? ""}/>
                     </div>
                 );
             case FieldType.Password:
@@ -176,14 +208,12 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                 return (
                     <div className={"popup-form-field"} key={f.key}>
                         <p>{f.name}</p>
-                        <textarea defaultValue={this.props.default ?? ""}
-                            onChange={e => this.handleInput(f, e.target.value)}/>
+                        <textarea
+                            onChange={e => this.handleInput(f, e.target.value)}
+                            defaultValue={prevValue ?? ""}/>
                     </div>
                 );
             case FieldType.Files:
-                if (this.props.default !== undefined) {
-                    this.state.media = this.props.default;
-                }
                 return (
                     <div>
                         <p>{f.name}</p>
@@ -200,30 +230,89 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
     };
 
     onCanceled = () => {
-        if (this.props.onCanceled) {
-            this.props.onCanceled();
-        }
+        this.setState((prevState) => ({
+            ...prevState,
+            currentData: {},
+            media: [],
+            imageInput: React.createRef(),
+            currentForm: 0,
+            isLastForm: false,
+            dataHistory: [],
+            done: false,
+        }));
         this.show(false);
     };
 
+    onPrevious = () => {
+        this.setState((prevState) => ({
+            ...prevState,
+            currentForm: prevState.currentForm - 1,
+            isLastForm: this.state.currentForm - 1 === this.props.forms.length - 1,
+            done: false,
+        }));
+    };
+
     render() {
-        return this.state.visible ? (
-            <>
-                <div className={"popup-form-container"}>
-                    <div className={"popup-form"}>
-                        <h1>{this.props.title}</h1>
-                        <div className={"popup-form-field-list"}>
-                            {this.props.fields.map(this.getField)}
-                        </div>
-                        <div className={"popup-form-footer"}>
-                            <button onClick={this.onCanceled}>Cancel</button>
-                            {this.props.onPrevious !== undefined ? <button onClick={this.props.onPrevious}>Previous</button> : null}
-                            <button onClick={this.handleSubmit}>{this.props.submitText === undefined ? "Submit" : this.props.submitText}</button>
+        if (this.state.done && this.state.visible) {
+            return (
+                <>
+                    <div className={"popup-form-container"}>
+                        <div className={"popup-form"}>
+                            <div className={"popup-form-header"}>
+                                <h1>{this.props.title}</h1> <button onClick={this.onCanceled}><i className="fa-solid fa-x"></i></button>
+                            </div>
+                            <div className={"popup-form-field-list"}>
+                                <p>Your data:</p>
+                                <ul>
+                                    {Object.entries(this.state.dataHistory).map(([_, d]) => {
+                                        return Object.entries(d).map(([k, v]) => {
+                                            let title = "";
+                                            this.props.forms.forEach(f => {
+                                                if (f[0].key === k) {
+                                                    title = f[0].name;
+                                                }
+                                            });
+                                            return <li key={k}>{title}: {v}</li>
+                                        })}
+                                    )}
+                                </ul>
+                                {this.state.media.length > 0 ?
+                                    <div>
+                                        <p>Files:</p>
+                                        {this.state.media.map((f, i) => (<FilePreview data={URL.createObjectURL(new Blob([f.data]))}
+                                                                                mimeType={f.mimeType} fileName={f.name} key={i}/>))}
+                                    </div> : null}
+                            </div>
+                            <div className={"popup-form-footer"}>
+                                <button onClick={this.onPrevious}><i className={"fa-solid fa-arrow-left"}></i></button>
+                                <button onClick={this.handleSubmit}><i className={"fa-solid fa-check"}></i></button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </>
-        ) : null;
+                </>)
+        } else if (this.state.visible) {
+            return (
+                <>
+                    <div className={"popup-form-container"}>
+                        <div className={"popup-form"}>
+                            <div className={"popup-form-header"}>
+                                <h1>{this.props.forms.length > 0 ? this.props.title + " - " + (this.state.currentForm + 1) + "/" + this.props.forms.length : this.props.title}</h1>
+                                <button onClick={this.onCanceled}><i className="fa-solid fa-x"></i></button>
+                            </div>
+                            <div className={"popup-form-field-list"}>
+                                {this.props.forms[this.state.currentForm].map(this.getField)}
+                            </div>
+                            <div className={"popup-form-footer"}>
+                                {this.state.currentForm !== 0 ? <button onClick={this.onPrevious}><i className={"fa-solid fa-arrow-left"}></i></button> : null}
+                                <button onClick={this.handleSubmit}>{this.state.currentForm - 1 >= this.props.forms.length ? <i className={"fa-solid fa-check"}></i> : <i className={"fa-solid fa-arrow-right"}></i>}</button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )
+        } else {
+            return null;
+        }
     }
 }
 

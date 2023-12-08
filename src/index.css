@@ -940,6 +940,21 @@ a:hover {
     border-radius: 8px;
 }
 
+.popup-form-header {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    /* last item to be fully on the right*/
+}
+
+.popup-form-header > :last-child {
+    margin-left: auto;
+    background-color: transparent;
+    color: white;
+}
+
 .popup-form h1 {
     font-size: 1.25rem;
 }

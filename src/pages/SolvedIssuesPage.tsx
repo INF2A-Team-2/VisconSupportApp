@@ -1,4 +1,4 @@
-import { ReactElement, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import Dropdown from "react-dropdown";
 import {WideButton} from "../components/WideButton.tsx";
@@ -10,15 +10,15 @@ import '../index.css';
 import {newIssue, uploadAttachments, useIssues} from "../api/issues.ts";
 import { RenderIssueDetails } from "../components/RenderIssueDetails.tsx";
 import PageFooter from "../components/PageFooter.tsx";
-import RoadmapPopup from "../components/RoadmapPopup.tsx";
 import toast from "react-hot-toast";
+import PopupForm from "../components/PopupForm.tsx";
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
     const {machines} = useMachines();
     const [machine, setMachine] = useState<Machine>(null);
     const [expandedIssueId, setExpandedIssueId] = useState<number | null>(null);
-    const popupForm = useRef<RoadmapPopup>();
+    const popupForm = useRef<PopupForm>();
     const popupFields: Array<Array<Field>> = [
         [
             {
@@ -71,7 +71,7 @@ const SolvedIssuesPage = () => {
             toast.error("Please select a machine");
             return;
         }
-        popupForm.current.start();
+        popupForm.current.show(true);
     };
 
     const handleIssueClick = (issueId: number) => {
@@ -125,7 +125,7 @@ const SolvedIssuesPage = () => {
                 </div>
             <button onClick={issueNotListed}>My issues is not listed</button>
         </div>
-        <RoadmapPopup ref={popupForm}
+        <PopupForm ref={popupForm}
             title={"Create issue"}
             forms={popupFields}
             onSubmit={handleSubmit}

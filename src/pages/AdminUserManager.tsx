@@ -219,7 +219,7 @@ const AdminUserManager = () => {
         </div>
         <PopupForm ref={userCreationPopup}
                    title={"New user"}
-                   fields={userCreationFields}
+                   forms={[userCreationFields]}
                    onSubmit={handleNewUser} />
         <PageFooter />
     </>;
