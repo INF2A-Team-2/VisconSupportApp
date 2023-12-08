@@ -4,6 +4,7 @@ import Dropdown from "react-dropdown";
 import {Field, FieldType, Media} from "../models.ts";
 import InputFile, { FilePreview } from "./InputFile.tsx";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type PopupFormProps = {
     title: string;
@@ -310,8 +311,8 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                                     </div> : null}
                             </div>
                             <div className={"popup-form-footer"}>
-                                <button onClick={this.onPrevious}><i className={"fa-solid fa-arrow-left"}></i></button>
-                                <button onClick={this.handleSubmit}><i className={"fa-solid fa-check"}></i></button>
+                                <button onClick={this.onPrevious}><FontAwesomeIcon icon={"arrow-left"}/></button>
+                                <button onClick={this.handleSubmit}><FontAwesomeIcon icon={"check"}/></button>
                             </div>
                         </div>
                     </div>
@@ -329,8 +330,8 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                                 {this.props.forms[this.state.currentForm].map(this.getField)}
                             </div>
                             <div className={"popup-form-footer"}>
-                                {this.state.currentForm !== 0 ? <button onClick={this.onPrevious}><i className={"fa-solid fa-arrow-left"}></i></button> : <div></div>}
-                                <button onClick={this.handleSubmit}>{this.state.currentForm - 1 >= this.props.forms.length - 2 ? <i className={"fa-solid fa-check"}></i> : <i className={"fa-solid fa-arrow-right"}></i>}</button>
+                                {this.state.currentForm !== 0 ? <button onClick={this.onPrevious}><FontAwesomeIcon icon={"arrow-left"}/></button> : <div></div>}
+                                <button onClick={this.handleSubmit}>{this.state.currentForm - 1 >= this.props.forms.length - 2 ? <FontAwesomeIcon icon={"check"}/> : <FontAwesomeIcon icon={"arrow-right"}/>}</button>
                             </div>
                         </div>
                     </div>
