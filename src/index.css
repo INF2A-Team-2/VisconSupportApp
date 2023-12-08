@@ -966,6 +966,19 @@ a:hover {
     width: 100%;
 }
 
+.popup-form-field-list ul li {
+    margin-bottom: 8px;
+}
+
+.popup-form-field-list ul li p {
+    margin-bottom: 8px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    max-height: 10vh;
+}
+
 .popup-form-field {
     display: flex;
     flex-direction: column;
@@ -987,8 +1000,9 @@ a:hover {
 }
 
 .popup-form-footer {
-    display: flex;
+    display: grid;
     width: 100%;
+    grid-template-columns: 1fr 1fr;
     justify-content: center;
     gap: 16px;
     margin-top: 32px;
@@ -999,5 +1013,9 @@ a:hover {
     border-radius: 4px;
     background-color: var(--text);
     color: var(--background);
+    font-weight: 600;
+}
+
+.text-bold {
     font-weight: 600;
 }

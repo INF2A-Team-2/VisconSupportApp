@@ -39,6 +39,9 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
     }
 
     resetFields = () => {
+        if (this.props.forms[this.state.currentForm] === undefined) {
+            return;
+        }
         this.props.forms[this.state.currentForm].forEach(f => this.handleInput(f, undefined));
     };
 
@@ -73,11 +76,36 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
     };
 
     handleSubmit = () => {
+        if (this.state.done) {
+            var data = {};
+            this.state.dataHistory.forEach(d => {
+                data = {...data, ...d};
+            });
+            if (this.state.media.length > 0) {
+                this.props.onSubmit({ ...data, media: this.state.media });
+            } else {
+                this.props.onSubmit(data);
+            }
+        }
+
         let failed = false;
+
+        for (const f of this.props.forms[this.state.currentForm]) {
+            if (f.required && (this.state.currentData[f.key] === undefined || this.state.currentData[f.key].length === 0)) {
+                if (this.state.dataHistory[this.state.currentForm] === undefined && this.state.dataHistory[this.state.currentForm][f.key] === undefined) {
+                    toast.error(`${f.name} is required`);
+                    failed = true;
+                }
+            }
+        }
+
+        if (failed) {
+            return;
+        }
 
         for (const [k, v] of Object.entries(this.state.currentData)) {
             const f = this.props.forms[this.state.currentForm].find(f => f.key === k);
-
+            console.log(f, v);
             if (f === undefined) {
                 continue;
             }
@@ -97,24 +125,19 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
             return;
         }
 
+        if (this.state.dataHistory[this.state.currentForm] !== undefined && Object.keys(this.state.currentData).length > 0) {
+            this.state.dataHistory[this.state.currentForm] = this.state.currentData;
+        } else if (Object.keys(this.state.currentData).length > 0) {
+            this.setState((prevState) => ({ ...prevState, dataHistory: [...prevState.dataHistory, prevState.currentData] }));
+        }
+
         this.setState((prevState) => ({
             ...prevState,
             currentForm: prevState.currentForm + 1,
-            dataHistory: [...prevState.dataHistory, prevState.currentData],
             currentData: {},
         }));
 
-        if (this.state.done) {
-            var data = {};
-            this.state.dataHistory.forEach(d => {
-                data = {...data, ...d};
-            });
-            if (this.state.media.length > 0) {
-                this.props.onSubmit({ ...data, media: this.state.media });
-            } else {
-                this.props.onSubmit(data);
-            }
-        } else if (this.state.currentForm + 1 === this.props.forms.length) {
+        if (this.state.currentForm + 1 === this.props.forms.length) {
             this.setState((prevState) => ({
                 ...prevState,
                 currentForm: prevState.currentForm,
@@ -254,6 +277,7 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
 
     render() {
         if (this.state.done && this.state.visible) {
+            console.log(this.state.dataHistory);
             return (
                 <>
                     <div className={"popup-form-container"}>
@@ -262,7 +286,6 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                                 <h1>{this.props.title}</h1> <button onClick={this.onCanceled}><i className="fa-solid fa-x"></i></button>
                             </div>
                             <div className={"popup-form-field-list"}>
-                                <p>Your data:</p>
                                 <ul>
                                     {Object.entries(this.state.dataHistory).map(([_, d]) => {
                                         return Object.entries(d).map(([k, v]) => {
@@ -272,7 +295,10 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                                                     title = f[0].name;
                                                 }
                                             });
-                                            return <li key={k}>{title}: {v}</li>
+                                            return <li key={k}>
+                                                <p className={"text-bold"}>{title}</p>
+                                                <p>{v}</p>
+                                            </li>
                                         })}
                                     )}
                                 </ul>
@@ -303,8 +329,8 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                                 {this.props.forms[this.state.currentForm].map(this.getField)}
                             </div>
                             <div className={"popup-form-footer"}>
-                                {this.state.currentForm !== 0 ? <button onClick={this.onPrevious}><i className={"fa-solid fa-arrow-left"}></i></button> : null}
-                                <button onClick={this.handleSubmit}>{this.state.currentForm - 1 >= this.props.forms.length ? <i className={"fa-solid fa-check"}></i> : <i className={"fa-solid fa-arrow-right"}></i>}</button>
+                                {this.state.currentForm !== 0 ? <button onClick={this.onPrevious}><i className={"fa-solid fa-arrow-left"}></i></button> : <div></div>}
+                                <button onClick={this.handleSubmit}>{this.state.currentForm - 1 >= this.props.forms.length - 2 ? <i className={"fa-solid fa-check"}></i> : <i className={"fa-solid fa-arrow-right"}></i>}</button>
                             </div>
                         </div>
                     </div>
