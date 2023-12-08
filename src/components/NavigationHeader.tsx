@@ -7,7 +7,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 const CustomerNavigationHeader = () => {
     return (<>
         <a href={"/my-issues"}>My Issues</a>
-        <a href={"/solved-issues"}>Create Issue</a>
+        <a href={"/solved-issues"}>View Solutions</a>
     </>);
 };
 
