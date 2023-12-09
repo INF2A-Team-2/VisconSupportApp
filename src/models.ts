@@ -13,6 +13,12 @@ export interface User {
     companyId: number;
 }
 
+export interface Unit {
+    id: number;
+    name: string;
+    description: string;
+}
+
 export interface Company {
     id: number;
     name: string;

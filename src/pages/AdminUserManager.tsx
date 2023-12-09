@@ -9,6 +9,8 @@ import {deleteUser, newUser, useUsers} from "../api/users.ts";
 import PageFooter from "../components/PageFooter.tsx";
 import PopupForm from "../components/PopupForm.tsx";
 import {useCompanies} from "../api/companies.ts";
+import { useUnits } from "../api/units";
+
 
 const AdminUserManager = () => {
     useAuth([AccountType.Admin]);
@@ -20,6 +22,9 @@ const AdminUserManager = () => {
     const {companies} = useCompanies();
 
     const [data, setData] = useState([]);
+
+    const { units } = useUnits();
+
 
     const userCreationPopup = useRef<PopupForm>();
 
@@ -82,12 +87,16 @@ const AdminUserManager = () => {
         passwordControl: string,
         type: number,
         phoneNumber?: string,
-        unit?: string,
+        unitId?: number,
         company?: number;
     }) => {
         if (data.password !== data.passwordControl) {
             toast.error("Passwords don't match");
             return;
+        }
+
+        if (data.unitId === 0) {
+            data.unitId = null; 
         }
 
         const phoneNumberPattern: RegExp = /^\+\d{11}$/;
@@ -108,7 +117,7 @@ const AdminUserManager = () => {
             password: data.password,
             type: data.type,
             phoneNumber: data.phoneNumber,
-            unit: data.unit,
+            unitId: data.unitId,
             companyId: data.company
         });
 
@@ -176,8 +185,16 @@ const AdminUserManager = () => {
         {
             name: "Unit",
             key: "unit",
-            type: FieldType.Text,
-            required: false
+            type: FieldType.Selection,
+            required: false,
+            options: [
+                {
+                    value: "0",
+                    label: "None"
+                },
+                ...units.map(u => ({ value: u.id.toString(), label: u.name }))
+            ],
+            isNumber: true
         },
         {
             name: "Password",
