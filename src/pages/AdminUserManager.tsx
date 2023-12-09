@@ -53,7 +53,7 @@ const AdminUserManager = () => {
                 getType(u.type),
                 companies.find(c => c.id == u.companyId)?.name,
                 u.phoneNumber,
-                u.unit,]);
+                u.unitId,]);
         });
 
         setData(_data);

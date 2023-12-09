@@ -139,7 +139,7 @@ const AdminUserEditor = () => {
                 <p>Phone number</p>
                 <input type={"tel"} autoComplete={"off"} value={editedUser.phoneNumber ?? ""} placeholder={"+316........"} onChange={(e) => handleInput("phoneNumber", e.target.value)}/>
                 <p>Unit</p>
-                <input type={"text"} autoComplete={"off"} value={editedUser.unit ?? ""} placeholder={"None"} onChange={(e) => handleInput("unit", e.target.value)}/>
+                <input type={"text"} autoComplete={"off"} value={editedUser.unitId ?? ""} placeholder={"None"} onChange={(e) => handleInput("unit", e.target.value)}/>
                 <button onClick={submitData}>Apply changes</button>
                 <h3>Edit password</h3>
                 <p>Your password</p>

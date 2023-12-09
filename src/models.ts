@@ -9,7 +9,7 @@ export interface User {
     username: string;
     type: AccountType;
     phoneNumber: string;
-    unit: string;
+    unitId: number;
     companyId: number;
 }
 

@@ -31,7 +31,7 @@ const EmployeeUserList = () => {
                 u.id,
                 u.username,
                 u.phoneNumber,
-                u.unit,
+                u.unitId,
             ]);
         });
 
