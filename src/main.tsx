@@ -21,6 +21,7 @@ import EmployeeUserInformation from "./pages/EmployeeUserInformation.tsx";
 import AdminAddMachine from "./pages/AdminAddMachine.tsx";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faB }from "@fortawesome/free-solid-svg-icons";
+import AdminAddUnit from "./pages/AddUnits.tsx";
 
 library.add(faB);
 
@@ -44,6 +45,7 @@ root.render(
                 <Route path={"issues"} element={<AdminIssueManager />}/>
                 <Route path={"import"} element={ <CSVUploadPage/>}/>
                 <Route path={"new-machine"} element={<AdminAddMachine />}/>
+                <Route path={"new-units"} element={<AdminAddUnit />}/>
             </Route>
             <Route path="/employee">
                 <Route path={"users"} element={<EmployeeUserList />}/>
