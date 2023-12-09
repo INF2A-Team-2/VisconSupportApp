@@ -1,8 +1,6 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
 import { AccountType } from "../models.ts";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { editUser, useUser } from "../api/users.ts";
 import { useEffect } from "react";
@@ -14,7 +12,6 @@ const UserEditorPage = () => {
 
     
     const currentUser = useAuth([AccountType.User, AccountType.Admin, AccountType.HelpDesk]);
-    const requestedId = useParams().id;
     const userId = currentUser?.id;
     const { user: editedUser, setUser: setEditedUser } = useUser({ userId: userId });
     const { company } = useCompany({ companyId: editedUser ? editedUser.companyId : 0 });

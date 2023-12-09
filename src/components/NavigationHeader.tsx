@@ -1,5 +1,4 @@
 import logo from "../assets/logo.svg";
-import { Link } from "react-router-dom";
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {useNavigate} from "react-router-dom";
