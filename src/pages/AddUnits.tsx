@@ -5,10 +5,14 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { createUnit } from "../api/units.ts";
 import PageFooter from "../components/PageFooter.tsx";
+import TableList from '../components/TableList';
+import { useUnits, deleteUnit } from '../api/units.ts';
+
+
 
 const AdminAddUnit = () => {
     useAuth([AccountType.Admin]);
-
+    const { units, refreshUnits } = useUnits();
     const [unitName, setUnitName] = useState("");
     const [unitDescription, setUnitDescription] = useState("");
 
@@ -32,8 +36,32 @@ const AdminAddUnit = () => {
         }).then(() => {
             setUnitName("");
             setUnitDescription("");
+            refreshUnits();
         });
     };
+
+    const handleDelete = (unitId) => {
+        if (!window.confirm("Are you sure that you want to delete this unit?")) {
+            return;
+        }
+
+        toast.promise(deleteUnit({
+            unitId: unitId
+        }), {
+            loading: "Deleting unit...",
+            success: "Unit deleted",
+            error: "Failed to delete unit"
+        }).then(() => {
+            refreshUnits();
+        });
+    };
+
+
+    const columns = ['ID', 'Name', 'Description'];
+
+    const tableData = units.map(unit => [unit.id, unit.name, unit.description]);
+
+
 
     return (
         <>
@@ -63,6 +91,16 @@ const AdminAddUnit = () => {
                         <button type="submit" className={"submit-button"}>Create Unit</button>
                     </div>
                 </form>
+                <TableList 
+                    columns={columns} 
+                    data={tableData} 
+                    buttons={[
+                        {
+                            text: "Delete",
+                            callback: handleDelete
+                        }
+                    ]}
+                />
             </div>
             <PageFooter/>
         </>
