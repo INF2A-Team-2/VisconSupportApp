@@ -16,5 +16,9 @@ export function useLogs({}:{} = {}) {
             });
     },[]);
 
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
     return {logs, setLogs, refreshLogs: fetchData};
 }
