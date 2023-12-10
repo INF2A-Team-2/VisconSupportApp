@@ -9,7 +9,6 @@ import PopupForm from "../components/PopupForm.tsx";
 import 'react-dropdown/style.css';
 import '../index.css';
 import { useMachines } from "../api/machines.ts";
-import { useIssues } from "../api/issues.ts";
 import PageFooter from "../components/PageFooter.tsx";
 import TableList from "../components/TableList.tsx";
 import strftime from "strftime";
