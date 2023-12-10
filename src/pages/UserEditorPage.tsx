@@ -17,16 +17,6 @@ const UserEditorPage = () => {
     const { company } = useCompany({ companyId: editedUser ? editedUser.companyId : 0 });
 
 
-    
-    useEffect(() => {
-        if (!currentUser) {
-            axios.get(`${SERVER_URL}/account`, RequestConfig())
-                .then(response => setEditedUser(response.data))
-                .catch(error => console.error("Error fetching account details:", error));
-        }
-    }, [currentUser]);
-
-
     const handlePhoneNumberChange = (phoneNumber: string) => {
         setEditedUser({
             ...editedUser,
