@@ -10,6 +10,12 @@ export interface User {
     type: AccountType;
     phoneNumber: string;
     unit: string;
+    companyId: number;
+}
+
+export interface Company {
+    id: number;
+    name: string;
 }
 
 export type Machine = {
@@ -62,3 +68,22 @@ export type Log = {
     messageId?: number,
     attachmentId?: number
 };
+
+export enum FieldType {
+    Text,
+    Password,
+    Number,
+    Selection
+}
+
+export type Field = {
+    name: string,
+    key: string,
+    type: FieldType,
+    required: boolean,
+    options?: Array<{
+        value: string,
+        label: string
+    }>,
+    isNumber?: boolean
+}
