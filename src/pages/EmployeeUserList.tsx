@@ -2,11 +2,12 @@ import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {useEffect, useState} from "react";
-import { useContext} from "react";
 import TableList from "../components/TableList.tsx";
 import {useUsers} from "../api/users.ts";
 import { useNavigate } from "react-router-dom";
 import PageFooter from "../components/PageFooter.tsx";
+import { useCompanies } from "../api/companies";
+import { useUnits } from "../api/units";
 
 const EmployeeUserList = () => {
 
@@ -14,7 +15,7 @@ const EmployeeUserList = () => {
 
     const navigate = useNavigate();
     
-    const {users, refreshUsers} = useUsers();
+    const {users} = useUsers();
 
     const [data, setData] = useState([]);
 
@@ -22,6 +23,9 @@ const EmployeeUserList = () => {
         navigate(`/employee/users/${userId}`);
     };
 
+    const { units } = useUnits();
+
+    const { companies } = useCompanies();
 
 
     useEffect(() => {
@@ -31,7 +35,8 @@ const EmployeeUserList = () => {
                 u.id,
                 u.username,
                 u.phoneNumber,
-                u.unitId,
+                companies.find(c => c.id == u.companyId)?.name,
+                units.find(un => un.id == u.unitId)?.name,
             ]);
         });
 
@@ -42,7 +47,7 @@ const EmployeeUserList = () => {
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Users</h1>
-            <TableList  columns={["ID", "Username", "Phone number", "Unit"]} 
+            <TableList  columns={["ID", "Username", "Phone number","Companies", "Unit"]} 
                         data={data}
                         buttons={[
                             {
