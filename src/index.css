@@ -372,13 +372,22 @@ a:hover {
     width: 300px;
     font-size: 1rem;
     font-weight: 600;
-    margin-top: 16px;
+    margin-top: 0px;
     transition: background-color 100ms;
 }
 
 .login-box .login-btn:hover {
     background-color: var(--text-hover);
 }
+.forgot-password-link {
+    text-decoration: underline; 
+    cursor: pointer; 
+}
+.forgot-password-container {
+    padding-top: 10px;
+    text-align: right;
+  }
+
 
 .logo-login {
     width: 400px;
@@ -484,7 +493,6 @@ a:hover {
 }
 
 .tablelist-list-item:hover {
-    cursor: pointer;
     background-color: var(--accent);
     transform: scaleX(101%);
 }
@@ -741,10 +749,16 @@ a:hover {
     grid-gap: 16px;
 }
 
-.issue-pages button {
+.issue-pages .section .Dropdown-root {
+    padding-top: 10px;
+
+}
+
+.create-new-ticket {
     display: block;
     margin-left: auto;
     margin-right: 16px;
+    margin-top: 20px;
     border: none;
     border-radius: 16px;
     opacity: 0.8;
@@ -756,6 +770,12 @@ a:hover {
     padding: 10px;
     border-radius: 16px;
 
+}
+
+.create-new-ticket:hover {
+    background-color: #0056b3; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    scale: 110%;
 }
 
 .issue-pages .issue-details .button{

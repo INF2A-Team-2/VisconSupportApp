@@ -60,9 +60,11 @@ const LoginPage = (): JSX.Element => {
                                placeholder="Password"/>
                         <i className="fa-solid fa-lock"></i>
                     </div>
-                    <a onClick={handleForgot}>Forgot Password</a>
                     <div>
                         <button type={"submit"} className={"login-btn"}>Login</button>
+                    </div>
+                    <div className={"forgot-password-container"}>
+                        <a onClick={handleForgot} className={"forgot-password-link"}>Forgot Password</a>
                     </div>
                 </form>
             </div>
