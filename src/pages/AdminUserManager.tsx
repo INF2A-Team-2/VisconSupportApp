@@ -90,11 +90,11 @@ const AdminUserManager = () => {
         unitId?: number,
         company?: number;
     }) => {
+        console.log("Received data:", data);
         if (data.password !== data.passwordControl) {
             toast.error("Passwords don't match");
             return;
         }
-
         if (data.unitId === 0) {
             data.unitId = null; 
         }
@@ -111,7 +111,6 @@ const AdminUserManager = () => {
         {
             data.company = null;
         }
-
         const promise = newUser({
             username: data.username,
             password: data.password,
@@ -184,7 +183,7 @@ const AdminUserManager = () => {
         },
         {
             name: "Unit",
-            key: "unit",
+            key: "unitId",
             type: FieldType.Selection,
             required: false,
             options: [

@@ -56,15 +56,9 @@ const AdminUserEditor = () => {
     const handleInput = (p: string, v) => {
         const u = {...editedUser};
         u[p] = v;
-
-        if (p === "companyId" && v === 0)
-        {
-            u[p] = null;
-        }
-
         setEditedUser(u);
     };
-
+    
     const handleMachineInput = (id: number) => {
         if (selectedMachines.map(m => m.id).includes(id)) {
             setSelectedMachines([...selectedMachines.filter(m => m.id !== id)]);
@@ -139,7 +133,7 @@ const AdminUserEditor = () => {
                 <p>Phone number</p>
                 <input type={"tel"} autoComplete={"off"} value={editedUser.phoneNumber ?? ""} placeholder={"+316........"} onChange={(e) => handleInput("phoneNumber", e.target.value)}/>
                 <p>Unit</p>
-                <input type={"text"} autoComplete={"off"} value={editedUser.unitId ?? ""} placeholder={"None"} onChange={(e) => handleInput("unit", e.target.value)}/>
+                <input type={"text"} autoComplete={"off"} value={editedUser.unitId ?? ""} placeholder={"None"} onChange={(e) => handleInput("unitId", e.target.value)}/>
                 <button onClick={submitData}>Apply changes</button>
                 <h3>Edit password</h3>
                 <p>Your password</p>
