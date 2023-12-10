@@ -52,9 +52,9 @@ const NavigationHeader = () => {
             <img src={logo} alt={"Logo"} onClick={() => navigate("/")}/>
              {headerComponent}
              <div>
-                    {user && (
-                        <a href={"/account"}>{user.username}</a>
-                    )}
+                    {
+                        <a href={"/account"}>{user?.username}</a>
+                    }
                     <a href={"/logout"}>Log Out</a>
                 </div>
         </div>
