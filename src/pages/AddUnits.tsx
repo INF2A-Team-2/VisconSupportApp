@@ -60,7 +60,7 @@ const AdminAddUnit = () => {
         <>
             <NavigationHeader />
             <div className="page-content">
-                <h1>Add Unit</h1>
+                <h1>Units</h1>
                 <button onClick={() => unitCreationPopup.current.show()}
                         style={{ marginBottom: "20px", cursor: "pointer" }}>
                     Add New Unit
