@@ -1,42 +1,46 @@
+import React, { useState, useEffect, useRef } from "react";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
-import { AccountType } from "../models.ts";
-import React, { useState } from "react";
+import { AccountType, Field, FieldType } from "../models.ts";
 import toast from "react-hot-toast";
-import { createUnit } from "../api/units.ts";
+import { createUnit, useUnits, deleteUnit } from "../api/units.ts";
 import PageFooter from "../components/PageFooter.tsx";
-import TableList from '../components/TableList';
-import { useUnits, deleteUnit } from '../api/units.ts';
-
-
+import TableList from "../components/TableList";
+import PopupForm from "../components/PopupForm.tsx";
 
 const AdminAddUnit = () => {
     useAuth([AccountType.Admin]);
     const { units, refreshUnits } = useUnits();
-    const [unitName, setUnitName] = useState("");
-    const [unitDescription, setUnitDescription] = useState("");
+    const [data, setData] = useState([]);
+    const unitCreationPopup = useRef<PopupForm>();
 
-    const handleUnitNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUnitName(e.target.value);
-    };
+    useEffect(() => {
+        setData(units.map(unit => [unit.id, unit.name, unit.description]));
+    }, [units]);
 
-    const handleUnitDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUnitDescription(e.target.value);
-    };
+    const unitCreationFields: Array<Field> = [
+        {
+            name: "Name",
+            key: "name",
+            type: FieldType.Text,
+            required: true
+        },
+        {
+            name: "Description",
+            key: "description",
+            type: FieldType.Text,
+            required: true
+        },
+    ];
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        toast.promise(createUnit({
-            name: unitName,
-            description: unitDescription
-        }), {
+    const handleNewUnit = (data) => {
+        toast.promise(createUnit(data), {
             loading: "Creating unit...",
             success: "Unit created",
             error: "Failed to create unit"
         }).then(() => {
-            setUnitName("");
-            setUnitDescription("");
             refreshUnits();
+            unitCreationPopup.current.show(false);
         });
     };
 
@@ -45,64 +49,40 @@ const AdminAddUnit = () => {
             return;
         }
 
-        toast.promise(deleteUnit({
-            unitId: unitId
-        }), {
+        toast.promise(deleteUnit({ unitId }), {
             loading: "Deleting unit...",
             success: "Unit deleted",
             error: "Failed to delete unit"
-        }).then(() => {
-            refreshUnits();
-        });
+        }).then(() => refreshUnits());
     };
-
-
-    const columns = ['ID', 'Name', 'Description'];
-
-    const tableData = units.map(unit => [unit.id, unit.name, unit.description]);
-
-
 
     return (
         <>
-            <NavigationHeader/>
-            <div className={"page-content"}>
+            <NavigationHeader />
+            <div className="page-content">
                 <h1>Add Unit</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className={"section"}>
-                        <label htmlFor="unitName">Unit Name:</label>
-                        <input 
-                            className={"text-input"} 
-                            type="text" 
-                            id="unitName" 
-                            value={unitName} 
-                            onChange={handleUnitNameChange} 
-                            placeholder="Enter unit name" 
-                        />
-                        <label htmlFor="unitDescription">Unit Description:</label>
-                        <input 
-                            className={"text-input"} 
-                            type="text" 
-                            id="unitDescription" 
-                            value={unitDescription} 
-                            onChange={handleUnitDescriptionChange} 
-                            placeholder="Enter unit description" 
-                        />
-                        <button type="submit" className={"submit-button"}>Create Unit</button>
-                    </div>
-                </form>
-                <TableList 
-                    columns={columns} 
-                    data={tableData} 
+                <button onClick={() => unitCreationPopup.current.show()}
+                        style={{ marginBottom: "20px", cursor: "pointer" }}>
+                    Add New Unit
+                </button>
+                <PopupForm
+                    ref={unitCreationPopup}
+                    title={"New Unit"}
+                    fields={unitCreationFields}
+                    onSubmit={handleNewUnit}
+                />
+                <TableList
+                    columns={['ID', 'Name', 'Description']}
+                    data={data}
                     buttons={[
                         {
-                            text: "Delete",
+                            text: <i className="fa-solid fa-trash"></i>,
                             callback: handleDelete
                         }
                     ]}
                 />
             </div>
-            <PageFooter/>
+            <PageFooter />
         </>
     );
 };
