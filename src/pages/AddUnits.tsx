@@ -68,7 +68,7 @@ const AdminAddUnit = () => {
                 <PopupForm
                     ref={unitCreationPopup}
                     title={"New Unit"}
-                    fields={unitCreationFields}
+                    forms={[unitCreationFields]}
                     onSubmit={handleNewUnit}
                 />
                 <TableList
