@@ -960,6 +960,20 @@ a:hover {
     border-radius: 8px;
 }
 
+.popup-form-header {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.popup-form-header > :last-child {
+    margin-left: auto;
+    background-color: transparent;
+    color: white;
+}
+
 .popup-form h1 {
     font-size: 1.25rem;
 }
@@ -969,6 +983,19 @@ a:hover {
     flex-direction: column;
     gap: 16px;
     width: 100%;
+}
+
+.popup-form-field-list ul li {
+    margin-bottom: 8px;
+}
+
+.popup-form-field-list ul li p {
+    margin-bottom: 8px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    max-height: 10vh;
 }
 
 .popup-form-field {
@@ -983,9 +1010,18 @@ a:hover {
     height: 24px;
 }
 
+.popup-form-field textarea {
+    height: 300px;
+    resize: none;
+    font-size: 14px;
+    margin-bottom: 32px;
+    border-radius: 1px;
+}
+
 .popup-form-footer {
-    display: flex;
+    display: grid;
     width: 100%;
+    grid-template-columns: 1fr 1fr;
     justify-content: center;
     gap: 16px;
     margin-top: 32px;
@@ -996,5 +1032,9 @@ a:hover {
     border-radius: 4px;
     background-color: var(--text);
     color: var(--background);
+    font-weight: 600;
+}
+
+.text-bold {
     font-weight: 600;
 }
