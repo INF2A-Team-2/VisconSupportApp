@@ -1038,3 +1038,19 @@ a:hover {
 .text-bold {
     font-weight: 600;
 }
+
+.slider {
+    width: 350px;
+}
+
+.slider input[type=range] {
+    width: 100%;
+    background-color: var(--background-3);
+    height: 4px;
+    border-radius: 2px;
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+}
