@@ -3,7 +3,7 @@ import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
 import { AccountType, Field, FieldType } from "../models.ts";
 import toast from "react-hot-toast";
-import { createUnit, useUnits, deleteUnit } from "../api/units.ts";
+import { createUnit, useUnits, deleteUnit, editUnit } from "../api/units.ts";
 import PageFooter from "../components/PageFooter.tsx";
 import TableList from "../components/TableList";
 import PopupForm from "../components/PopupForm.tsx";
@@ -13,12 +13,28 @@ const AdminAddUnit = () => {
     const { units, refreshUnits } = useUnits();
     const [data, setData] = useState([]);
     const unitCreationPopup = useRef<PopupForm>();
+    const unitEditPopup = useRef<PopupForm>();
 
     useEffect(() => {
         setData(units.map(unit => [unit.id, unit.name, unit.description]));
     }, [units]);
 
     const unitCreationFields: Array<Field> = [
+        {
+            name: "Name",
+            key: "name",
+            type: FieldType.Text,
+            required: true
+        },
+        {
+            name: "Description",
+            key: "description",
+            type: FieldType.Text,
+            required: true
+        },
+    ];
+
+    const editUnitFields: Array<Field> = [
         {
             name: "Name",
             key: "name",
@@ -56,14 +72,38 @@ const AdminAddUnit = () => {
         }).then(() => refreshUnits());
     };
 
+    const handleEdit = (unitId) => {
+        const unitToEdit = units.find(unit => unit.id === unitId);
+        if(unitToEdit) {
+            unitEditPopup.current.show(true);
+            unitEditPopup.current.setData(unitToEdit);
+        }
+    };
+
+    const handleEditSubmit = (data) => {
+        toast.promise(editUnit(data), {
+            loading: "Editing unit...",
+            success: "Unit edited",
+            error: "Failed to edit unit"
+        }).then(() => {
+            refreshUnits();
+            unitEditPopup.current.show(false);
+        });
+    };
+    
+
+
     return (
         <>
             <NavigationHeader />
             <div className="page-content">
                 <h1>Units</h1>
                 <button onClick={() => unitCreationPopup.current.show()}
-                        style={{ marginBottom: "20px", cursor: "pointer" }}>
-                    Add New Unit
+                    style={{
+                        width: "100px",
+                        borderRadius: "4px"
+                    }}>
+                Add unit <i className="fa-solid fa-plus"></i>
                 </button>
                 <PopupForm
                     ref={unitCreationPopup}
@@ -71,14 +111,26 @@ const AdminAddUnit = () => {
                     forms={[unitCreationFields]}
                     onSubmit={handleNewUnit}
                 />
+                <PopupForm
+                    ref={unitEditPopup}
+                    title={"Edit Unit"}
+                    forms={[editUnitFields]}
+                    onSubmit={handleEditSubmit}
+                />
+
                 <TableList
                     columns={['ID', 'Name', 'Description']}
                     data={data}
                     buttons={[
                         {
+                            text: <i className="fa-solid fa-pen-to-square"></i>,
+                            callback: (unitId) => handleEdit(unitId)
+                        },
+                        {
                             text: <i className="fa-solid fa-trash"></i>,
-                            callback: handleDelete
+                            callback: handleDelete,
                         }
+
                     ]}
                 />
             </div>
