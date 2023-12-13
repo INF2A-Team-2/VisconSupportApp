@@ -22,6 +22,8 @@ export interface Unit {
 export interface Company {
     id: number;
     name: string;
+    latitude: number;
+    longitude: number;
 }
 
 export type Machine = {
@@ -67,6 +69,7 @@ export enum FieldType {
     Text,
     Password,
     Number,
+    Float,
     Selection,
     TextArea,
     Files

@@ -20,6 +20,8 @@ import AdminAddMachine from "./pages/AdminAddMachine.tsx";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faB }from "@fortawesome/free-solid-svg-icons";
 import AdminAddUnit from "./pages/AddUnits.tsx";
+import AdminCompanyManager from "./pages/AdminCompanyManager.tsx";
+import Map from "./pages/Map.tsx";
 
 library.add(faB);
 
@@ -35,28 +37,30 @@ root.render(
             }
         }}/>
         <Routes>
-            <Route index element={<LandingRouter />} />
-            <Route path={"*"} element={<ErrPage404 />}/>
+            <Route index      element={<LandingRouter />} />
+            <Route path={"*"} element={<ErrPage404 />} />
             <Route path="/admin">
-                <Route path={"users"} element={<AdminUserManager />} />
-                <Route path={"users/edit/:userId"} element={<AdminUserEditor />}/>
-                <Route path={"issues"} element={<AdminIssueManager />}/>
-                <Route path={"import"} element={ <CSVUploadPage/>}/>
-                <Route path={"new-machine"} element={<AdminAddMachine />}/>
-                <Route path={"new-units"} element={<AdminAddUnit />}/>
+                <Route path={"users"}              element={<AdminUserManager />} />
+                <Route path={"users/edit/:userId"} element={<AdminUserEditor />} />
+                <Route path={"issues"}             element={<AdminIssueManager />} />
+                <Route path={"companies"}          element={<AdminCompanyManager />} />
+                <Route path={"import"}             element={ <CSVUploadPage />} />
+                <Route path={"new-machine"}        element={<AdminAddMachine />} />
+                <Route path={"new-units"}          element={<AdminAddUnit />} />
             </Route>
             <Route path="/employee">
-                <Route path={"users"} element={<EmployeeUserList />}/>
-                <Route path="users/:userId" element={<EmployeeUserInformation />} />
+                <Route path={"users"}         element={<EmployeeUserList />}/>
+                <Route path={"users/:userId"} element={<EmployeeUserInformation />} />
             </Route>
             <Route path="/">
-                <Route path={"login"} element={<LoginPage />}/>
-                <Route path={"logout"} element={<LogoutPage />}/>
-                <Route path={"404"} element={<ErrPage404 />}/>
-                <Route path={"solved-issues"} element={<SolvedIssuesPage />}/>
-                <Route path={"403"} element={<ErrPage403 />}/>
-                <Route path={"issue/:issueId"} element={<IssuePage />}/>
-                <Route path={"my-issues"} element={<MyIssuesPage />}/>
+                <Route path={"login"}          element={<LoginPage />} />
+                <Route path={"logout"}         element={<LogoutPage />} />
+                <Route path={"404"}            element={<ErrPage404 />} />
+                <Route path={"solved-issues"}  element={<SolvedIssuesPage />} />
+                <Route path={"403"}            element={<ErrPage403 />} />
+                <Route path={"issue/:issueId"} element={<IssuePage /> }/>
+                <Route path={"my-issues"}      element={<MyIssuesPage />} />
+                <Route path={"map"}            element={<Map />} />
             </Route>
         </Routes>
     </BrowserRouter>

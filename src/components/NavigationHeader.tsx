@@ -13,8 +13,9 @@ const CustomerNavigationHeader = () => {
 
 const EmployeeNavigationHeader = () => {
     return (<>
-            <a href={"/my-issues"}>My Issues</a>
-            <a href={"/employee/users"}>My Customers</a>
+        <a href={"/my-issues"}>My Issues</a>
+        <a href={"/employee/users"}>My Customers</a>
+        <a href={"/map"}>Map</a>
     </>);
 };
 
@@ -22,10 +23,12 @@ const AdminNavigationHeader = () => {
     return (<>
         <a href={"/admin/issues"}>Issues</a>
         <a href={"/admin/users"}>Users</a>
+        <a href={"/admin/companies"}>Companies</a>
         <a href={"/admin/new-units"}>Units</a>
+        <a href={"/map"}>Map</a>
         <a href={"/admin/import"}>Import</a>
         <a href={"/admin/new-machine"}>Add Machine</a>
-        
+
     </>);
 };
 

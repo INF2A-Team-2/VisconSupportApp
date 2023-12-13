@@ -67,6 +67,11 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
             v = parseInt(value);
         }
 
+        if (field.type === FieldType.Float && value !== undefined)
+        {
+            v = parseFloat(value);
+        }
+
         this.setState((prevState) => ({
             ...prevState,
             currentData: {
@@ -221,6 +226,13 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                     </div>
                 );
             case FieldType.Number:
+                return (
+                    <div className={"popup-form-field"} key={f.key}>
+                        <p>{f.name}</p>
+                        <input type={"number"} onChange={e => this.handleInput(f, e.target.value)}/>
+                    </div>
+                );
+            case FieldType.Float:
                 return (
                     <div className={"popup-form-field"} key={f.key}>
                         <p>{f.name}</p>

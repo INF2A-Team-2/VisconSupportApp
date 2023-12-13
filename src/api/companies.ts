@@ -43,11 +43,16 @@ export function useCompany({ companyId } : { companyId: number }) {
     return { company, setCompany, refreshCompany: fetchData };
 }
 
-export function newCompany({ name } : {
+export function newCompany({ name, latitude, longitude } : {
     name: string,
+    latitude: number,
+    longitude: number
 }) {
+    console.log(latitude, longitude)
     return axios.post(SERVER_URL + "/api/companies", {
         name: name,
+        latitude: latitude,
+        longitude: longitude
     }, RequestConfig());
 }
 
