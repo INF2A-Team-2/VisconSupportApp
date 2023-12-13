@@ -3,7 +3,7 @@ import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
 import { AccountType, Field, FieldType } from "../models.ts";
 import toast from "react-hot-toast";
-import { createUnit, useUnits, deleteUnit } from "../api/units.ts";
+import { createUnit, useUnits, deleteUnit, editUnit } from "../api/units.ts";
 import PageFooter from "../components/PageFooter.tsx";
 import TableList from "../components/TableList";
 import PopupForm from "../components/PopupForm.tsx";
@@ -19,6 +19,21 @@ const AdminAddUnit = () => {
     }, [units]);
 
     const unitCreationFields: Array<Field> = [
+        {
+            name: "Name",
+            key: "name",
+            type: FieldType.Text,
+            required: true
+        },
+        {
+            name: "Description",
+            key: "description",
+            type: FieldType.Text,
+            required: true
+        },
+    ];
+
+    const editUnitFields: Array<Field> = [
         {
             name: "Name",
             key: "name",
@@ -56,14 +71,26 @@ const AdminAddUnit = () => {
         }).then(() => refreshUnits());
     };
 
+    const handleEdit = (data) => {
+        toast.promise(editUnit({}), {
+            loading: "Editing unit...",
+            success: "Unit edited",
+            error: "Failed to edit unit"
+        }).then(() => refreshUnits());
+    };
+
+
     return (
         <>
             <NavigationHeader />
             <div className="page-content">
                 <h1>Units</h1>
                 <button onClick={() => unitCreationPopup.current.show()}
-                        style={{ marginBottom: "20px", cursor: "pointer" }}>
-                    Add New Unit
+                    style={{
+                        width: "100px",
+                        borderRadius: "4px"
+                    }}>
+                Add unit <i className="fa-solid fa-plus"></i>
                 </button>
                 <PopupForm
                     ref={unitCreationPopup}
@@ -71,14 +98,25 @@ const AdminAddUnit = () => {
                     forms={[unitCreationFields]}
                     onSubmit={handleNewUnit}
                 />
+                <PopupForm
+                    ref={unitCreationPopup}
+                    title={"Edit Unit"}
+                    forms={[editUnitFields]}
+                    onSubmit={handleEdit}
+                />
                 <TableList
                     columns={['ID', 'Name', 'Description']}
                     data={data}
                     buttons={[
                         {
+                            text: <i className="fa-solid fa-pen-to-square"></i>,
+                            callback: handleEdit,
+                        },
+                        {
                             text: <i className="fa-solid fa-trash"></i>,
-                            callback: handleDelete
+                            callback: handleDelete,
                         }
+
                     ]}
                 />
             </div>
