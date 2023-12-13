@@ -46,12 +46,12 @@ export function createUnit({ name, description }: {
     return axios.post(SERVER_URL + `/api/units`, { name, description }, RequestConfig());
 }
 
-export function editUnit({ unitId, name, description }: {
-    unitId: number,
+export function editUnit({ id, name, description }: {
+    id: number,
     name: string,
     description: string
 }) {
-    return axios.put(SERVER_URL + `/api/units/${unitId}`, { name, description }, RequestConfig());
+    return axios.put(SERVER_URL + `/api/units/${id}`, { name, description }, RequestConfig());
 }
 
 export function deleteUnit({ unitId }: {

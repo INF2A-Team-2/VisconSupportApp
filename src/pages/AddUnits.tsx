@@ -13,6 +13,7 @@ const AdminAddUnit = () => {
     const { units, refreshUnits } = useUnits();
     const [data, setData] = useState([]);
     const unitCreationPopup = useRef<PopupForm>();
+    const unitEditPopup = useRef<PopupForm>();
 
     useEffect(() => {
         setData(units.map(unit => [unit.id, unit.name, unit.description]));
@@ -71,13 +72,25 @@ const AdminAddUnit = () => {
         }).then(() => refreshUnits());
     };
 
-    const handleEdit = (data) => {
-        toast.promise(editUnit({}), {
+    const handleEdit = (unitId) => {
+        const unitToEdit = units.find(unit => unit.id === unitId);
+        if(unitToEdit) {
+            unitEditPopup.current.show(true);
+            unitEditPopup.current.setData(unitToEdit);
+        }
+    };
+
+    const handleEditSubmit = (data) => {
+        toast.promise(editUnit(data), {
             loading: "Editing unit...",
             success: "Unit edited",
             error: "Failed to edit unit"
-        }).then(() => refreshUnits());
+        }).then(() => {
+            refreshUnits();
+            unitEditPopup.current.show(false);
+        });
     };
+    
 
 
     return (
@@ -99,18 +112,19 @@ const AdminAddUnit = () => {
                     onSubmit={handleNewUnit}
                 />
                 <PopupForm
-                    ref={unitCreationPopup}
+                    ref={unitEditPopup}
                     title={"Edit Unit"}
                     forms={[editUnitFields]}
-                    onSubmit={handleEdit}
+                    onSubmit={handleEditSubmit}
                 />
+
                 <TableList
                     columns={['ID', 'Name', 'Description']}
                     data={data}
                     buttons={[
                         {
                             text: <i className="fa-solid fa-pen-to-square"></i>,
-                            callback: handleEdit,
+                            callback: (unitId) => handleEdit(unitId)
                         },
                         {
                             text: <i className="fa-solid fa-trash"></i>,
