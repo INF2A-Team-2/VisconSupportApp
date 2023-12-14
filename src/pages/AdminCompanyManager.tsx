@@ -6,7 +6,7 @@ import {toast} from "react-hot-toast";
 import TableList from "../components/TableList.tsx";
 import PageFooter from "../components/PageFooter.tsx";
 import PopupForm from "../components/PopupForm.tsx";
-import {deleteCompany, newCompany, useCompanies} from "../api/companies.ts";
+import {deleteCompany, newCompany, useCompanies, editCompany} from "../api/companies.ts";
 
 const AdminCompanyManager = () => {
     useAuth([AccountType.Admin]);
@@ -16,6 +16,8 @@ const AdminCompanyManager = () => {
     const [data, setData] = useState([]);
 
     const companyCreationPopup = useRef<PopupForm>();
+
+    const companyEditPopup = useRef<PopupForm>();
 
     useEffect(() => {
         const _data = [];
@@ -31,7 +33,7 @@ const AdminCompanyManager = () => {
     }, [companies]);
 
     const handleDelete = (companyId) => {
-        if (!window.confirm("Are you sure that you want to delete this user?")) {
+        if (!window.confirm("Are you sure that you want to delete this company?")) {
             return;
         }
 
@@ -48,9 +50,6 @@ const AdminCompanyManager = () => {
         });
     };
 
-    const handleEdit = (companyId) => {
-
-    };
 
     const handleNewCompany = (data : {
         name: string,
@@ -84,15 +83,57 @@ const AdminCompanyManager = () => {
             name: "Latitude",
             key: "latitude",
             type: FieldType.Float,
-            required: true,
+            required: false,
         },
         {
             name: "Longitude",
             key: "longitude",
             type: FieldType.Float,
-            required: true,
+            required: false,
         },
     ];
+
+    const companyEditFields: Array<Field> =  [
+        {
+            name: "Name",
+            key: "name",
+            type: FieldType.Text,
+            required: true
+        },
+        {
+            name: "Latitude",
+            key: "latitude",
+            type: FieldType.Float,
+            required: false,
+        },
+        {
+            name: "Longitude",
+            key: "longitude",
+            type: FieldType.Float,
+            required: false,
+        },
+    ];
+
+    const handleEdit = (companyId) => {
+        const companyToEdit = companies.find(company => company.id === companyId);
+        if(companyToEdit) {
+            const editData = { ...companyToEdit, companyId };
+            companyEditPopup.current.show(true);
+            companyEditPopup.current.setData(editData);
+        }
+    };
+
+    const handleEditSubmit = (formData) => {
+        const { companyId, ...data } = formData;
+        toast.promise(editCompany({ companyId, data }), {
+            loading: "Editing company...",
+            success: "Company edited",
+            error: "Failed to edit company"
+        }).then(() => {
+            refreshCompanies();
+            companyEditPopup.current.show(false);
+        });
+    };
 
     return <>
         <NavigationHeader/>
@@ -119,9 +160,14 @@ const AdminCompanyManager = () => {
                        ]}/>
         </div>
         <PopupForm ref={companyCreationPopup}
-                   title={"New user"}
+                   title={"New company"}
                    forms={[companyCreationFields]}
                    onSubmit={handleNewCompany} />
+        <PopupForm ref={companyEditPopup}
+                    title={"Edit Company"} 
+                    forms={[companyEditFields]} 
+                    onSubmit={handleEditSubmit} />
+
         <PageFooter />
     </>;
 };

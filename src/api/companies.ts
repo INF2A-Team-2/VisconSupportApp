@@ -66,6 +66,8 @@ export function editCompany({ companyId, data} : {
     companyId: number,
     data: {
         name: string;
+        latitude: number;
+        longitude: number;
     }
 }) {
     return axios.put(SERVER_URL + `/api/companies/${companyId}`, data, RequestConfig());

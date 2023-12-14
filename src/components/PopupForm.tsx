@@ -236,7 +236,8 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                 return (
                     <div className={"popup-form-field"} key={f.key}>
                         <p>{f.name}</p>
-                        <input type={"number"} onChange={e => this.handleInput(f, e.target.value)}/>
+                        <input type={"number"} onChange={e => this.handleInput(f, e.target.value)}
+                        defaultValue={this.state.currentData[f.key] ?? null}/>
                     </div>
                 );
             case FieldType.Selection:
