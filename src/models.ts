@@ -69,7 +69,9 @@ export enum FieldType {
     Number,
     Selection,
     TextArea,
-    Files
+    Files,
+    Markdown,
+    Checkbox,
 }
 
 export type Field = {

@@ -4,19 +4,14 @@ import MessageBox from "../components/MessageBox";
 import React, { useEffect, useRef, useState } from "react";
 import {newIssueMessage, useIssue, useIssueAttachments, useIssueMessages} from "../api/issues.ts";
 import useAuth from "../api/auth.ts";
-import {AccountType, Attachment} from "../models.ts";
+import {AccountType, Attachment, Field, FieldType} from "../models.ts";
 import { getConnection } from "../api/socket.ts";
 import { HubConnection, HubConnectionState } from "@microsoft/signalr";
 import {useUser} from "../api/users.ts";
 import {useMachine} from "../api/machines.ts";
 import PageFooter from "../components/PageFooter.tsx";
-
-enum StyleMode {
-    None,
-    Numbered,
-    Dash,
-    Quote
-}
+import MarkdownInput, { InputType } from "../components/MarkdownInput.tsx";
+import PopupForm from "../components/PopupForm.tsx";
 
 const IssuePage = () => {
     const user = useAuth();
@@ -37,12 +32,31 @@ const IssuePage = () => {
     const {user: issueUser} = useUser({ userId: issue?.userId });
 
     const {machine} = useMachine({ machineId: issue?.machineId });
-
-    const [message, setMessage] = useState("");
-    const textareaRef = useRef<HTMLTextAreaElement>();
-        const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None);
-    const [listCount, setListCount] = useState<number>(1);
+    const markDownRef = useRef<MarkdownInput>();;
     const [connection, setConnection] = useState<HubConnection>(null);
+    const popupForm = useRef<PopupForm>();
+    const popupFieds: Array<Array<Field>> = [
+        [
+            {
+                name: "Title",
+                key: "title",
+                type: FieldType.Text,
+                required: true
+            },
+            {
+                name: "Body",
+                key: "body",
+                type: FieldType.Markdown,
+                required: true
+            },
+            {
+                name: "Public",
+                key: "public",
+                type: FieldType.Checkbox,
+                required: true,
+            },
+        ]
+    ]
 
     useEffect(() => {
         if (connection) {
@@ -65,82 +79,16 @@ const IssuePage = () => {
         }
     }, [connection]);
 
-    const insertTextAtLine = (style: string) => {
-        if (textareaRef.current) {
-            const textarea = textareaRef.current;
-            const start = textarea.selectionStart;
-            const lines = message.split('\n');
-            const lineIndex = message.substring(0, start).split('\n').length - 1;
-            if (lineIndex < lines.length) {
-                lines[lineIndex] = style + " " + lines[lineIndex];
-                const newText = lines.join('\n');
-                setMessage(newText);
-                textarea.focus();
-            }
-        }
-    };
-
-    const surroundWord = (style: string) => {
-        if (textareaRef.current) {
-            const textarea = textareaRef.current;
-            const start = textarea.selectionStart;
-            const lines = message.split("\n");
-
-            let messageIndex = 0;
-            let found = false;
-            for (let x = 0; x < lines.length; x++) {
-                const words = lines[x].split(" ");
-                for (let y = 0; y < words.length; y++) {
-                    const word = words[y];
-                    messageIndex += word.length + 1;
-                    if (word == "\n")
-                        continue;
-
-                    if (start < messageIndex) {
-                        words[y] = style + word + style;
-                        found = true;
-                        break;
-                    }
-                }
-                lines[x] = words.join(" ");
-                if (found)
-                    break;
-            }
-
-            setMessage(lines.join("\n"));
-        }
-    };
-
-    const newLine = () => {
-        if (styleMode == StyleMode.None)
-            return;
-
-        if (styleMode == StyleMode.Quote) {
-            setMessage(message + "\n");
-            setStyleMode(StyleMode.None);
-            return;
-        }
-
-        const lines = message.split("\n");
-        if (styleMode == StyleMode.Numbered && lines[lines.length - 2] == `${listCount - 1}. `) {
-            setListCount(1);
-            setStyleMode(StyleMode.None);
-            setMessage(lines.splice(0, lines.length - 2).join("\n") + "\n");
-        } else if (styleMode == StyleMode.Numbered) {
-            setListCount(listCount + 1);
-            insertTextAtLine(`${listCount}.`);
-        } else if (styleMode == StyleMode.Dash && lines[lines.length - 2] == "- ") {
-            setStyleMode(StyleMode.None);
-            setMessage(lines.splice(0, lines.length - 2).join("\n") + "\n");
-        } else if (styleMode == StyleMode.Dash)
-            insertTextAtLine("-");
-    };
-
     const sendMessage = () => {
+        if (!markDownRef.current) {
+            return;
+        }
+        let message = markDownRef.current.state.message;
         if (message == "") {
             return;
         }
 
+        markDownRef.current.setState({message: ""});
         newIssueMessage({
             issueId: issueId,
             message: message
@@ -148,8 +96,6 @@ const IssuePage = () => {
             connection.invoke("SendMessage", issueId.toString(), "Incoming Message");
             refreshMessages();
         });
-
-        setMessage("");
     };
 
     const getFileComponent = (a: Attachment, i: number) => {
@@ -176,7 +122,7 @@ const IssuePage = () => {
                 <h1>{issue?.headline}</h1>
                 <h2><i className="fa-solid fa-user"></i>{issueUser?.username}</h2>
                 <h2><i className="fa-solid fa-gears"></i>{machine?.name}</h2>
-                {user?.type === AccountType.HelpDesk ? <button onClick={() => {}}>Resolve Issue</button> : <></>}
+                {user?.type === AccountType.HelpDesk ? <button onClick={() => { popupForm.current.show(true); popupForm.current.setDataHistory([{"title": issue?.headline}]); }}>Resolve Issue</button> : <></>}
             </div>
             <div className={"issue-content"}>
                 <h2>What Happened?</h2>
@@ -198,37 +144,16 @@ const IssuePage = () => {
                     {messages.map(m =>
                         <MessageBox key={m.id} message={m}/>)}
                 </div>
-                <div className={"message-options"}>
-                    <div className="text-icon" onClick={() => {insertTextAtLine("###");}}>
-                        <i className="fa-solid fa-heading"/>
-                    </div>
-                    <div className="text-icon" onClick={() => {surroundWord("**");}}>
-                        <i className="fa-solid fa-bold"/>
-                    </div>
-                    <div className="text-icon" onClick={() => {surroundWord("_");}}>
-                        <i className="fa-solid fa-italic"/>
-                    </div>
-                    <div className="text-icon" onClick={() => {insertTextAtLine(">"); setStyleMode(StyleMode.Quote);}}>
-                        <i className="fa-solid fa-quote-left"/>
-                    </div>
-                    <div className="text-icon" onClick={() => {setStyleMode(StyleMode.Numbered); newLine();}}>
-                        <i className="fa-solid fa-list-ol"/>
-                    </div>
-                    <div className="text-icon" onClick={() => {setStyleMode(StyleMode.Dash); newLine();}}>
-                        <i className="fa-solid fa-list-ul"/>
-                    </div>
-                </div>
-                <div className={"message-input"}>
-                    <textarea placeholder={"..."}
-                        rows={8}
-                        value={message}
-                        ref={textareaRef}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyUp={(e) => {if (e.key == "Enter") newLine();}}/>
-                </div>
+                <MarkdownInput ref={markDownRef} type={InputType.Chat}/>
                 <button onClick={sendMessage}>Send</button>
             </div>
         </div>
+        <PopupForm
+            ref={popupForm}
+            title={"Mark as Resolved"}
+            forms={popupFieds}
+            onSubmit={(d) => {console.log(d);}}
+            preview={true}/>
         <PageFooter />
     </>);
 };

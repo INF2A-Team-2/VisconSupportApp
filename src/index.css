@@ -1018,6 +1018,12 @@ a:hover {
     border-radius: 1px;
 }
 
+.popup-form-field-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .popup-form-footer {
     display: grid;
     width: 100%;
@@ -1033,6 +1039,35 @@ a:hover {
     background-color: var(--text);
     color: var(--background);
     font-weight: 600;
+}
+
+.markdown-options {
+    padding: 8px;
+    display: flex;
+    justify-content: right;
+}
+
+.markdown-options .text-icon {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.markdown-input {
+    display: flex;
+}
+
+.markdown-input textarea {
+    border: 1px;
+    font-size: 14px;
+    resize: none;
+    width: 100%;
+    margin-bottom: 8px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.markdown-preview {
+    font-size: 14px;
+    margin-bottom: 12px;
 }
 
 .text-bold {

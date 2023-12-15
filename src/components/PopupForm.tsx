@@ -5,11 +5,15 @@ import {Field, FieldType, Media} from "../models.ts";
 import InputFile, { FilePreview } from "./InputFile.tsx";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import MarkdownInput, { InputType } from "./MarkdownInput.tsx";
+import sanitizeHtml from "sanitize-html";
+import { marked } from "marked";
 
 type PopupFormProps = {
     title: string;
     forms: Field[][];
     onSubmit: (data: object) => void;
+    preview?: boolean;
 }
 
 type PopupFormState = {
@@ -57,9 +61,19 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
         document.body.style.overflow = visible ? "hidden" : "auto";
     };
 
-    handleInput = (field: Field, value: string) => {
-        let v: string | number = value;
+    handleInput = (field: Field, value: string | boolean) => {
+        if (typeof value === "boolean") {
+            this.setState((prevState) => ({
+                ...prevState,
+                currentData: {
+                    ...prevState.currentData,
+                    [field.key]: value,
+                },
+            }));
+            return;
+        }
 
+        let v: string | number = value;
         if (field.type === FieldType.Number
             || (field.type === FieldType.Selection && field.isNumber)
             && value !== undefined && value.length > 0)
@@ -80,6 +94,10 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
         this.setState({ currentData: data });
     };
 
+    setDataHistory = (data) => {
+        this.setState({ dataHistory: data, currentData: data[0] });
+    };
+
 
     handleSubmit = () => {
         if (this.state.done) {
@@ -96,11 +114,20 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
 
         let failed = false;
 
+        if (this.state.currentForm === this.props.forms.length) {
+            console.log("Form already submitted");
+            return;
+        }
+
         for (const f of this.props.forms[this.state.currentForm]) {
             if (f.required && (this.state.currentData[f.key] === undefined || this.state.currentData[f.key].length === 0)) {
-                if (this.state.dataHistory[this.state.currentForm] === undefined && this.state.dataHistory[this.state.currentForm][f.key] === undefined) {
-                    toast.error(`${f.name} is required`);
-                    failed = true;
+                if (this.state.dataHistory[this.state.currentForm] === undefined || this.state.dataHistory[this.state.currentForm][f.key] === undefined) {
+                    if (f.type === FieldType.Checkbox) {
+                        this.state.currentData[f.key] = false;
+                    } else {
+                        toast.error(`${f.name} is required`);
+                        failed = true;
+                    }
                 }
             }
         }
@@ -111,7 +138,7 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
 
         for (const [k, v] of Object.entries(this.state.currentData)) {
             const f = this.props.forms[this.state.currentForm].find(f => f.key === k);
-            console.log(f, v);
+            console.log(f);
             if (f === undefined) {
                 continue;
             }
@@ -126,7 +153,7 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
             return;
         }
 
-        if (this.props.forms.length === 1) {
+        if (this.props.forms.length === 1 && !this.props.preview) {
             this.props.onSubmit(this.state.currentData);
             return;
         }
@@ -201,7 +228,6 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
         if (this.state.dataHistory[this.state.currentForm] !== undefined) {
             prevValue = this.state.dataHistory[this.state.currentForm][f.key];
         }
-
         switch (f.type) {
             case FieldType.Text:
                 return (
@@ -254,6 +280,21 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                         </div>
                     </div>
                 );
+            case FieldType.Markdown:
+                return (
+                    <div className={"popup-form-field"} key={f.key}>
+                        <p>{f.name}</p>
+                        <MarkdownInput onChange={(e) => {this.handleInput(f, e)}} type={InputType.Popup} value={prevValue || ""}/>
+                    </div>
+                );
+            case FieldType.Checkbox:
+                console.log(this.state.currentData[f.key]);
+                return (
+                    <div className={"popup-form-field-checkbox"} key={f.key}>
+                        <label htmlFor={f.key}>{f.name}:</label>
+                        <input id={f.key} type={"checkbox"} onChange={e => this.handleInput(f, e.target.checked)} defaultChecked={this.state.currentData[f.key]}/>
+                    </div>
+                );
             default:
                 return null;
         }
@@ -278,13 +319,13 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
             ...prevState,
             currentForm: prevState.currentForm - 1,
             isLastForm: this.state.currentForm - 1 === this.props.forms.length - 1,
+            currentData: this.state.dataHistory[this.state.currentForm - 1],
             done: false,
         }));
     };
 
     render() {
         if (this.state.done && this.state.visible) {
-            console.log(this.state.dataHistory);
             return (
                 <>
                     <div className={"popup-form-container"}>
@@ -297,15 +338,36 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                                     {Object.entries(this.state.dataHistory).map(([_, d]) => {
                                         return Object.entries(d).map(([k, v]) => {
                                             let title = "";
-                                            this.props.forms.forEach(f => {
-                                                if (f[0].key === k) {
-                                                    title = f[0].name;
-                                                }
+                                            let type: FieldType = undefined;
+
+                                            this.props.forms.forEach(form => {
+                                                form.forEach(f => {
+                                                    if (f.key === k) {
+                                                        title = f.name;
+                                                        type = f.type;
+                                                    }
+                                                });
                                             });
+
+                                            if (type === FieldType.Markdown) {
+                                                const html = sanitizeHtml(marked(v));
+                                                return <li key={k}>
+                                                    <p className={"text-bold"}>{title}</p>
+                                                    <div className={"markdown-preview"} dangerouslySetInnerHTML={{__html: html}}></div>
+                                                </li>;
+                                            }
+
+                                            if (type === FieldType.Checkbox) {
+                                                return <li key={k}>
+                                                    <p className={"text-bold"}>{title}:</p>
+                                                    <p>{v ? "Yes" : "No"}</p>
+                                                </li>;
+                                            }
+
                                             return <li key={k}>
                                                 <p className={"text-bold"}>{title}</p>
                                                 <p>{v}</p>
-                                            </li>
+                                            </li>;
                                         })}
                                     )}
                                 </ul>
@@ -329,7 +391,7 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                     <div className={"popup-form-container"}>
                         <div className={"popup-form"}>
                             <div className={"popup-form-header"}>
-                                <h1>{this.props.forms.length > 0 ? this.props.title + " - " + (this.state.currentForm + 1) + "/" + this.props.forms.length : this.props.title}</h1>
+                                <h1>{this.props.forms.length > 1 ? this.props.title + " - " + (this.state.currentForm + 1) + "/" + this.props.forms.length : this.props.title}</h1>
                                 <button onClick={this.onCanceled}><i className="fa-solid fa-x"></i></button>
                             </div>
                             <div className={"popup-form-field-list"}>

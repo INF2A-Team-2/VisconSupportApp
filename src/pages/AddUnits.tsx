@@ -77,6 +77,7 @@ const AdminAddUnit = () => {
         if(unitToEdit) {
             unitEditPopup.current.show(true);
             unitEditPopup.current.setData(unitToEdit);
+            console.log(unitToEdit);
         }
     };
 
