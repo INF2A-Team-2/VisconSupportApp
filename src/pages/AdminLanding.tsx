@@ -41,20 +41,17 @@ const AdminLanding = () => {
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Welcome {user?.username}</h1>
-            <div className={"admin-landing-grid"}>
+            <div className={"landing-grid"}>
                 <StatCard title={"Issues"}
-                        description={`${openIssueCount} open issues\n${issuesTodayCount} new ${issuesTodayCount == 1 ? "issue" : "issues"} today`}
-                        target={"/admin/issues"}
-                        style={{
-                            width: 716
-                        }} />
+                          body={<pre>{openIssueCount} open issues <br />{issuesTodayCount} new {issuesTodayCount == 1 ? "issue" : "issues"} today</pre>}
+                        target={"/admin/issues"} />
 
                 <LineChart width={700}
                            height={300}
                            data={data}
                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                            style={{
-                               background: "var(--platinum)",
+                               background: "var(--background-2)",
                                borderRadius: "4px",
                                padding: "16px"
                            }}>

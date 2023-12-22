@@ -1,9 +1,7 @@
-import React from "react";
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 import LandingRouter from './pages/LandingRouter.tsx';
-import NewIssue from "./pages/NewIssue.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import ErrPage404 from "./pages/404.tsx";
 import LogoutPage from "./pages/LogoutPage.tsx";
@@ -17,9 +15,13 @@ import IssuePage from "./pages/IssuePage.tsx";
 import MyIssuesPage from "./pages/MyIssues.tsx";
 import CSVUploadPage from "./pages/CSVUploadPage.tsx";
 import EmployeeUserList from "./pages/EmployeeUserList.tsx";
-import UserMachinesPage from "./pages/EmployeeUserInformation.tsx";
 import EmployeeUserInformation from "./pages/EmployeeUserInformation.tsx";
 import AdminAddMachine from "./pages/AdminAddMachine.tsx";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faB }from "@fortawesome/free-solid-svg-icons";
+import AdminAddUnit from "./pages/AddUnits.tsx";
+
+library.add(faB);
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -41,13 +43,13 @@ root.render(
                 <Route path={"issues"} element={<AdminIssueManager />}/>
                 <Route path={"import"} element={ <CSVUploadPage/>}/>
                 <Route path={"new-machine"} element={<AdminAddMachine />}/>
+                <Route path={"new-units"} element={<AdminAddUnit />}/>
             </Route>
             <Route path="/employee">
                 <Route path={"users"} element={<EmployeeUserList />}/>
                 <Route path="users/:userId" element={<EmployeeUserInformation />} />
             </Route>
             <Route path="/">
-                <Route path={"new-issue"} element={<NewIssue />}/>
                 <Route path={"login"} element={<LoginPage />}/>
                 <Route path={"logout"} element={<LogoutPage />}/>
                 <Route path={"404"} element={<ErrPage404 />}/>

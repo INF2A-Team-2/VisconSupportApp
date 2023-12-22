@@ -9,6 +9,8 @@ import {deleteUser, newUser, useUsers} from "../api/users.ts";
 import PageFooter from "../components/PageFooter.tsx";
 import PopupForm from "../components/PopupForm.tsx";
 import {useCompanies} from "../api/companies.ts";
+import { useUnits } from "../api/units";
+
 
 const AdminUserManager = () => {
     useAuth([AccountType.Admin]);
@@ -20,6 +22,9 @@ const AdminUserManager = () => {
     const {companies} = useCompanies();
 
     const [data, setData] = useState([]);
+
+    const { units } = useUnits();
+
 
     const userCreationPopup = useRef<PopupForm>();
 
@@ -48,7 +53,7 @@ const AdminUserManager = () => {
                 getType(u.type),
                 companies.find(c => c.id == u.companyId)?.name,
                 u.phoneNumber,
-                u.unit,]);
+                units.find(un => un.id == u.unitId)?.name,]);
         });
 
         setData(_data);
@@ -82,12 +87,16 @@ const AdminUserManager = () => {
         passwordControl: string,
         type: number,
         phoneNumber?: string,
-        unit?: string,
+        unitId?: number,
         company?: number;
     }) => {
+        console.log("Received data:", data);
         if (data.password !== data.passwordControl) {
             toast.error("Passwords don't match");
             return;
+        }
+        if (data.unitId === 0) {
+            data.unitId = null; 
         }
 
         const phoneNumberPattern: RegExp = /^\+\d{11}$/;
@@ -102,13 +111,12 @@ const AdminUserManager = () => {
         {
             data.company = null;
         }
-
         const promise = newUser({
             username: data.username,
             password: data.password,
             type: data.type,
             phoneNumber: data.phoneNumber,
-            unit: data.unit,
+            unitId: data.unitId,
             companyId: data.company
         });
 
@@ -175,9 +183,17 @@ const AdminUserManager = () => {
         },
         {
             name: "Unit",
-            key: "unit",
-            type: FieldType.Text,
-            required: false
+            key: "unitId",
+            type: FieldType.Selection,
+            required: false,
+            options: [
+                {
+                    value: "0",
+                    label: "None"
+                },
+                ...units.map(u => ({ value: u.id.toString(), label: u.name }))
+            ],
+            isNumber: true
         },
         {
             name: "Password",
@@ -204,7 +220,7 @@ const AdminUserManager = () => {
                     }}>
                 Add user <i className="fa-solid fa-user-plus"></i>
             </button>
-            <TableList columns={["ID", "Username", "Type", "Company", "Phone number", "unit"]}
+            <TableList columns={["ID", "Username", "Type", "Company", "Phone number", "Unit"]}
                        data={data}
                        buttons={[
                            {
@@ -219,7 +235,7 @@ const AdminUserManager = () => {
         </div>
         <PopupForm ref={userCreationPopup}
                    title={"New user"}
-                   fields={userCreationFields}
+                   forms={[userCreationFields]}
                    onSubmit={handleNewUser} />
         <PageFooter />
     </>;

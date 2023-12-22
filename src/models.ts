@@ -9,8 +9,14 @@ export interface User {
     username: string;
     type: AccountType;
     phoneNumber: string;
-    unit: string;
+    unitId: number;
     companyId: number;
+}
+
+export interface Unit {
+    id: number;
+    name: string;
+    description: string;
 }
 
 export interface Company {
@@ -61,7 +67,9 @@ export enum FieldType {
     Text,
     Password,
     Number,
-    Selection
+    Selection,
+    TextArea,
+    Files
 }
 
 export type Field = {

@@ -2,43 +2,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-@font-face {
-    font-family: "JetBrains Mono";
-    src: url("/JetBrainsMono.ttf");
-}
-
 :root {
     font-family: "Montserrat", sans-serif;
-    text-transform: uppercase;
-    font-weight: 700;
 
     --accent: rgba(13, 135, 154, 1);
     --accent-2: rgba(242, 67, 51, 1);
     --accent-3: rgb(208, 56, 42);
-    --background: rgba(46, 46, 50, 1);
-    --background-2: rgba(55, 63, 81, 1);
-    --background-3: rgb(50, 50, 54);
-    --platinum: rgba(169, 188, 208, 1);
-    --platinum-hover: rgb(152, 169, 187);
-    --text: rgba(216, 219, 226, 1);
-    --text-hover: rgb(195, 198, 205);
+    --background: #121212;
+    --background-2: #181818;
+    --background-3: #353535;
+    --text: #ffffff;
+    --text-hover: #c8c8c8;
 
     background-color: var(--background);
     color: var(--text);
 }
 
 ::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	background-color: var(--background)
 }
 
 ::-webkit-scrollbar {
 	width: 8px;
-	background-color: var(--background)
+	background-color: #ffffff;
 }
 
 ::-webkit-scrollbar-thumb {
 	background-color: var(--platinum);
+}
+
+body {
+    margin: 0;
 }
 
 button {
@@ -97,9 +91,18 @@ a:hover {
     display: flex;
     align-items: center;
     gap: 12px;
-    height: 32px;
-    margin-top: 16px;
-    margin-right: 16px;
+    height: 64px;
+    padding: 0px 16px;
+    background-color: var(--background-2);
+    font-weight: 700;
+}
+
+.navigation-header > a {
+    transition: transform 100ms;
+}
+
+.navigation-header > a:hover {
+    transform: scale(105%);
 }
 
 .navigation-header img {
@@ -116,33 +119,64 @@ a:hover {
     margin-left: auto;
 }
 
-.navigation-header div {
+.navigation-header > div {
     display: flex;
     align-items: center;
     gap: 16px;
 }
 
-.navigation-header div a {
-    background-color: var(--background-2);
-    padding: 8px;
-    border-radius: 4px;
-    transition: transform 100ms;
+.navigation-header-user-dropdown {
+    position: relative;
+    display: flex;
 }
 
-.navigation-header div a:hover {
-    transform: scale(105%);
+.navigation-header-user-dropdown-button {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    background-color: var(--background-3);
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.navigation-header-user-dropdown-content {
+    display: none;
+    overflow: hidden;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    z-index: 1;
+    flex-direction: column;
+    gap: 12px;
+    background-color: var(--background-3);
+    padding: 12px;
+    border-radius: 4px;
+    width: 128px;
+}
+
+.navigation-header-user-dropdown-content a {
+
+}
+
+.navigation-header-user-dropdown-content a svg {
+    margin-right: 8px;
+}
+
+.navigation-header-user-dropdown-content a:hover {
+
+}
+
+.navigation-header-user-dropdown:hover .navigation-header-user-dropdown-content {
+    display: flex;
 }
 
 .page-content {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    background-color: var(--background-2);
+    min-height: 100vh;
     border-radius: 16px;
-    margin: 16px;
-    height: calc(100vh - 96px - 36px);
     padding: 24px;
-    overflow-y: auto;
 }
 
 .page-header {
@@ -156,7 +190,7 @@ a:hover {
 .wide-button {
     display: flex;
     padding: 8px;
-    background-color: var(--platinum);
+    background-color: #ffffff;
     color: var(--background);
     border-radius: 8px;
     transition: background-color 200ms;
@@ -165,7 +199,7 @@ a:hover {
 
 .wide-button:hover {
     color: var(--background);
-    background-color: var(--platinum-hover);
+    background-color: var(--text-hover);
 }
 
 .wide-button:hover svg {
@@ -187,10 +221,10 @@ a:hover {
 .new-issue input {
     color: var(--text);
     background-color: transparent;
-    border-radius: 6px;
-    border: 3px solid;
-    border-color: var(--platinum);
+    border: none;
+    border-bottom: 1px solid var(--text);
     font-size: large;
+    padding: 4px;
 }
 
 .new-issue button {
@@ -222,7 +256,11 @@ a:hover {
     grid-gap: 8px;
 }
 
-.files-list button {
+.files-list > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
     background-color: transparent;
     border: none;
     color: var(--platinum);
@@ -241,7 +279,10 @@ a:hover {
 }
 
 .input-file {
+    width: 200px;
+    height: 100px;
     position: relative;
+    background-color: var(--background-2);
 }
 
 .input-file img {
@@ -322,43 +363,60 @@ a:hover {
 }
 
 .login-box .login-btn {
-    background-color: rgba(216, 219, 226, 1);
+    background-color: var(--text);
     border: none;
     border-radius: 4px;
     box-shadow: 0 4px 4px #0000004c;
     height: 45px;
     position: relative;
     width: 300px;
-    color: rgba(13, 135, 154, 1);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 600;
-    line-height: 20px;
-    transition-duration: 0.2s;
-    opacity: 0.8;
+    margin-top: 0px;
+    transition: background-color 100ms;
 }
 
 .login-box .login-btn:hover {
-    opacity: 1;
+    background-color: var(--text-hover);
+}
+.forgot-password-link {
+    text-decoration: underline; 
+    cursor: pointer; 
+}
+.forgot-password-container {
+    padding-top: 10px;
+    text-align: right;
+  }
+
+
+.logo-login {
+    width: 400px;
+    margin: 0 auto;
 }
 
 .observation-fields  {
-    padding-top: 8px;
-    display: grid;
+    padding: 32px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     grid-template-rows: 36px auto;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-flow: column;
 }
 
+.observation-fields p {
+    font-size: 1.15rem;
+}
+
 .observation-fields textarea {
-    max-width: 25vw;
-    height: 50vh;
-    border-radius: 6px;
+    height: 300px;
+    border: none;
+    border-bottom: 1px solid var(--text);
     resize: none;
-    border-color: var(--platinum);
-    border-width: 3px;
     color: var(--text);
-    background-color: transparent;
+    background-color: var(--background-2);
     font-size: 18px;
+    margin-bottom: 32px;
 }
 
 .observation-fields textarea:disabled {
@@ -393,7 +451,7 @@ a:hover {
     grid-gap: 8px;
     padding: 2px 4px;
     height: 24px;
-    border-bottom: 1px solid var(--platinum);
+    border-bottom: 1px solid var(--text);
     margin-bottom: 8px;
 }
 
@@ -417,7 +475,6 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    overflow-y: auto;
 }
 
 .tablelist-list-item {
@@ -425,19 +482,24 @@ a:hover {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     grid-gap: 8px;
     align-items: center;
-    background-color: var(--background);
+    background-color: #1f1f1f;
     padding: 4px 6px;
     border-radius: 4px;
+    transition: background-color 100ms, transform 100ms;
 }
 
 .tablelist-list-item:nth-child(odd) {
-    background-color: var(--background-3);
+    background-color: #2d2d2d;
+}
+
+.tablelist-list-item:hover {
+    background-color: var(--accent);
+    transform: scaleX(101%);
 }
 
 .tablelist-list-item p {
     font-size: 0.75rem;
     text-transform: none;
-    font-family: "JetBrains Mono";
     text-overflow: ellipsis;
     text-wrap: none;
     overflow: hidden;
@@ -467,6 +529,11 @@ a:hover {
     width: 24px;
     height: 24px;
     border-radius: 4px;
+    transition: transform 100ms;
+}
+
+.tablelist-button:hover {
+    transform: scale(105%);
 }
 
 .tablelist-delete-button svg {
@@ -480,9 +547,19 @@ a:hover {
     height: 32px;
     color: var(--text);
     background-color: transparent;
-    border-radius: 6px;
-    border: 3px solid;
-    border-color: var(--platinum);
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    margin-bottom: 16px;
+}
+
+.user-editor .Dropdown-root {
+    margin-bottom: 16px;
+}
+
+.user-editor button {
+    height: 32px;
+    border-radius: 4px;
+    font-weight: 600;
 }
 
 .user-editor-machines-list {
@@ -520,9 +597,12 @@ a:hover {
     gap: 8px;
 }
 
-.attachments-list img video p {
-    width: 25%;
-    object-fit: contain;
+.attachments-list img,
+.attachments-list video,
+.attachments-list p {
+    width: 256px;
+    height: 200px;
+    object-fit: cover;
     border-radius: 8px;
     background-color: var(--background-3);
 }
@@ -539,22 +619,16 @@ a:hover {
     font-weight: normal;
     margin-top: 32px;
     text-transform: none;
-    background-color: var(--background-2);
     border-radius: 6px;
     color: var(--text);
-    height: 50vw;
     vertical-align: baseline;
 }
 
 .chat .chat-history {
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     padding: 30px 0 20px;
-    overflow-y: scroll;
-    height: 40vh;
-    border-bottom: 4px solid var(--background-3);
-    background-color: var(--background);
+    border-top: 1px solid var(--text);
 
 }
 
@@ -574,11 +648,9 @@ a:hover {
 }
 
 .message-border {
-    border-color: var(--platinum);
-    border-style: solid;
-    border-radius: 6px;
     margin-bottom: 18px;
-    margin-right: 48px;
+    border: 1px solid var(--background-3);
+    border-radius: 4px;
 }
 
 .message-data {
@@ -606,7 +678,7 @@ a:hover {
 }
 
 .message-input textarea {
-    background-color: var(--background-3);
+    background-color: var(--background-2);
     border: 8px solid var(--background);
     color: var(--text);
     font-size: 16px;
@@ -677,10 +749,16 @@ a:hover {
     grid-gap: 16px;
 }
 
-.issue-pages button {
+.issue-pages .section .Dropdown-root {
+    padding-top: 10px;
+
+}
+
+.create-new-ticket {
     display: block;
     margin-left: auto;
     margin-right: 16px;
+    margin-top: 20px;
     border: none;
     border-radius: 16px;
     opacity: 0.8;
@@ -692,6 +770,12 @@ a:hover {
     padding: 10px;
     border-radius: 16px;
 
+}
+
+.create-new-ticket:hover {
+    background-color: #0056b3; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    scale: 110%;
 }
 
 .issue-pages .issue-details .button{
@@ -737,10 +821,10 @@ a:hover {
     font-size: 0.8em; 
 }
 
-.admin-landing-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.landing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    column-gap: 16px;
 }
 
 .stat-card {
@@ -748,15 +832,15 @@ a:hover {
     flex-direction: column;
     gap: 4px;
     height: 100px;
-    background-color: var(--platinum);
-    color: var(--background);
+    background-color: var(--background-2);
+    color: var(--text);
     border-radius: 4px;
     padding: 8px;
     transition: transform 100ms;
 }
 
 .stat-card:hover {
-    background-color: var(--platinum-hover);
+    background-color: var(--background-3);
     transform: scale(101%);
     cursor: pointer;
 }
@@ -773,6 +857,10 @@ a:hover {
 .issue-header {
     display: flex;
     flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.issue-header h1 {
     margin-bottom: 16px;
 }
 
@@ -806,7 +894,7 @@ a:hover {
 }
 
 .issue-content h2 {
-    margin-top: 16px;
+    margin-top: 32px;
     margin-bottom: 4px;
 }
 
@@ -816,50 +904,8 @@ a:hover {
     align-items: center;
     gap: 8px;
     font-size: 0.75rem;
-    margin-top: 32px;
-}
-
-.page-footer-app {
-    font-size: 1rem;
-}
-
-.page-footer-divider-v {
-    height: 1px;
-    width: 100px;
-    background-color: var(--text);
-    margin: 8px 0;
-}
-
-.page-footer-divider-h {
-    height: 16px;
-    width: 1px;
-    background-color: var(--text);
-    margin: 0 8px;
-}
-
-.page-footer-section {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-}
-
-.page-footer svg {
-    margin-right: 8px;
-}
-
-
-.issue-content h2 {
-    margin-top: 16px;
-    margin-bottom: 4px;
-}
-
-.page-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.75rem;
-    margin-top: 32px;
+    padding: 32px 0;
+    background-color: var(--background-2);
 }
 
 .page-footer-app {
@@ -899,7 +945,7 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .popup-form {
@@ -907,11 +953,25 @@ a:hover {
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    background-color: var(--background-3);
+    background-color: var(--background-2);
     width: 500px;
     margin: auto;
     padding: 16px;
     border-radius: 8px;
+}
+
+.popup-form-header {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.popup-form-header > :last-child {
+    margin-left: auto;
+    background-color: transparent;
+    color: white;
 }
 
 .popup-form h1 {
@@ -923,6 +983,19 @@ a:hover {
     flex-direction: column;
     gap: 16px;
     width: 100%;
+}
+
+.popup-form-field-list ul li {
+    margin-bottom: 8px;
+}
+
+.popup-form-field-list ul li p {
+    margin-bottom: 8px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    max-height: 10vh;
 }
 
 .popup-form-field {
@@ -937,19 +1010,31 @@ a:hover {
     height: 24px;
 }
 
+.popup-form-field textarea {
+    height: 300px;
+    resize: none;
+    font-size: 14px;
+    margin-bottom: 32px;
+    border-radius: 1px;
+}
+
 .popup-form-footer {
-    display: flex;
+    display: grid;
     width: 100%;
+    grid-template-columns: 1fr 1fr;
     justify-content: center;
     gap: 16px;
-    margin-top: 8px;
+    margin-top: 32px;
 }
 
 .popup-form-footer button {
     width: 100%;
     border-radius: 4px;
-    background-color: var(--background-2);
-    color: var(--text);
-    text-transform: uppercase;
+    background-color: var(--text);
+    color: var(--background);
+    font-weight: 600;
+}
+
+.text-bold {
     font-weight: 600;
 }

@@ -40,16 +40,9 @@ const IssuePage = () => {
 
     const [message, setMessage] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>();
-    const chatHistoryRef = useRef<HTMLDivElement>();
-    const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None);
+        const [styleMode, setStyleMode] = useState<StyleMode>(StyleMode.None);
     const [listCount, setListCount] = useState<number>(1);
     const [connection, setConnection] = useState<HubConnection>(null);
-
-    useEffect(() => {
-        if (chatHistoryRef.current) {
-            chatHistoryRef.current.scrollTop = chatHistoryRef.current.scrollHeight;
-        }
-    }, [messages]);
 
     useEffect(() => {
         if (connection) {
@@ -201,12 +194,9 @@ const IssuePage = () => {
                 {attachments.length === 0 ? <p>No attachments</p> : attachments.map((a, i) => getFileComponent(a, i))}
             </div>
             <div className={"chat"}>
-            <h1>Messages</h1>
-                <div className={"chat-history"} ref={chatHistoryRef}>
-                    <ul className={"no-list-style"}>
-                        {messages.map(m =>
-                            <MessageBox key={m.id} message={m}/>)}
-                    </ul>
+                <div className={"chat-history"}>
+                    {messages.map(m =>
+                        <MessageBox key={m.id} message={m}/>)}
                 </div>
                 <div className={"message-options"}>
                     <div className="text-icon" onClick={() => {insertTextAtLine("###");}}>
