@@ -3,21 +3,40 @@ import {AccountType} from "../models.ts";
 import {useLogs} from "../api/logs.ts";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import TableList from "../components/TableList.tsx";
-import {useEffect} from "react";
 import PageFooter from "../components/PageFooter.tsx";
+import {useEffect, useState} from "react";
+import {useUsers} from "../api/users.ts";
 
 const AdminLog = () => {
 
     const currentUser = useAuth([AccountType.Admin]);
 
-    const logs = useLogs();
+    const {logs, refreshLogs} = useLogs([]);
+
+    const [data , setData ] = useState([]);
+
+    const {users} = useUsers()
+
+    useEffect(() => {
+        const _data = [];
+        logs.forEach(l => {
+            _data.push([
+                l.id,
+                l.timeStamp,
+                users.find(u => l.authorId == u.id)?.id,
+                l.description
+            ]);
+        });
+
+        setData(_data)
+    }, [logs]);
 
     return <>
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Logs</h1>
-            <TableList columns={["Id", "TimeStamp", "AuthorId", "Description", "IssueId", "UserId", "MachineId", "MessageId", "AttachmentId"]}
-                       data={logs}
+            <TableList columns={["Id", "TimeStamp", "Author", "Description"]}
+                       data={data}
             ></TableList>
         </div>
         <PageFooter/>

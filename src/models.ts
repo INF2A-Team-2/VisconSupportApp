@@ -61,7 +61,7 @@ export type Log = {
     id: number,
     timeStamp: string,
     authorId: number,
-    descripion: string,
+    description: string,
     issueId?: number,
     userId?: number,
     machineId?: number,
