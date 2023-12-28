@@ -6,6 +6,7 @@ import TableList from "../components/TableList.tsx";
 import PageFooter from "../components/PageFooter.tsx";
 import {useEffect, useState} from "react";
 import {useUsers} from "../api/users.ts";
+import dayjs from "dayjs";
 
 const AdminLog = () => {
 
@@ -22,7 +23,7 @@ const AdminLog = () => {
         logs.forEach(l => {
             _data.push([
                 l.id,
-                l.timeStamp,
+                dayjs(l.timeStamp).format("DD/MM/YYYY HH:mm:ss"),
                 users.find(u => l.authorId == u.id)?.id,
                 l.description
             ]);

@@ -65,7 +65,7 @@ export type Media = {
 
 export type Log = {
     id: number,
-    timeStamp: string,
+    timeStamp: Date,
     authorId: number,
     description: string,
     issueId?: number,
