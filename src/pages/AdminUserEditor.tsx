@@ -9,6 +9,7 @@ import {editUserMachines, useMachines, useUserMachines} from "../api/machines.ts
 import {editUser, useUser} from "../api/users.ts";
 import PageFooter from "../components/PageFooter.tsx";
 import {useCompanies} from "../api/companies.ts";
+import {useUnits} from "../api/units.ts";
 
 const AdminUserEditor = () => {
     const userId = parseInt(useParams().userId);
@@ -22,8 +23,22 @@ const AdminUserEditor = () => {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordControl, setNewPasswordControl] = useState("");
-
     const {machines} = useMachines();
+    const {units} = useUnits();
+
+    const unitData = [
+        {
+            value: "0",
+            label: "None"
+        },
+        ...units.map(u => {
+            return {
+                value: u.id.toString(),
+                label: u.name
+            };
+        })
+    ];
+
 
     const {machines: selectedMachines, setMachines: setSelectedMachines} = useUserMachines({ userId: editedUser?.id });
 
@@ -140,7 +155,9 @@ const AdminUserEditor = () => {
                 <p>Phone number</p>
                 <input type={"tel"} autoComplete={"off"} value={editedUser.phoneNumber ?? ""} onChange={(e) => handleInput("phoneNumber", e.target.value)}/>
                 <p>Unit</p>
-                <input type={"text"} autoComplete={"off"} value={editedUser.unit ?? ""} onChange={(e) => handleInput("unit", e.target.value)}/>
+                <Dropdown options={unitData} 
+                      onChange={e => handleInput("unitId", parseInt(e.value))} 
+                      value={editedUser.unitId?.toString() ?? "0"}/>
                 <h3>Edit password</h3>
                 <p>Old password</p>
                 <input type={"password"} autoComplete={"old-password"} onChange={(e => setOldPassword(e.target.value))}/>

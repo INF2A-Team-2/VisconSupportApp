@@ -15,7 +15,6 @@ const MessageBox = ({message}: {message: Message}) => {
     };
 
     return (<>
-    <li className={"no-list-style"}>
         <div className={"message-border"}>
             <div className={"message-data"}>
                 <span className={"message-data-name"}>{icons[user?.type]}{user?.username}</span>
@@ -23,7 +22,6 @@ const MessageBox = ({message}: {message: Message}) => {
             </div>
             <div className={"message"} dangerouslySetInnerHTML={{__html: html}}></div>
         </div>
-    </li>
     </>);
 };
 

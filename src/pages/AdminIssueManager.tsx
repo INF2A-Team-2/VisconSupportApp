@@ -9,6 +9,7 @@ import {useUsers} from "../api/users.ts";
 import {useMachines} from "../api/machines.ts";
 import {useNavigate} from "react-router-dom";
 import PageFooter from "../components/PageFooter.tsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const AdminIssueManager = () => {
     useAuth([AccountType.Admin]);
@@ -49,8 +50,8 @@ const AdminIssueManager = () => {
                        defaultSort={{key: 2, desc: true}}
                        buttons={[
                            {
-                               text: <i className="fa-solid fa-arrow-right"></i>,
-                               callback: (issueId) => navigate(`/issue/${issueId}`)
+                               text: <FontAwesomeIcon icon={"arrow-right"}/>,
+                               callback: (issueId: number) => navigate(`/issue/${issueId}`)
                            }
                        ]}/>
         </div>

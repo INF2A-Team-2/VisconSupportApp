@@ -2,11 +2,12 @@ import logo from "../assets/logo.svg";
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {useNavigate} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const CustomerNavigationHeader = () => {
     return (<>
         <a href={"/my-issues"}>My Issues</a>
-        <a href={"/solved-issues"}>Create Issue</a>
+        <a href={"/solved-issues"}>View Solutions</a>
     </>);
 };
 
@@ -21,6 +22,7 @@ const AdminNavigationHeader = () => {
     return (<>
         <a href={"/admin/issues"}>Issues</a>
         <a href={"/admin/users"}>Users</a>
+        <a href={"/admin/new-units"}>Units</a>
         <a href={"/admin/import"}>Import</a>
         <a href={"/admin/new-machine"}>Add Machine</a>
         <a href={"/admin/logs"}>Logs</a>
@@ -53,8 +55,13 @@ const NavigationHeader = () => {
             <img src={logo} alt={"Logo"} onClick={() => navigate("/")}/>
              {headerComponent}
             <div>
-                <p>{user && user.username}</p>
-                <a href={"/logout"}>Log Out</a>
+                <div className={"navigation-header-user-dropdown"}>
+                    <p className={"navigation-header-user-dropdown-button"}>{user && user.username}<FontAwesomeIcon icon={"chevron-down"}/></p>
+                    <div className={"navigation-header-user-dropdown-content"}>
+                        <a href={""}><i className="fa-solid fa-gears"></i>Settings</a>
+                        <a href={"/logout"}><i className="fa-solid fa-right-from-bracket"></i>Logout</a>
+                    </div>
+                </div>
             </div>
         </div>
     </>;
