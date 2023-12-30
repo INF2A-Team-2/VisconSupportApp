@@ -21,6 +21,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faB }from "@fortawesome/free-solid-svg-icons";
 import AdminAddUnit from "./pages/AddUnits.tsx";
 import ThemeProvider from './components/ThemeProvider.tsx';
+import UserSettings from './pages/UserSettings.tsx';
 
 library.add(faB);
 

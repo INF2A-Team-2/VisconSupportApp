@@ -65,7 +65,7 @@ const NavigationHeader = () => {
                 <div className={"navigation-header-user-dropdown"}>
                     <p className={"navigation-header-user-dropdown-button"}>{user && user.username}<FontAwesomeIcon icon={"chevron-down"}/></p>
                     <div className={"navigation-header-user-dropdown-content"}>
-                        <a href={""}><i className="fa-solid fa-gears"></i>Settings</a>
+                        <a href={"/UserSettings"}><i className="fa-solid fa-gears"></i>Settings</a>
                         <a href={"/logout"}><i className="fa-solid fa-right-from-bracket"></i>Logout</a>
                     </div>
                 </div>
