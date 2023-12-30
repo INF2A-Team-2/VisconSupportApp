@@ -20,6 +20,7 @@ import AdminAddMachine from "./pages/AdminAddMachine.tsx";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faB }from "@fortawesome/free-solid-svg-icons";
 import AdminAddUnit from "./pages/AddUnits.tsx";
+import UserSettings from './pages/UserSettings.tsx';
 
 library.add(faB);
 
@@ -57,6 +58,7 @@ root.render(
                 <Route path={"403"} element={<ErrPage403 />}/>
                 <Route path={"issue/:issueId"} element={<IssuePage />}/>
                 <Route path={"my-issues"} element={<MyIssuesPage />}/>
+                <Route path={"UserSettings"} element={<UserSettings/>}/>
             </Route>
         </Routes>
     </BrowserRouter>
