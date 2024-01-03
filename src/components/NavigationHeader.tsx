@@ -2,6 +2,7 @@ import logo from "../assets/logo.svg";
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {useNavigate} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const CustomerNavigationHeader = () => {
@@ -36,6 +37,24 @@ const NavigationHeader = () => {
 
     let headerComponent = <></>;
 
+    const [theme, setTheme] = useState("light");
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+        document.body.className = savedTheme; 
+    }, []);
+
+    const toggleTheme = () =>
+    {
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+        document.body.className = newTheme;
+    }
+
+    
+
     if (user !== null) {
         switch (user.type) {
             case AccountType.User:
@@ -62,6 +81,11 @@ const NavigationHeader = () => {
                         <a href={"/logout"}><i className="fa-solid fa-right-from-bracket"></i>Logout</a>
                     </div>
                 </div>
+                <FontAwesomeIcon 
+                    icon={theme === 'light' ? "moon" : "sun"}
+                    onClick={toggleTheme} 
+                    className={"theme-toggle-icon"} 
+                />
             </div>
         </div>
     </>;
