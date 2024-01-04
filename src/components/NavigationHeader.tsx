@@ -3,8 +3,9 @@ import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {useNavigate} from "react-router-dom";
 import React, { useState, useEffect } from 'react';
-import ThemeProvider, {useTheme} from "./ThemeProvider.tsx";
+import { useTheme } from './ThemeProvider.tsx';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import "../index.css";
 
 
 
@@ -34,10 +35,12 @@ const AdminNavigationHeader = () => {
     </>);
 };
 
+
+
 const NavigationHeader = () => {
     const navigate = useNavigate();
     const user = useAuth();
-    const {theme, toggleTheme} = useTheme();
+    const { theme, toggleTheme } = useTheme();
     let headerComponent = <></>;
     
 
@@ -67,14 +70,12 @@ const NavigationHeader = () => {
                         <a href={""}><i className="fa-solid fa-gears"></i>Settings</a>
                         <a href={"/logout"}><i className="fa-solid fa-right-from-bracket"></i>Logout</a>
                     </div>
-                    
                 </div>
                 <FontAwesomeIcon 
                     icon={theme === 'light' ? "moon" : "sun"}
                     onClick={toggleTheme} 
                     className={"theme-toggle-icon"} 
                 />
-
             </div>
         </div>
     );

@@ -359,7 +359,7 @@ a:hover {
 }
 
 .text-wrapper {
-    color: rgba(216, 219, 226, 1);
+    color: #818181;
     font-weight: 300;
     font-size: 16px;
     left: 50px;
@@ -500,14 +500,14 @@ a:hover {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     grid-gap: 8px;
     align-items: center;
-    background-color: #1f1f1f;
+    background-color: var(--background-2);
     padding: 4px 6px;
     border-radius: 4px;
     transition: background-color 100ms, transform 100ms;
 }
 
 .tablelist-list-item:nth-child(odd) {
-    background-color: #2d2d2d;
+    background-color: var(--background-3);
 }
 
 .tablelist-list-item:hover {
@@ -516,6 +516,7 @@ a:hover {
 }
 
 .tablelist-list-item p {
+
     font-size: 0.75rem;
     text-transform: none;
     text-overflow: ellipsis;
@@ -1055,4 +1056,11 @@ a:hover {
 
 .text-bold {
     font-weight: 600;
+}
+
+.theme-toggle-icon{
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+    margin-right: 8;
 }

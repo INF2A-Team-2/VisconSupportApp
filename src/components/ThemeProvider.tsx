@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
+import toast from "react-hot-toast";
 
 const ThemeContext = createContext({
     theme: 'light',
@@ -11,18 +12,6 @@ export const useTheme = () => useContext(ThemeContext);
 const ThemeProvider = ({ children }) => {
     const [theme, setTheme] = useState("light");
 
-    useEffect(() => {
-        const savedTheme = localStorage.getItem("theme") || "light";
-        setTheme(savedTheme);
-        applyTheme(savedTheme);
-    }, []);
-
-    const toggleTheme = () => {
-        const newTheme = theme === "light" ? "dark" : "light";
-        setTheme(newTheme);
-        localStorage.setItem("theme", newTheme);
-        applyTheme(newTheme);
-    };
 
 const applyTheme = (theme) => {
     const root = document.documentElement;
@@ -47,6 +36,21 @@ const applyTheme = (theme) => {
         root.style.setProperty('--text', 'var(--dark-text)');
         root.style.setProperty('--text-hover', 'var(--dark-text-hover)');
     }
+};
+
+useEffect(() => {
+    console.log("Applying theme");
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
+    applyTheme(savedTheme);
+}, []);
+
+const toggleTheme = () => {
+    console.log("Toggling theme");
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    applyTheme(newTheme);
 };
 
     return (
