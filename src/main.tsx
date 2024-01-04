@@ -17,6 +17,7 @@ import CSVUploadPage from "./pages/CSVUploadPage.tsx";
 import EmployeeUserList from "./pages/EmployeeUserList.tsx";
 import EmployeeUserInformation from "./pages/EmployeeUserInformation.tsx";
 import AdminAddMachine from "./pages/AdminAddMachine.tsx";
+import AdminLog from "./pages/AdminLog.tsx";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faB }from "@fortawesome/free-solid-svg-icons";
 import AdminAddUnit from "./pages/AddUnits.tsx";
