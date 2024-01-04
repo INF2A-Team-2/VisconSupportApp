@@ -21,6 +21,7 @@ import AdminLog from "./pages/AdminLog.tsx";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faB }from "@fortawesome/free-solid-svg-icons";
 import AdminAddUnit from "./pages/AddUnits.tsx";
+import ThemeProvider from './components/ThemeProvider.tsx';
 
 library.add(faB);
 
@@ -29,38 +30,38 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-    <BrowserRouter>
-        <Toaster position={"bottom-left"} toastOptions={{
-            style: {
-                fontSize: "0.75rem"
-            }
-        }}/>
-        <Routes>
-            <Route index element={<LandingRouter />} />
-            <Route path={"*"} element={<ErrPage404 />}/>
-            <Route path="/admin">
-                <Route path={"users"} element={<AdminUserManager />} />
-                <Route path={"users/edit/:userId"} element={<AdminUserEditor />}/>
-                <Route path={"issues"} element={<AdminIssueManager />}/>
-                <Route path={"import"} element={ <CSVUploadPage/>}/>
-                <Route path={"new-machine"} element={<AdminAddMachine />}/>
-                <Route path={"logs"} element={<AdminLog />}/>
-                <Route path={"new-units"} element={<AdminAddUnit />}/>
-            </Route>
-            <Route path="/employee">
-                <Route path={"users"} element={<EmployeeUserList />}/>
-                <Route path="users/:userId" element={<EmployeeUserInformation />} />
-            </Route>
-            <Route path="/">
-                <Route path={"new-issue"} element={<NewIssue />}/>
-                <Route path={"login"} element={<LoginPage />}/>
-                <Route path={"logout"} element={<LogoutPage />}/>
-                <Route path={"404"} element={<ErrPage404 />}/>
-                <Route path={"solved-issues"} element={<SolvedIssuesPage />}/>
-                <Route path={"403"} element={<ErrPage403 />}/>
-                <Route path={"issue/:issueId"} element={<IssuePage />}/>
-                <Route path={"my-issues"} element={<MyIssuesPage />}/>
-            </Route>
-        </Routes>
-    </BrowserRouter>
+    <ThemeProvider>
+        <BrowserRouter>
+            <Toaster position={"bottom-left"} toastOptions={{
+                style: {
+                    fontSize: "0.75rem"
+                }
+            }}/>
+            <Routes>
+                <Route index element={<LandingRouter />} />
+                <Route path={"*"} element={<ErrPage404 />}/>
+                <Route path="/admin">
+                    <Route path={"users"} element={<AdminUserManager />} />
+                    <Route path={"users/edit/:userId"} element={<AdminUserEditor />}/>
+                    <Route path={"issues"} element={<AdminIssueManager />}/>
+                    <Route path={"import"} element={ <CSVUploadPage/>}/>
+                    <Route path={"new-machine"} element={<AdminAddMachine />}/>
+                    <Route path={"new-units"} element={<AdminAddUnit />}/>
+                </Route>
+                <Route path="/employee">
+                    <Route path={"users"} element={<EmployeeUserList />}/>
+                    <Route path="users/:userId" element={<EmployeeUserInformation />} />
+                </Route>
+                <Route path="/">
+                    <Route path={"login"} element={<LoginPage />}/>
+                    <Route path={"logout"} element={<LogoutPage />}/>
+                    <Route path={"404"} element={<ErrPage404 />}/>
+                    <Route path={"solved-issues"} element={<SolvedIssuesPage />}/>
+                    <Route path={"403"} element={<ErrPage403 />}/>
+                    <Route path={"issue/:issueId"} element={<IssuePage />}/>
+                    <Route path={"my-issues"} element={<MyIssuesPage />}/>
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    </ThemeProvider>
 );
