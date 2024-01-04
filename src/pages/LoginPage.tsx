@@ -48,6 +48,7 @@ const LoginPage = (): JSX.Element => {
                     icon={theme === 'light' ? "moon" : "sun"}
                     onClick={toggleTheme} 
                     className={"theme-toggle-icon"} 
+                    style={{ cursor: 'pointer' }}
                 />
             <img className="logo-login" alt="Vector" src="logo.svg" />
             <div className={"login-box"}>

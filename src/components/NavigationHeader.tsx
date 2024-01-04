@@ -75,6 +75,7 @@ const NavigationHeader = () => {
                     icon={theme === 'light' ? "moon" : "sun"}
                     onClick={toggleTheme} 
                     className={"theme-toggle-icon"} 
+                    style={{ cursor: 'pointer' }}
                 />
             </div>
         </div>
