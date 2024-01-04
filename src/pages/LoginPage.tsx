@@ -70,7 +70,9 @@ const LoginPage = (): JSX.Element => {
                         <i className="fa-solid fa-lock"></i>
                     </div>
                     <div>
-                        <button type={"submit"} className={"login-btn"}>Login</button>
+                        <button type={"submit"} className={"login-btn"}>
+                            <span className={"login-text"}>Login</span>
+                        </button>
                     </div>
                     <div className={"forgot-password-container"}>
                         <a onClick={handleForgot} className={"forgot-password-link"}>Forgot Password</a>

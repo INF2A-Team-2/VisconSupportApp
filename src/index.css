@@ -1064,3 +1064,7 @@ a:hover {
     margin-left: auto;
     margin-right: 8;
 }
+
+.login-text{
+    color : var(--background-2);
+}
