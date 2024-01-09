@@ -45,7 +45,7 @@ root.render(
                     <Route path={"issues"} element={<AdminIssueManager />}/>
                     <Route path={"import"} element={ <CSVUploadPage/>}/>
                     <Route path={"new-machine"} element={<AdminAddMachine />}/>
-                    <Route path={"new-units"} element={<AdminAddUnit />}/>
+                    <Route path={"units"} element={<AdminAddUnit />}/>
                 </Route>
                 <Route path="/employee">
                     <Route path={"users"} element={<EmployeeUserList />}/>
