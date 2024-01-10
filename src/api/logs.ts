@@ -4,7 +4,7 @@ import {Log} from "../models.ts";
 import {RequestConfig, SERVER_URL} from "./auth.ts";
 
 
-export function useLogs({}:{} = {}) {
+export function useLogs() {
     const [logs , setLogs] = useState<Array<Log>>([]);
 
     const fetchData = useCallback(() => {
