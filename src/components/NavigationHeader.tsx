@@ -2,7 +2,7 @@ import logo from "../assets/logo.svg";
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {useNavigate} from "react-router-dom";
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useTheme } from './ThemeProvider.tsx';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import "../index.css";
@@ -28,10 +28,8 @@ const AdminNavigationHeader = () => {
     return (<>
         <a href={"/admin/issues"}>Issues</a>
         <a href={"/admin/users"}>Users</a>
-        <a href={"/admin/new-units"}>Units</a>
-        <a href={"/admin/import"}>Import</a>
-        <a href={"/admin/new-machine"}>Add Machine</a>
         <a href={"/admin/logs"}>Logs</a>
+        <a href={"/admin/units"}>Units</a>
     </>);
 };
 

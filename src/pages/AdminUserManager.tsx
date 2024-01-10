@@ -101,7 +101,7 @@ const AdminUserManager = () => {
 
         const phoneNumberPattern: RegExp = /^\+\d{11}$/;
 
-        if (!phoneNumberPattern.test(data.phoneNumber))
+        if (!phoneNumberPattern.test(data.phoneNumber) && data.phoneNumber !== undefined)
         {
             toast.error("Invalid phone number");
             return;
