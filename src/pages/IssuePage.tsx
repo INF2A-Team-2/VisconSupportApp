@@ -176,6 +176,7 @@ const IssuePage = () => {
                 <h1>{issue?.headline}</h1>
                 <h2><i className="fa-solid fa-user"></i>{issueUser?.username}</h2>
                 <h2><i className="fa-solid fa-gears"></i>{machine?.name}</h2>
+                <h2><i className="fa-solid fa-phone"></i>{issue?.phoneNumber ?? "No phone number found!"}</h2>
                 {user?.type === AccountType.HelpDesk ? <button onClick={() => {}}>Resolve Issue</button> : <></>}
             </div>
             <div className={"issue-content"}>
