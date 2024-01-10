@@ -4,6 +4,13 @@ export enum AccountType {
     Admin
 }
 
+export enum Priority {
+    Low,
+    Medium,
+    High,
+    Critical
+}
+
 export interface User {
     id: number;
     username: string;
@@ -31,6 +38,7 @@ export type Machine = {
 
 export type Issue = {
     id : number;
+    priority: Priority;
     headline : string;
     actual : string;
     expected: string;
