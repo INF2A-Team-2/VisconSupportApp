@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Attachment, Issue, Media, Message} from "../models";
+import {Attachment, Issue, Media, Message, Priority} from "../models";
 import {useCallback, useEffect, useState} from "react";
 import { RequestConfig, SERVER_URL } from "./auth";
 import {uploadAttachment} from "./socket.ts";
@@ -62,10 +62,12 @@ export function useIssue({ issueId } : {
 
 // POST /api/issues
 export function newIssue(data: {
+    priority: Priority,
     actual: string,
     expected: string,
     tried: string,
     headline: string,
+    phoneNumber: string | null,
     machineId: number,
 }) {
     return axios.post(SERVER_URL + "/api/issues", data, RequestConfig());

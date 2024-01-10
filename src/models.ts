@@ -4,6 +4,13 @@ export enum AccountType {
     Admin
 }
 
+export enum Priority {
+    Low,
+    Medium,
+    High,
+    Critical
+}
+
 export interface User {
     id: number;
     username: string;
@@ -31,6 +38,7 @@ export type Machine = {
 
 export type Issue = {
     id : number;
+    priority: Priority;
     headline : string;
     actual : string;
     expected: string;
@@ -70,7 +78,8 @@ export enum FieldType {
     Number,
     Selection,
     TextArea,
-    Files
+    Files,
+    Slider
 }
 
 export type Field = {
@@ -82,5 +91,6 @@ export type Field = {
         value: string,
         label: string
     }>,
+    sliderValues?: Array<string>,
     isNumber?: boolean
 }
