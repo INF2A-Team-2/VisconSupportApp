@@ -3,8 +3,12 @@ import {useNavigate} from "react-router-dom";
 import {getToken} from "../api/auth.ts";
 import {toast} from "react-hot-toast";
 import PageFooter from "../components/PageFooter.tsx";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTheme } from '../components/ThemeProvider.tsx';
 
 const LoginPage = (): JSX.Element => {
+    const { theme, toggleTheme } = useTheme();
+
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -27,7 +31,7 @@ const LoginPage = (): JSX.Element => {
     };
 
     const handleForgot = () => {
-        toast.error("This feature has not been implemented yet");
+        toast.error("You may not reset your password at this time, please contact your administrator.");
     };
 
     const onLogin = (username: string, password: string) => {
@@ -40,6 +44,12 @@ const LoginPage = (): JSX.Element => {
 
     return <>
         <div className={"page-content"}>
+            <FontAwesomeIcon 
+                    icon={theme === 'light' ? "moon" : "sun"}
+                    onClick={toggleTheme} 
+                    className={"theme-toggle-icon"} 
+                    style={{ cursor: 'pointer' }}
+                />
             <img className="logo-login" alt="Vector" src="logo.svg" />
             <div className={"login-box"}>
                 <form onSubmit={handleLogin}>
@@ -61,11 +71,14 @@ const LoginPage = (): JSX.Element => {
                         <i className="fa-solid fa-lock"></i>
                     </div>
                     <div>
-                        <button type={"submit"} className={"login-btn"}>Login</button>
+                        <button type={"submit"} className={"login-btn"}>
+                            <span className={"login-text"}>Login</span>
+                        </button>
                     </div>
                     <div className={"forgot-password-container"}>
                         <a onClick={handleForgot} className={"forgot-password-link"}>Forgot Password</a>
                     </div>
+                    
                 </form>
             </div>
         </div>

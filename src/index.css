@@ -13,9 +13,27 @@
     --background-3: #353535;
     --text: #ffffff;
     --text-hover: #c8c8c8;
-
     background-color: var(--background);
     color: var(--text);
+
+    --light-accent: rgba(13, 135, 154, 0.5);
+    --light-accent-2: rgba(242, 67, 51, 0.5);
+    --light-accent-3: rgb(208, 56, 42, 0.5);
+    --light-background: hwb(0 96% 4%);
+    --light-background-2: rgb(204, 204, 204);
+    --light-background-3: hsl(0, 0%, 55%);
+    --light-text: hsl(0, 0%, 0%);
+    --light-text-hover: hsl(0, 0%, 9%);
+
+    --dark-accent: rgba(13, 135, 154, 1);
+    --dark-accent-2: rgba(242, 67, 51, 1);
+    --dark-accent-3: rgb(208, 56, 42);
+    --dark-background: #121212;
+    --dark-background-2: #181818;
+    --dark-background-3: #353535;
+    --dark-text: #ffffff;
+    --dark-text-hover: #c8c8c8;
+
 }
 
 ::-webkit-scrollbar-track {
@@ -341,7 +359,7 @@ a:hover {
 }
 
 .text-wrapper {
-    color: rgba(216, 219, 226, 1);
+    color: #818181;
     font-weight: 300;
     font-size: 16px;
     left: 50px;
@@ -482,14 +500,14 @@ a:hover {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     grid-gap: 8px;
     align-items: center;
-    background-color: #1f1f1f;
+    background-color: var(--background-2);
     padding: 4px 6px;
     border-radius: 4px;
     transition: background-color 100ms, transform 100ms;
 }
 
 .tablelist-list-item:nth-child(odd) {
-    background-color: #2d2d2d;
+    background-color: var(--background-3);
 }
 
 .tablelist-list-item:hover {
@@ -498,6 +516,7 @@ a:hover {
 }
 
 .tablelist-list-item p {
+
     font-size: 0.75rem;
     text-transform: none;
     text-overflow: ellipsis;
@@ -1053,4 +1072,15 @@ a:hover {
 .slider-labels {
     display: flex;
     justify-content: space-between;
+}
+
+.theme-toggle-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+    margin-right: 8;
+}
+
+.login-text {
+    color : var(--background-2);
 }

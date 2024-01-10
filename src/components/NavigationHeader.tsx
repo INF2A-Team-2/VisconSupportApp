@@ -2,7 +2,12 @@ import logo from "../assets/logo.svg";
 import useAuth from "../api/auth.ts";
 import {AccountType} from "../models.ts";
 import {useNavigate} from "react-router-dom";
+import React from 'react';
+import { useTheme } from './ThemeProvider.tsx';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import "../index.css";
+
+
 
 const CustomerNavigationHeader = () => {
     return (<>
@@ -10,6 +15,7 @@ const CustomerNavigationHeader = () => {
         <a href={"/solved-issues"}>View Solutions</a>
     </>);
 };
+
 
 const EmployeeNavigationHeader = () => {
     return (<>
@@ -22,19 +28,21 @@ const AdminNavigationHeader = () => {
     return (<>
         <a href={"/admin/issues"}>Issues</a>
         <a href={"/admin/users"}>Users</a>
-        <a href={"/admin/new-units"}>Units</a>
-        <a href={"/admin/import"}>Import</a>
-        <a href={"/admin/new-machine"}>Add Machine</a>
+        <a href={"/admin/units"}>Units</a>
         
     </>);
 };
 
+
+
 const NavigationHeader = () => {
     const navigate = useNavigate();
-
     const user = useAuth();
-
+    const { theme, toggleTheme } = useTheme();
     let headerComponent = <></>;
+    
+
+    
 
     if (user !== null) {
         switch (user.type) {
@@ -49,11 +57,10 @@ const NavigationHeader = () => {
                 break;
         }
     }
-
-    return <>
+    return (
         <div className={"navigation-header"}>
             <img src={logo} alt={"Logo"} onClick={() => navigate("/")}/>
-             {headerComponent}
+            {headerComponent}
             <div>
                 <div className={"navigation-header-user-dropdown"}>
                     <p className={"navigation-header-user-dropdown-button"}>{user && user.username}<FontAwesomeIcon icon={"chevron-down"}/></p>
@@ -62,11 +69,16 @@ const NavigationHeader = () => {
                         <a href={"/logout"}><i className="fa-solid fa-right-from-bracket"></i>Logout</a>
                     </div>
                 </div>
+                <FontAwesomeIcon 
+                    icon={theme === 'light' ? "moon" : "sun"}
+                    onClick={toggleTheme} 
+                    className={"theme-toggle-icon"} 
+                    style={{ cursor: 'pointer' }}
+                />
             </div>
         </div>
-    </>;
+    );
 };
-
 export default NavigationHeader;
 
 // een lege line speciaal voor luuk :)))))

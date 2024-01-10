@@ -43,6 +43,7 @@ export type Issue = {
     actual : string;
     expected: string;
     tried: string;
+    phoneNumber: string;
     timeStamp: string;
     userId: number;
     machineId: number;

@@ -77,6 +77,11 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
         }));
     };
 
+    setData = (data) => {
+        this.setState({ currentData: data });
+    };
+
+
     handleSubmit = () => {
         if (this.state.done) {
             var data = {};
@@ -205,9 +210,10 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                         <p>{f.name}</p>
                         <input type={"text"}
                             onChange={e => this.handleInput(f, e.target.value)}
-                            defaultValue={prevValue ?? ""}/>
+                            defaultValue={this.state.currentData[f.key] ?? ''}/> 
                     </div>
                 );
+
             case FieldType.Password:
                 return (
                     <div className={"popup-form-field"} key={f.key}>
