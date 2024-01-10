@@ -68,8 +68,17 @@ const SolvedIssuesPage = () => {
                 type: FieldType.Files,
                 required: false,
             }
+        ],
+        [
+            {
+                name: "Phone number (optional)",
+                key: "phoneNumber",
+                type: FieldType.Text,
+                required: false,
+            }
         ]
     ];
+
     const {issues} = useIssues();
     const [machine, setMachine] = useState(null);
     const [filteredIssues, setFilteredIssues] = useState([]);
@@ -106,6 +115,7 @@ const SolvedIssuesPage = () => {
             expected: data.expectation,
             tried: data.tried,
             headline: data.title,
+            phoneNumber: data.phoneNumber ?? null,
             machineId: machine.id,
         }), {
             loading: "Creating issue...",

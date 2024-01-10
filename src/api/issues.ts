@@ -67,6 +67,7 @@ export function newIssue(data: {
     expected: string,
     tried: string,
     headline: string,
+    phoneNumber: string | null,
     machineId: number,
 }) {
     return axios.post(SERVER_URL + "/api/issues", data, RequestConfig());
