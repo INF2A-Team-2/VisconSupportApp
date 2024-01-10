@@ -28,8 +28,8 @@ const AdminNavigationHeader = () => {
     return (<>
         <a href={"/admin/issues"}>Issues</a>
         <a href={"/admin/users"}>Users</a>
+        <a href={"/admin/logs"}>Logs</a>
         <a href={"/admin/units"}>Units</a>
-        
     </>);
 };
 

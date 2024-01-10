@@ -70,6 +70,18 @@ export type Media = {
     name?: string,
     data?: ArrayBuffer,
     mimeType: string
+}
+
+export type Log = {
+    id: number,
+    timeStamp: Date,
+    authorId: number,
+    description: string,
+    issueId?: number,
+    userId?: number,
+    machineId?: number,
+    messageId?: number,
+    attachmentId?: number
 };
 
 export enum FieldType {

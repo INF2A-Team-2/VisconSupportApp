@@ -1,0 +1,25 @@
+@import url("root.css");
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: var(--background)
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: var(--background)
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--platinum);
+}
+
+button {
+     font-family: "Montserrat", sans-serif;
+     padding: 4px;
+     border: none;
+ }
+
+button:hover {
+    cursor: pointer;
+}
