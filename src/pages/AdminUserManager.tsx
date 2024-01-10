@@ -99,13 +99,13 @@ const AdminUserManager = () => {
             data.unitId = null; 
         }
 
-        const phoneNumberPattern: RegExp = /^\+\d{11}$/;
+        // const phoneNumberPattern: RegExp = /^\+\d{11}$/;
 
-        if (!phoneNumberPattern.test(data.phoneNumber) && data.phoneNumber !== undefined)
-        {
-            toast.error("Invalid phone number");
-            return;
-        }
+        // if (!phoneNumberPattern.test(data.phoneNumber) && data.phoneNumber !== undefined)
+        // {
+        //     toast.error("Invalid phone number");
+        //     return;
+        // }
 
         if (data.company === 0)
         {

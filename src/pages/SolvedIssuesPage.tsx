@@ -30,6 +30,15 @@ const SolvedIssuesPage = () => {
         ],
         [
             {
+                name: "How important is this issue",
+                key: "priority",
+                type: FieldType.Slider,
+                required: true,
+                sliderValues: ["Low", "Medium", "High", "Critical"]
+            }
+        ],
+        [
+            {
                 name: "What Happened?",
                 key: "occurrence",
                 type: FieldType.TextArea,
@@ -58,15 +67,6 @@ const SolvedIssuesPage = () => {
                 key: "media",
                 type: FieldType.Files,
                 required: false,
-            }
-        ],
-        [
-            {
-                name: "How important is this issue",
-                key: "priority",
-                type: FieldType.Slider,
-                required: true,
-                sliderValues: ["Low", "Medium", "High", "Critical"]
             }
         ]
     ];
@@ -101,6 +101,7 @@ const SolvedIssuesPage = () => {
 
     const handleSubmit = (data) => {
         toast.promise(newIssue({
+            priority: data.priority,
             actual: data.occurrence,
             expected: data.expectation,
             tried: data.tried,
