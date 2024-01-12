@@ -4,6 +4,13 @@ export enum AccountType {
     Admin
 }
 
+export enum Priority {
+    Low,
+    Medium,
+    High,
+    Critical
+}
+
 export interface User {
     id: number;
     username: string;
@@ -31,10 +38,12 @@ export type Machine = {
 
 export type Issue = {
     id : number;
+    priority: Priority;
     headline : string;
     actual : string;
     expected: string;
     tried: string;
+    phoneNumber: string;
     timeStamp: string;
     userId: number;
     machineId: number;
@@ -61,6 +70,18 @@ export type Media = {
     name?: string,
     data?: ArrayBuffer,
     mimeType: string
+}
+
+export type Log = {
+    id: number,
+    timeStamp: Date,
+    authorId: number,
+    description: string,
+    issueId?: number,
+    userId?: number,
+    machineId?: number,
+    messageId?: number,
+    attachmentId?: number
 };
 
 export enum FieldType {
@@ -70,6 +91,7 @@ export enum FieldType {
     Selection,
     TextArea,
     Files,
+    Slider,
     Markdown,
     Checkbox,
 }
@@ -83,5 +105,6 @@ export type Field = {
         value: string,
         label: string
     }>,
+    sliderValues?: Array<string>,
     isNumber?: boolean
 }

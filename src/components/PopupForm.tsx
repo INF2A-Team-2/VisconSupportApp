@@ -1,13 +1,13 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import {toast} from "react-hot-toast";
 import Dropdown from "react-dropdown";
 import {Field, FieldType, Media} from "../models.ts";
 import InputFile, { FilePreview } from "./InputFile.tsx";
-import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MarkdownInput, { InputType } from "./MarkdownInput.tsx";
 import sanitizeHtml from "sanitize-html";
 import { marked } from "marked";
+import Slider from "./Slider.tsx";
 
 type PopupFormProps = {
     title: string;
@@ -75,6 +75,7 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
 
         let v: string | number = value;
         if (field.type === FieldType.Number
+            || field.type == FieldType.Slider
             || (field.type === FieldType.Selection && field.isNumber)
             && value !== undefined && value.length > 0)
         {
@@ -138,7 +139,6 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
 
         for (const [k, v] of Object.entries(this.state.currentData)) {
             const f = this.props.forms[this.state.currentForm].find(f => f.key === k);
-            console.log(f);
             if (f === undefined) {
                 continue;
             }
@@ -295,6 +295,16 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                         <input id={f.key} type={"checkbox"} onChange={e => this.handleInput(f, e.target.checked)} defaultChecked={this.state.currentData[f.key]}/>
                     </div>
                 );
+            case FieldType.Slider:
+                if (this.state.currentData[f.key] === undefined) {
+                    this.handleInput(f, "0");
+                }
+
+                return (
+                    <div>
+                        <p>{f.name}</p>
+                        <Slider values={f.sliderValues} default={0} onChange={v => {this.handleInput(f, v.toString());}}></Slider>
+                    </div>);
             default:
                 return null;
         }
@@ -339,12 +349,14 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                                         return Object.entries(d).map(([k, v]) => {
                                             let title = "";
                                             let type: FieldType = undefined;
+                                            let index = 0;
 
                                             this.props.forms.forEach(form => {
                                                 form.forEach(f => {
                                                     if (f.key === k) {
                                                         title = f.name;
                                                         type = f.type;
+                                                        index = this.props.forms.indexOf(form);
                                                     }
                                                 });
                                             });
@@ -362,6 +374,10 @@ class PopupForm extends Component<PopupFormProps, PopupFormState> {
                                                     <p className={"text-bold"}>{title}:</p>
                                                     <p>{v ? "Yes" : "No"}</p>
                                                 </li>;
+                                            }
+
+                                            if (type as FieldType === FieldType.Slider) {
+                                                v = this.props.forms[index][0].sliderValues[parseInt(v)];
                                             }
 
                                             return <li key={k}>

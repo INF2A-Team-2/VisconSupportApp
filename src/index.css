@@ -1093,13 +1093,29 @@ a:hover {
     font-weight: 600;
 }
 
-.theme-toggle-icon{
+.slider {
+    width: 350px;
+}
+
+.slider input[type=range] {
+    width: 100%;
+    background-color: var(--background-3);
+    height: 4px;
+    border-radius: 2px;
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+}
+
+.theme-toggle-icon {
     width: 20px;
     height: 20px;
     margin-left: auto;
     margin-right: 8;
 }
 
-.login-text{
+.login-text {
     color : var(--background-2);
 }
