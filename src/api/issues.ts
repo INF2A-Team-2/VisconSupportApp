@@ -157,3 +157,12 @@ export function useIssueAttachments({ issueId } : {
 
     return {attachments, setAttachments, refreshAttachments: fetchData};
 }
+
+// POST /api/issues/{issueId}/resolve
+export function resolveIssue(issueId: number, data: {
+    title: string,
+    body: string,
+    public: boolean,
+}) {
+    return axios.post(SERVER_URL + `/api/issues/${issueId}/resolve`, data, RequestConfig());
+}

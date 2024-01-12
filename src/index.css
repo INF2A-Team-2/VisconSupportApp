@@ -894,7 +894,7 @@ a:hover {
     width: 32px;
 }
 
-.issue-header button {
+.resolve-issue {
     margin-left: auto;
     height: fit-content;
     background-color: var(--accent);

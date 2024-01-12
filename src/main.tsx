@@ -22,6 +22,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faB }from "@fortawesome/free-solid-svg-icons";
 import AdminAddUnit from "./pages/AddUnits.tsx";
 import ThemeProvider from './components/ThemeProvider.tsx';
+import ViewDocumentation from './pages/ViewDocumentation.tsx';
 
 library.add(faB);
 
@@ -60,6 +61,7 @@ root.render(
                     <Route path={"403"} element={<ErrPage403 />}/>
                     <Route path={"issue/:issueId"} element={<IssuePage />}/>
                     <Route path={"my-issues"} element={<MyIssuesPage />}/>
+                    <Route path={"documentation/:documentationId"} element={<ViewDocumentation />}/>
                 </Route>
             </Routes>
         </BrowserRouter>

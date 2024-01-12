@@ -108,3 +108,9 @@ export type Field = {
     sliderValues?: Array<string>,
     isNumber?: boolean
 }
+
+export type Report = {
+    title: string,
+    body: string,
+    public: boolean
+}

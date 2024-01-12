@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import NavigationHeader from "../components/NavigationHeader";
 import MessageBox from "../components/MessageBox";
 import React, { useEffect, useRef, useState } from "react";
-import {newIssueMessage, useIssue, useIssueAttachments, useIssueMessages} from "../api/issues.ts";
+import {newIssueMessage, resolveIssue, useIssue, useIssueAttachments, useIssueMessages} from "../api/issues.ts";
 import useAuth from "../api/auth.ts";
 import {AccountType, Attachment, Priority, Field, FieldType} from "../models.ts";
 import { getConnection } from "../api/socket.ts";
@@ -12,10 +12,12 @@ import {useMachine} from "../api/machines.ts";
 import PageFooter from "../components/PageFooter.tsx";
 import MarkdownInput, { InputType } from "../components/MarkdownInput.tsx";
 import PopupForm from "../components/PopupForm.tsx";
+import toast from "react-hot-toast";
 
 const IssuePage = () => {
     const user = useAuth();
     const issueId = parseInt(useParams().issueId);
+    const navigate = useNavigate();
 
     const {issue} = useIssue({
         issueId: issueId
@@ -115,17 +117,26 @@ const IssuePage = () => {
         }
     };
 
+    const handleResolve = (data: any) => {
+        resolveIssue(issueId, data).then(() => {
+            popupForm.current.show(false);
+            toast.success("Issue resolved!");
+            navigate("/");
+        }).catch(() => {
+            toast.error("Could not resolve issue!");
+        });
+    };
+
     return (<>
         <NavigationHeader />
         <div className={"page-content"}>
+        {user?.type === AccountType.HelpDesk ? <button className={"resolve-issue"} onClick={() => { popupForm.current.show(true); popupForm.current.setDataHistory([{"title": issue?.headline}]); }}>Resolve Issue</button> : <></>}
             <div className={"issue-header"}>
                 <h1>{issue?.headline}</h1>
                 <h2><i className="fa-solid fa-user"></i>{issueUser?.username}</h2>
                 <h2><i className="fa-solid fa-gears"></i>{machine?.name}</h2>
-                {user?.type === AccountType.HelpDesk ? <button onClick={() => { popupForm.current.show(true); popupForm.current.setDataHistory([{"title": issue?.headline}]); }}>Resolve Issue</button> : <></>}
                 <h2><i className="fa-solid fa-phone"></i>{issue?.phoneNumber ?? "No phone number found!"}</h2>
                 <h2><i className="fa-solid fa-bell"></i>{Priority[issue?.priority]}</h2>
-                {user?.type === AccountType.HelpDesk ? <button onClick={() => {}}>Resolve Issue</button> : <></>}
             </div>
             <div className={"issue-content"}>
                 <h2>What Happened?</h2>
@@ -155,7 +166,7 @@ const IssuePage = () => {
             ref={popupForm}
             title={"Mark as Resolved"}
             forms={popupFieds}
-            onSubmit={(d) => {console.log(d);}}
+            onSubmit={handleResolve}
             preview={true}/>
         <PageFooter />
     </>);
