@@ -10,7 +10,7 @@ import PopupForm from "../components/PopupForm.tsx";
 import '../index.css';
 
 const UserSettings = () => {
-    const currentUser = useAuth();
+    const currentUser = useAuth([AccountType.User, AccountType.Admin, AccountType.HelpDesk]);
     const userId = currentUser?.id;
     const { user: editedUser, setUser: setEditedUser } = useUser({ userId: userId });
     const { company } = useCompany({ companyId: editedUser ? editedUser.companyId : 0 });
@@ -66,37 +66,7 @@ const UserSettings = () => {
         },
     ];
 
-    const handlePhoneNumberChange = (phoneNumber: string) => {
-        setEditedUser({
-            ...editedUser,
-            phoneNumber: phoneNumber,
-        });
-    };
 
-    const submitData = () => {
-        const mobileRegex = /^06\d{8}$/;
-        const internationalRegex = /^\+\d{1,4}\d{6,}$/;
-        if (!(mobileRegex.test(editedUser.phoneNumber) || internationalRegex.test(editedUser.phoneNumber))) {
-            toast.error("Invalid phone number format");
-            return;
-        }
-
-        const userDataToUpdate = {
-            phoneNumber: editedUser.phoneNumber,
-            type: editedUser.type
-        };
-
-        const promise = editUser({
-            userId: userId,
-            data: userDataToUpdate,
-        });
-
-        toast.promise(promise, {
-            loading: "Loading...",
-            success: "Phone number updated",
-            error: "Failed to update phone number"
-        });
-    };
 
     const handleViewIssues = () => {
         window.location.href = "/my-issues";
@@ -108,7 +78,6 @@ const UserSettings = () => {
             <div className="page-content user-editor">
                 <div className="page-header">
                     <h1>Edit Profile</h1>
-                    <button className="apply-button button-grow-on-hover" onClick={submitData}>Apply changes</button>
                 </div>
                 {editedUser && (
                     <div className="user-details">
@@ -121,13 +90,13 @@ const UserSettings = () => {
                             <input type="text" className="read-only" value={AccountType[editedUser.type] ?? "loading..."} readOnly />
                         </div>
                         <div className="user-detail">
-                            <p>Phone number</p>
-                            <input type="tel" autoComplete="off" value={editedUser.phoneNumber ?? "loading..."} onChange={(e) => handlePhoneNumberChange(e.target.value)} />
-                        </div>
-                        <div className="user-detail">
                             <p>Company</p>
                             <input type="text" className="read-only" value={company ? company.name : "Loading..."} readOnly />
                         </div>
+                        <div className="user-detail">
+                            <p>Company Phone Number</p>
+                            <input type="text" className="read-only" value={company.phoneNumber ?? "Loading..."} readOnly />
+                            </div>
                         <div className="user-detail">
                             <p>Unit</p>
                             <input type="text" className="read-only" value={unit ? unit.name : "Loading..."} readOnly />

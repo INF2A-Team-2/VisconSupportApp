@@ -43,11 +43,13 @@ export function useCompany({ companyId } : { companyId: number }) {
     return { company, setCompany, refreshCompany: fetchData };
 }
 
-export function newCompany({ name } : {
+export function newCompany({ name, phonenumber } : {
     name: string,
+    phonenumber: string
 }) {
     return axios.post(SERVER_URL + "/api/companies", {
         name: name,
+        phonenumber: phonenumber
     }, RequestConfig());
 }
 
@@ -61,6 +63,7 @@ export function editCompany({ companyId, data} : {
     companyId: number,
     data: {
         name: string;
+        phonenumber: string;
     }
 }) {
     return axios.put(SERVER_URL + `/api/companies/${companyId}`, data, RequestConfig());

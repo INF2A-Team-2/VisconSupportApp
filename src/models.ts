@@ -22,6 +22,7 @@ export interface Unit {
 export interface Company {
     id: number;
     name: string;
+    phoneNumber : string
 }
 
 export type Machine = {
