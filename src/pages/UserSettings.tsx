@@ -32,7 +32,7 @@ const UserSettings = () => {
             return;
         }
         toast.promise(editUser({
-            userId: userId,
+            userId: currentUser.id,
             data: {
                 username: currentUser.username,
                 password: data.newPassword,
