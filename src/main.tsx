@@ -48,6 +48,8 @@ root.render(
                     <Route path={"import"} element={ <CSVUploadPage/>}/>
                     <Route path={"new-machine"} element={<AdminAddMachine />}/>
                     <Route path={"units"} element={<AdminAddUnit />}/>
+                    <Route path={"logs"} element={<AdminLog/>}/>
+
                 </Route>
                 <Route path="/employee">
                     <Route path={"users"} element={<EmployeeUserList />}/>
