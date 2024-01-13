@@ -31,6 +31,7 @@ export interface Company {
     name: string;
     latitude: number;
     longitude: number;
+    phoneNumber : string
 }
 
 export type Machine = {

@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import {AccountType, Company, User} from "../models.ts";
+import {Company} from "../models.ts";
 import axios from "axios";
 import {RequestConfig, SERVER_URL} from "./auth.ts";
 
@@ -43,16 +43,17 @@ export function useCompany({ companyId } : { companyId: number }) {
     return { company, setCompany, refreshCompany: fetchData };
 }
 
-export function newCompany({ name, latitude, longitude } : {
+export function newCompany({ name, latitude, longitude, phonenumber } : {
     name: string,
     latitude: number,
-    longitude: number
+    longitude: number,
+    phonenumber: string
 }) {
-    console.log(latitude, longitude)
     return axios.post(SERVER_URL + "/api/companies", {
         name: name,
         latitude: latitude,
-        longitude: longitude
+        longitude: longitude,
+        phonenumber: phonenumber
     }, RequestConfig());
 }
 
@@ -68,6 +69,7 @@ export function editCompany({ companyId, data} : {
         name: string;
         latitude: number;
         longitude: number;
+        phonenumber: string;
     }
 }) {
     return axios.put(SERVER_URL + `/api/companies/${companyId}`, data, RequestConfig());

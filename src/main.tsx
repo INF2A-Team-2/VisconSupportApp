@@ -25,6 +25,7 @@ import ThemeProvider from './components/ThemeProvider.tsx';
 import ViewDocumentation from './pages/ViewDocumentation.tsx';
 import AdminCompanyManager from "./pages/AdminCompanyManager.tsx";
 import Map from "./pages/Map.tsx";
+import UserSettings from './pages/UserSettings.tsx';
 
 library.add(faB);
 
@@ -68,6 +69,7 @@ root.render(
                     <Route path={"my-issues"} element={<MyIssuesPage />}/>
                     <Route path={"documentation/:documentationId"} element={<ViewDocumentation />}/>
                     <Route path={"map"} element={<Map />} />
+                    <Route path={"UserSettings"} element={<UserSettings />}/>
                 </Route>
             </Routes>
         </BrowserRouter>
