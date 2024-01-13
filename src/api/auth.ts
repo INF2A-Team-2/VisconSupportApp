@@ -38,12 +38,14 @@ export default function useAuth(allowedTypes: Array<AccountType> = []) {
 }
 
 export async function checkPassword(username: string, password: string) : Promise<boolean> {
-    const res = await axios.post(SERVER_URL + "/api/login", {
-        username: username,
-        password: password
-    });
-
-    return res.status === 200;
+    try{
+        await axios.post(SERVER_URL + "/api/login", {
+            username: username,
+            password: password
+        });} catch (_) {
+        return false;
+    }
+    return true;
 }
 
 export async function getToken(username: string, password: string) : Promise<boolean> {
