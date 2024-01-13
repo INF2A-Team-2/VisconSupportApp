@@ -5,7 +5,7 @@ import {useState} from "react";
 import {useParams} from "react-router-dom";
 import Dropdown from "react-dropdown";
 import {toast} from "react-hot-toast";
-import {editUserMachines, useMachines, useUserMachines} from "../api/machines.ts";
+import {useMachines, useUserMachines} from "../api/machines.ts";
 import {editUser, useUser} from "../api/users.ts";
 import PageFooter from "../components/PageFooter.tsx";
 import {useCompanies} from "../api/companies.ts";
@@ -14,7 +14,7 @@ import {useUnits} from "../api/units.ts";
 const AdminUserEditor = () => {
     const userId = parseInt(useParams().userId);
 
-    useAuth([AccountType.Admin]);
+    const user = useAuth([AccountType.Admin]);
 
     const {companies} = useCompanies();
 
@@ -113,8 +113,8 @@ const AdminUserEditor = () => {
     };
 
     const submitPassword = async () => {
-        if (!await checkPassword(editedUser.username, oldPassword)) {
-            toast.error("Invalid old password entered!");
+        if (!await checkPassword(user.username, oldPassword)) {
+            toast.error("Invalid admin password entered!");
             return;
         }
         if (newPassword !== newPasswordControl) {
@@ -159,7 +159,7 @@ const AdminUserEditor = () => {
                       onChange={e => handleInput("unitId", parseInt(e.value))} 
                       value={editedUser.unitId?.toString() ?? "0"}/>
                 <h3>Edit password</h3>
-                <p>Old password</p>
+                <p>Your password</p>
                 <input type={"password"} autoComplete={"old-password"} onChange={(e => setOldPassword(e.target.value))}/>
                 <p>New password</p>
                 <input type={"password"} autoComplete={"new-password"} onChange={(e) => setNewPassword(e.target.value)}/>

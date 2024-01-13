@@ -1,17 +1,16 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
-import useAuth from "../api/auth.ts";
+import useAuth, {checkPassword} from "../api/auth.ts";
 import { AccountType, Field, FieldType } from "../models.ts";
 import { toast } from "react-hot-toast";
 import { editUser, useUser } from "../api/users.ts";
-import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import React, { useRef } from "react";
 import { useCompany } from '../api/companies.ts'; // import the useCompany hook
 import { useUnit } from '../api/units.ts'; // import the useUnit hook
 import PopupForm from "../components/PopupForm.tsx";
 import '../index.css';
 
 const UserSettings = () => {
-    const currentUser = useAuth([AccountType.User, AccountType.Admin, AccountType.HelpDesk]);
+    const currentUser = useAuth();
     const userId = currentUser?.id;
     const { user: editedUser, setUser: setEditedUser } = useUser({ userId: userId });
     const { company } = useCompany({ companyId: editedUser ? editedUser.companyId : 0 });
@@ -28,13 +27,18 @@ const UserSettings = () => {
             return;
         }
 
-        const promise = axios.post("/api/de api om de dingen te veranderen toch", {
+        if(!checkPassword(currentUser.username, data.currentPassword)) {
+            toast.error("Current password is incorrect");
+            return;
+        }
+        toast.promise(editUser({
             userId: userId,
-            currentPassword: data.currentPassword,
-            newPassword: data.newPassword
-        });
-
-        toast.promise(promise, {
+            data: {
+                username: currentUser.username,
+                password: data.newPassword,
+                type: currentUser.type
+            }
+        }), {
             loading: "Loading...",
             success: "Password changed successfully",
             error: "Failed to change password"
