@@ -44,7 +44,6 @@ export async function checkPassword(username: string, password: string) : Promis
     });
 
     return res.status === 200;
-
 }
 
 export async function getToken(username: string, password: string) : Promise<boolean> {

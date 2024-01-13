@@ -26,11 +26,14 @@ const UserSettings = () => {
             toast.error("New password and confirm password do not match");
             return;
         }
-
-        if (!await checkPassword(currentUser.username, data.currentPassword)) {
+        try{
+            await checkPassword(currentUser.username, data.currentPassword);
+        }
+        catch{
             toast.error("Current password is incorrect");
             return;
         }
+
         toast.promise(editUser({
             userId: currentUser.id,
             data: {
