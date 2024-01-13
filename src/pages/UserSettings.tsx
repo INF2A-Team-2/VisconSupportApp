@@ -17,7 +17,7 @@ const UserSettings = () => {
     const { unit } = useUnit({ unitId: editedUser ? editedUser.unitId : 0 });
     const userSettingsPopup = useRef<PopupForm>();
 
-    const handlePasswordChange = (data: {
+    const handlePasswordChange = async (data: {
         currentPassword: string;
         newPassword: string;
         confirmNewPassword: string;
@@ -27,7 +27,7 @@ const UserSettings = () => {
             return;
         }
 
-        if(!checkPassword(currentUser.username, data.currentPassword)) {
+        if (!await checkPassword(currentUser.username, data.currentPassword)) {
             toast.error("Current password is incorrect");
             return;
         }
