@@ -19,8 +19,9 @@ const CustomerNavigationHeader = () => {
 
 const EmployeeNavigationHeader = () => {
     return (<>
-            <a href={"/my-issues"}>My Issues</a>
-            <a href={"/employee/users"}>My Customers</a>
+        <a href={"/my-issues"}>My Issues</a>
+        <a href={"/employee/users"}>My Customers</a>
+        <a href={"/map"}>Map</a>
     </>);
 };
 
@@ -28,21 +29,19 @@ const AdminNavigationHeader = () => {
     return (<>
         <a href={"/admin/issues"}>Issues</a>
         <a href={"/admin/users"}>Users</a>
+        <a href={"/admin/companies"}>Companies</a>
         <a href={"/admin/logs"}>Logs</a>
         <a href={"/admin/units"}>Units</a>
+        <a href={"/map"}>Map</a>
     </>);
 };
 
-
-
 const NavigationHeader = () => {
     const navigate = useNavigate();
+
     const user = useAuth();
     const { theme, toggleTheme } = useTheme();
     let headerComponent = <></>;
-    
-
-    
 
     if (user !== null) {
         switch (user.type) {
@@ -69,16 +68,17 @@ const NavigationHeader = () => {
                         <a href={"/logout"}><i className="fa-solid fa-right-from-bracket"></i>Logout</a>
                     </div>
                 </div>
-                <FontAwesomeIcon 
+                <FontAwesomeIcon
                     icon={theme === 'light' ? "moon" : "sun"}
-                    onClick={toggleTheme} 
-                    className={"theme-toggle-icon"} 
+                    onClick={toggleTheme}
+                    className={"theme-toggle-icon"}
                     style={{ cursor: 'pointer' }}
                 />
             </div>
         </div>
     );
 };
+
 export default NavigationHeader;
 
 // een lege line speciaal voor luuk :)))))

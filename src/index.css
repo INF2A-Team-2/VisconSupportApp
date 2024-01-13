@@ -1119,3 +1119,74 @@ a:hover {
 .login-text {
     color : var(--background-2);
 }
+
+.map-container {
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.map-sidebar {
+    display: none;
+    flex-direction: column;
+    padding: 8px;
+    transition: display 500ms ease;
+}
+
+.map-sidebar > button {
+    background-color: transparent;
+    color: var(--text);
+    align-items: center;
+}
+
+.map-sidebar > button:hover {
+    transform: scale(120%);
+}
+
+.map-sidebar > h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding: 2px 2px 4px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--text);
+}
+
+.map-sidebar > p {
+    padding: 2px;
+    margin-bottom: 2px;
+}
+
+.map-sidebar-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.map-sidebar-list > div {
+    background-color: var(--background-3);
+    height: 64px;
+    border-radius: 4px;
+    padding: 8px;
+    transition: transform 100ms, background-color 100ms;
+}
+
+.map-sidebar-list > div:hover {
+    cursor: pointer;
+    background-color: var(--accent);
+    transform: scale(101.5%);
+}
+
+.map-sidebar-list > div > p > svg {
+    width: 24px;
+    margin-right: 4px;
+}
+
+.map-sidebar-list > div > .i-title {
+    font-size: 1.25rem;
+}
+
+.map-sidebar-list > div > .i-machine {
+    font-size: 1rem;
+}
+
+.map-sidebar-list > div > .i-user {
+    font-size: 1rem;
+}

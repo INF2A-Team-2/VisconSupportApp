@@ -23,6 +23,8 @@ import { faB }from "@fortawesome/free-solid-svg-icons";
 import AdminAddUnit from "./pages/AddUnits.tsx";
 import ThemeProvider from './components/ThemeProvider.tsx';
 import ViewDocumentation from './pages/ViewDocumentation.tsx';
+import AdminCompanyManager from "./pages/AdminCompanyManager.tsx";
+import Map from "./pages/Map.tsx";
 
 library.add(faB);
 
@@ -45,6 +47,7 @@ root.render(
                     <Route path={"users"} element={<AdminUserManager />} />
                     <Route path={"users/edit/:userId"} element={<AdminUserEditor />}/>
                     <Route path={"issues"} element={<AdminIssueManager />}/>
+                    <Route path={"companies"} element={<AdminCompanyManager />} />
                     <Route path={"import"} element={ <CSVUploadPage/>}/>
                     <Route path={"new-machine"} element={<AdminAddMachine />}/>
                     <Route path={"units"} element={<AdminAddUnit />}/>
@@ -64,6 +67,7 @@ root.render(
                     <Route path={"issue/:issueId"} element={<IssuePage />}/>
                     <Route path={"my-issues"} element={<MyIssuesPage />}/>
                     <Route path={"documentation/:documentationId"} element={<ViewDocumentation />}/>
+                    <Route path={"map"} element={<Map />} />
                 </Route>
             </Routes>
         </BrowserRouter>
