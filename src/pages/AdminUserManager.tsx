@@ -52,7 +52,6 @@ const AdminUserManager = () => {
                 u.username,
                 getType(u.type),
                 companies.find(c => c.id == u.companyId)?.name,
-                u.phoneNumber,
                 units.find(un => un.id == u.unitId)?.name,]);
         });
 
@@ -86,7 +85,6 @@ const AdminUserManager = () => {
         password: string,
         passwordControl: string,
         type: number,
-        phoneNumber?: string,
         unitId?: number,
         company?: number;
     }) => {
@@ -99,13 +97,7 @@ const AdminUserManager = () => {
             data.unitId = null; 
         }
 
-        // const phoneNumberPattern: RegExp = /^\+\d{11}$/;
 
-        // if (!phoneNumberPattern.test(data.phoneNumber) && data.phoneNumber !== undefined)
-        // {
-        //     toast.error("Invalid phone number");
-        //     return;
-        // }
 
         if (data.company === 0)
         {
@@ -115,7 +107,6 @@ const AdminUserManager = () => {
             username: data.username,
             password: data.password,
             type: data.type,
-            phoneNumber: data.phoneNumber,
             unitId: data.unitId,
             companyId: data.company
         });
@@ -157,12 +148,6 @@ const AdminUserManager = () => {
                 }
             ],
             isNumber: true
-        },
-        {
-            name: "Phone number",
-            key: "phoneNumber",
-            type: FieldType.Text,
-            required: false
         },
         {
             name: "Company",
@@ -220,7 +205,7 @@ const AdminUserManager = () => {
                     }}>
                 Add user <i className="fa-solid fa-user-plus"></i>
             </button>
-            <TableList columns={["ID", "Username", "Type", "Company", "Phone number", "Unit"]}
+            <TableList columns={["ID", "Username", "Type", "Company", "Unit"]}
                        data={data}
                        buttons={[
                            {

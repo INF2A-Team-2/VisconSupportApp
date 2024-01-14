@@ -34,7 +34,6 @@ const EmployeeUserList = () => {
             _data.push([
                 u.id,
                 u.username,
-                u.phoneNumber,
                 companies.find(c => c.id == u.companyId)?.name,
                 units.find(un => un.id == u.unitId)?.name,
             ]);
@@ -47,7 +46,7 @@ const EmployeeUserList = () => {
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Users</h1>
-            <TableList  columns={["ID", "Username", "Phone number","Companies", "Unit"]} 
+            <TableList  columns={["ID", "Username","Companies", "Unit"]} 
                         data={data}
                         buttons={[
                             {
