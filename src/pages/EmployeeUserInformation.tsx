@@ -22,7 +22,7 @@ const EmployeeUserInformation = () => {
     const machineColumns = ["ID", "Name"];
     const issueColumns = ["ID", "Headline", "Machine", "Status"];
     const machineData = machines.map(machine => [machine.id, machine.name]);
-    const issueData = issues.map(issue => [issue.id, issue.headline, issue.machineId, "(Not implemented)"]);
+    const issueData = issues.map(issue => [issue.id, issue.headline, issue.machineId, issue.priority]);
 
 
     
@@ -33,10 +33,6 @@ const EmployeeUserInformation = () => {
         <NavigationHeader />
         <div className={"page-content"}>
             <h1> {user?.username}'s information</h1>
-            <h2>User's machines</h2>
-            <TableList columns={machineColumns} data={machineData}
-             />
-
             <h2>User's Issues</h2>
             <TableList columns={issueColumns} data={issueData}
             buttons={[

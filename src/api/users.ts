@@ -43,11 +43,10 @@ export function useUser({ userId } : { userId: number }) {
     return { user, setUser, refreshUser: fetchData };
 }
 
-export function newUser({ username, password, type, phoneNumber, unitId, companyId } : {
+export function newUser({ username, password, type, unitId, companyId } : {
     username: string,
     password: string,
     type: AccountType,
-    phoneNumber?: string,
     unitId?: Number,
     companyId?: number;
 }) {
@@ -55,7 +54,6 @@ export function newUser({ username, password, type, phoneNumber, unitId, company
         username: username,
         password: password,
         type: type,
-        phoneNumber: phoneNumber,
         unitId: unitId,
         companyId: companyId
     }, RequestConfig());
@@ -73,7 +71,6 @@ export function editUser({ userId, data } : {
         username?: string,
         password?: string,
         type: AccountType,
-        phoneNumber?: string,
         unitId?: number,
         companyId?: number;
     }
