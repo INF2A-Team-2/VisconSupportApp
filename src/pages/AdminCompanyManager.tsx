@@ -53,13 +53,15 @@ const AdminCompanyManager = () => {
 
     const handleNewCompany = (data : {
         name: string,
-        latitude: number
-        longitude: number
+        latitude: number,
+        longitude: number,
+        phonenumber: string
     }) => {
         const promise = newCompany({
             name: data.name,
             latitude: data.latitude,
             longitude: data.longitude,
+            phonenumber: data.phonenumber
         });
 
         toast.promise(promise, {
@@ -91,6 +93,12 @@ const AdminCompanyManager = () => {
             type: FieldType.Float,
             required: false,
         },
+        {
+            name: "Phonenumber",
+            key: "phonenumber",
+            type: FieldType.Text,
+            required: false,
+        },
     ];
 
     const companyEditFields: Array<Field> =  [
@@ -110,6 +118,12 @@ const AdminCompanyManager = () => {
             name: "Longitude",
             key: "longitude",
             type: FieldType.Float,
+            required: false,
+        },
+        {
+            name: "Phonenumber",
+            key: "phonenumber",
+            type: FieldType.Text,
             required: false,
         },
     ];
