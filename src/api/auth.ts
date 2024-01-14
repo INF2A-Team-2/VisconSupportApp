@@ -68,7 +68,7 @@ export async function submitPasswordResetRequest(email: string): Promise<boolean
 }
 
 export async function changePassword(token: string, password: string): Promise<boolean> {
-    const res = await axios.post(SERVER_URL + `/api/forgot-password?token=${token}&password=${password}`);
+    const res = await axios.post(SERVER_URL + `/api/login/forgot-password?token=${token}&password=${password}`);
 
     return res.status === 200;
 }
