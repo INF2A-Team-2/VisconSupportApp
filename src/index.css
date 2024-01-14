@@ -587,6 +587,11 @@ a:hover {
     grid-template-rows: repeat(auto-fit, 32px);
     grid-gap: 8px;
 }
+.changepasswordbutton{
+grid-column: 1 / -1;
+width: 50%;
+margin: 0 auto;
+}
 
 .select-button {
     display: flex;
@@ -1208,14 +1213,16 @@ a:hover {
 }
 
 .user-details {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+/* should be next to eachother in groups of 2, but there should be a big gap between them horizontally, never more then 2 next to eachother*/
+
+
 }
 
-.user-detail {
-    margin-bottom: 20px;
-}
+.user-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    grid-gap: 20px; 
+  }
 
 .user-detail p {
     font-weight: bold;
@@ -1228,6 +1235,7 @@ a:hover {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
 
 .user-actions {
     display: flex;
