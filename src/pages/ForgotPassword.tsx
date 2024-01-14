@@ -47,14 +47,14 @@ const ForgotPassword = () => {
             {token == null ? <>
                 <h1>Forgot password</h1>
                 <p>E-Mail</p>
-                <input type={"email"} onChange={setEmail}/>
+                <input type={"email"} onChange={e => setEmail(e.target.value)}/>
                 <button onClick={onRequestNewPassword}>Submit</button>
             </> : <>
                 <h1>Change password</h1>
                 <p>New password</p>
-                <input type={"password"} onChange={setPassword}/>
+                <input type={"password"} onChange={e => setPassword(e.target.value)}/>
                 <p>Confirm password</p>
-                <input type={"password"} onChange={setControl}/>
+                <input type={"password"} onChange={e => setControl(e.target.value)}/>
                 <button onClick={onChangePassword}>Change password</button>
             </>}
         </div>
