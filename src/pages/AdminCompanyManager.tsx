@@ -25,6 +25,7 @@ const AdminCompanyManager = () => {
             _data.push([
                 c.id,
                 c.name,
+                c.phoneNumber,
                 `${c.latitude}, ${c.longitude}`
             ]);
         });
@@ -55,13 +56,13 @@ const AdminCompanyManager = () => {
         name: string,
         latitude: number,
         longitude: number,
-        phonenumber: string
+        phoneNumber: string
     }) => {
         const promise = newCompany({
             name: data.name,
             latitude: data.latitude,
             longitude: data.longitude,
-            phonenumber: data.phonenumber
+            phonenumber: data.phoneNumber
         });
 
         toast.promise(promise, {
@@ -95,7 +96,7 @@ const AdminCompanyManager = () => {
         },
         {
             name: "Phonenumber",
-            key: "phonenumber",
+            key: "phoneNumber",
             type: FieldType.Text,
             required: false,
         },
@@ -122,7 +123,7 @@ const AdminCompanyManager = () => {
         },
         {
             name: "Phonenumber",
-            key: "phonenumber",
+            key: "phoneNumber",
             type: FieldType.Text,
             required: false,
         },
@@ -160,7 +161,7 @@ const AdminCompanyManager = () => {
                     }}>
                 Add company <i className="fa-solid fa-plus"></i>
             </button>
-            <TableList columns={["ID", "Name", "Location"]}
+            <TableList columns={["ID", "Name", "Phonenumber", "Location"]}
                        data={data}
                        buttons={[
                            {
