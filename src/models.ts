@@ -24,6 +24,7 @@ export interface User {
     phoneNumber: string;
     unitId: number;
     companyId: number;
+    email: string;
 }
 
 export interface Unit {
