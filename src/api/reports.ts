@@ -4,8 +4,27 @@ import { useCallback, useEffect, useState } from "react";
 import { Report } from "../models";
 import { useNavigate } from "react-router-dom";
 
+// GET /api/reports
+export function useReports() {
+    const [reports, setReports] = useState<Array<Report>>([]);
+
+    const fetchData = useCallback(() => {
+        axios.get(SERVER_URL + "/api/reports", RequestConfig())
+            .then(response => {
+                setReports(response.data);
+            });
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    return { reports, setReports, refreshReports: fetchData };
+}
+
+
 // GET /api/reports/{id}
-export function useDocumentation({ id }: {
+export function useReport({ id }: {
     id: number
 }) {
     const [report, setReport] = useState<Report | null>(null);
@@ -22,5 +41,5 @@ export function useDocumentation({ id }: {
         fetchData();
     }, [fetchData]);
 
-    return { report, setReport, refreshDocumentation: fetchData };
+    return { report, setReport, refreshReport: fetchData };
 }

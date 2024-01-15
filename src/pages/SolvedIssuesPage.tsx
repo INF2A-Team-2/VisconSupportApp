@@ -13,11 +13,12 @@ import PageFooter from "../components/PageFooter.tsx";
 import TableList from "../components/TableList.tsx";
 import strftime from "strftime";
 import toast from "react-hot-toast";
+import { useReports } from "../api/reports.ts";
 
 const SolvedIssuesPage = () => {
     const navigate = useNavigate();
     const {machines} = useMachines();
-    const [expandedIssueId, setExpandedIssueId] = useState<number | null>(null);
+
     const popupForm = useRef<PopupForm>();
     const popupFields: Array<Array<Field>> = [
         [
@@ -79,26 +80,26 @@ const SolvedIssuesPage = () => {
         ]
     ];
 
-    const {issues} = useIssues();
+    const {reports} = useReports();
     const [machine, setMachine] = useState(null);
-    const [filteredIssues, setFilteredIssues] = useState([]);
+    const [filteredIssues, setFilteredReports] = useState([]);
 
     useEffect(() => {
         if (machine) {
-            setFilteredIssues(issues.filter(issue => issue.machineId === machine.id));
+            console.log(reports);
+            setFilteredReports(reports.filter(issue => issue.machineId === machine.id));
         } else {
             null;
         }
-    }, [machine, issues]);
+    }, [machine, reports]);
 
-    const issueData = filteredIssues.map(i => [
-        i.id,
-        i.headline,
-        strftime("%F %H:%M", new Date(i.timeStamp)),
-        machines.find(m => m.id === i.machineId)?.name || "null"
+    const issueData = filteredIssues.map(r => [
+        r.id,
+        r.title,
+        strftime("%F %H:%M", new Date(r.timeStamp))
     ]);
 
-    const navigateToIssue = issueId => navigate(`/issue/${issueId}`);
+    const navigateToIssue = issueId => navigate(`/report/${issueId}`);
 
     const onNotListed = () => {
         if (machine === null) {
@@ -140,7 +141,7 @@ const SolvedIssuesPage = () => {
         <>
             <NavigationHeader />
             <div className={"page-content issue-pages"}>
-                <h1>Solved Issues</h1>
+                <h1>Resolved Issues</h1>
                 <div className={"section"}>
                     <Dropdown
                         options={machines.map(m => m.name)}
@@ -149,7 +150,7 @@ const SolvedIssuesPage = () => {
                     />
                 </div>
                 <TableList 
-                    columns={["ID", "Headline", "Date", "Machine"]}
+                    columns={["ID", "Title", "Date"]}
                     data={issueData}
                     buttons={[{
                         text: <i className="fa-solid fa-arrow-right"></i>,

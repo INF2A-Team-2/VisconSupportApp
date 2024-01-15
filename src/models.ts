@@ -114,7 +114,11 @@ export type Field = {
 }
 
 export type Report = {
+    id: number,
     title: string,
     body: string,
-    public: boolean
+    public: boolean,
+    machineId: number,
+    companyId: number,
+    timeStamp: string,
 }

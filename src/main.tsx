@@ -22,7 +22,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faB }from "@fortawesome/free-solid-svg-icons";
 import AdminAddUnit from "./pages/AddUnits.tsx";
 import ThemeProvider from './components/ThemeProvider.tsx';
-import ViewDocumentation from './pages/ViewDocumentation.tsx';
+import ViewReport from './pages/ViewReport.tsx';
 import AdminCompanyManager from "./pages/AdminCompanyManager.tsx";
 import Map from "./pages/Map.tsx";
 import UserSettings from './pages/UserSettings.tsx';
@@ -67,7 +67,7 @@ root.render(
                     <Route path={"403"} element={<ErrPage403 />}/>
                     <Route path={"issue/:issueId"} element={<IssuePage />}/>
                     <Route path={"my-issues"} element={<MyIssuesPage />}/>
-                    <Route path={"documentation/:documentationId"} element={<ViewDocumentation />}/>
+                    <Route path={"report/:reportId"} element={<ViewReport />}/>
                     <Route path={"map"} element={<Map />} />
                     <Route path={"UserSettings"} element={<UserSettings />}/>
                 </Route>

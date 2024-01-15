@@ -118,7 +118,13 @@ const IssuePage = () => {
     };
 
     const handleResolve = (data: any) => {
-        resolveIssue(issueId, data).then(() => {
+        resolveIssue(issueId, {
+            title: data.title,
+            body: data.body,
+            public: data.public,
+            issueId: issueId,
+            machineId: machine.id
+        }).then(() => {
             popupForm.current.show(false);
             toast.success("Issue resolved!");
             navigate("/");

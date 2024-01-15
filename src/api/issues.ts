@@ -163,6 +163,8 @@ export function resolveIssue(issueId: number, data: {
     title: string,
     body: string,
     public: boolean,
+    issueId: number,
+    machineId: number
 }) {
     return axios.post(SERVER_URL + `/api/issues/${issueId}/resolve`, data, RequestConfig());
 }
