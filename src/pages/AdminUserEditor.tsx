@@ -1,20 +1,22 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth, {checkPassword} from "../api/auth.ts";
-import {AccountType} from "../models.ts";
-import {useState} from "react";
+import {AccountType, Field, FieldType} from "../models.ts";
+import {useRef, useState} from "react";
 import {useParams} from "react-router-dom";
 import Dropdown from "react-dropdown";
 import {toast} from "react-hot-toast";
-import {editUserMachines, useMachines, useUserMachines} from "../api/machines.ts";
+import {useMachines, useUserMachines} from "../api/machines.ts";
 import {editUser, useUser} from "../api/users.ts";
 import PageFooter from "../components/PageFooter.tsx";
 import {useCompanies} from "../api/companies.ts";
 import {useUnits} from "../api/units.ts";
+import PopupForm from "../components/PopupForm.tsx";
+
 
 const AdminUserEditor = () => {
     const userId = parseInt(useParams().userId);
 
-    useAuth([AccountType.Admin]);
+    const currentUser = useAuth([AccountType.Admin]);
 
     const {companies} = useCompanies();
 
@@ -25,6 +27,8 @@ const AdminUserEditor = () => {
     const [newPasswordControl, setNewPasswordControl] = useState("");
     const {machines} = useMachines();
     const {units} = useUnits();
+
+    const userSettingsPopup = useRef<PopupForm>();
 
     const unitData = [
         {
@@ -99,10 +103,6 @@ const AdminUserEditor = () => {
 
         if (editedUser.type === AccountType.User)
         {
-            // promises.push(editUserMachines({
-            //     userId: userId,
-            //     data: selectedMachines.map(m => m.id)
-            // }));
         }
 
         toast.promise(Promise.all(promises), {
@@ -112,70 +112,114 @@ const AdminUserEditor = () => {
         });
     };
 
-    const submitPassword = async () => {
-        if (!await checkPassword(editedUser.username, oldPassword)) {
-            toast.error("Invalid old password entered!");
+    const handlePasswordChange = async (data: {
+        currentPassword: string;
+        newPassword: string;
+        confirmNewPassword: string;
+    }) => {
+        if (data.newPassword !== data.confirmNewPassword) {
+            toast.error("New password and confirm password do not match");
             return;
         }
-        if (newPassword !== newPasswordControl) {
-            toast.error("Passwords don't match");
+        if (!await checkPassword(currentUser.username, data.currentPassword)) {
+            toast.error("Current password is incorrect");
             return;
         }
 
-        const u = {...editedUser} as any;
-        u.password = newPassword;
-
-        const promise = editUser({
-            userId: userId,
-            data: u
-        });
-        toast.promise(promise, {
+        toast.promise(editUser({
+            userId: editedUser.id,
+            data: {
+                username: editedUser.username,
+                password: data.newPassword,
+                type: editedUser.type
+            }
+        }), {
             loading: "Loading...",
-            success: "Changed password",
+            success: "Password changed successfully",
             error: "Failed to change password"
         });
     };
 
-    return <>
-        <NavigationHeader/>
+    const passwordChangeFields: Array<Field> = [
+        {
+            name: "Your Password",
+            key: "currentPassword",
+            type: FieldType.Password,
+            required: true,
+        },
+        {
+            name: "New Password",
+            key: "newPassword",
+            type: FieldType.Password,
+            required: true,
+        },
+        {
+            name: "Confirm New Password",
+            key: "confirmNewPassword",
+            type: FieldType.Password,
+            required: true,
+        },
+    ];
+
+
+return (
+    <>
+        <NavigationHeader />
         <div className={"page-content user-editor"}>
             <div className={"page-header"}>
                 <h1>Edit user</h1>
                 <button onClick={submitData}>Apply changes</button>
             </div>
-            {editedUser && <>
-                <p>Username</p>
-                <input type={"text"} autoComplete={"off"} value={editedUser.username ?? ""} onChange={(e) => handleInput("username", e.target.value)}/>
-                <p>Type</p>
-                <Dropdown options={accTypes} onChange={e => handleInput("type", parseInt(e.value))} value={editedUser.type.toString()}/>
-                {editedUser.type === AccountType.User && <>
-                    <p>Company</p>
-                    <Dropdown options={companyData} onChange={e => handleInput("companyId", parseInt(e.value))} value={editedUser.companyId?.toString() ?? "None"}/>
-                </>}
-                <p>Phone number</p>
-                <input type={"tel"} autoComplete={"off"} value={editedUser.phoneNumber ?? ""} onChange={(e) => handleInput("phoneNumber", e.target.value)}/>
-                <p>Unit</p>
-                <Dropdown options={unitData} 
-                      onChange={e => handleInput("unitId", parseInt(e.value))} 
-                      value={editedUser.unitId?.toString() ?? "0"}/>
-                <h3>Edit password</h3>
-                <p>Old password</p>
-                <input type={"password"} autoComplete={"old-password"} onChange={(e => setOldPassword(e.target.value))}/>
-                <p>New password</p>
-                <input type={"password"} autoComplete={"new-password"} onChange={(e) => setNewPassword(e.target.value)}/>
-                <p>Confirm new password</p>
-                <input type={"password"} autoComplete={"new-password"} onChange={(e) => setNewPasswordControl(e.target.value)}/>
-                <button onClick={submitPassword}>Change password</button>
-                {/*{editedUser.type == AccountType.User && <h3>Machines</h3>}*/}
-                {/*<div className={"user-editor-machines-list"}>*/}
-                {/*    {editedUser?.type === AccountType.User && machines.map(m =>*/}
-                {/*        <SelectButton key={m.id} title={m.name} value={m.id} isSelected={selectedMachines.includes(m)} onChange={handleMachineInput}/>*/}
-                {/*    )}*/}
-                {/*</div>*/}
-            </>}
+            <div className="user-details">
+                {editedUser && (
+                    <>
+                        <div className={"user-detail"}>
+                            <p>Username</p>
+                            <input
+                                type={"text"}
+                                autoComplete={"off"}
+                                value={editedUser.username ?? ""}
+                                onChange={(e) => handleInput("username", e.target.value)}
+                            />
+                        </div>
+                        <div className={"user-detail"}>
+                            <p>Type</p>
+                            <Dropdown
+                                options={accTypes}
+                                onChange={(e) => handleInput("type", parseInt(e.value))}
+                                value={editedUser.type.toString()}
+                            />
+                        </div>
+                        {(editedUser.type === AccountType.User) && (
+                            <div className={"user-detail"}>
+                                <p>Company</p>
+                                <Dropdown
+                                    options={companyData}
+                                    onChange={(e) => handleInput("companyId", parseInt(e.value))}
+                                    value={editedUser.companyId?.toString() ?? "None"}
+                                />
+                            </div>
+                        )}
+                        <div className={"user-detail"}>
+                            <p>Unit</p>
+                            <Dropdown
+                                options={unitData}
+                                onChange={(e) => handleInput("unitId", parseInt(e.value))}
+                                value={editedUser.unitId?.toString() ?? "0"}
+                            />
+                        </div>
+                        <button className="changepasswordbutton button-grow-on-hover" onClick={() => userSettingsPopup.current.show()}>
+                            Change Password
+                        </button>
+                    </>
+                )}
+            </div>
+
+            <PopupForm ref={userSettingsPopup} title={"Change Password"} forms={[passwordChangeFields]} onSubmit={handlePasswordChange} />
         </div>
         <PageFooter />
-    </>;
-};
+    </>
+);
+                        }
 
 export default AdminUserEditor;

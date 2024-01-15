@@ -22,6 +22,11 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faB }from "@fortawesome/free-solid-svg-icons";
 import AdminAddUnit from "./pages/AddUnits.tsx";
 import ThemeProvider from './components/ThemeProvider.tsx';
+import ViewReport from './pages/ViewReport.tsx';
+import AdminCompanyManager from "./pages/AdminCompanyManager.tsx";
+import Map from "./pages/Map.tsx";
+import UserSettings from './pages/UserSettings.tsx';
+import AdminReportManager from "./pages/AdminReportManager.tsx";
 import ForgotPassword from "./pages/ForgotPassword.tsx";
 
 library.add(faB);
@@ -45,9 +50,13 @@ root.render(
                     <Route path={"users"} element={<AdminUserManager />} />
                     <Route path={"users/edit/:userId"} element={<AdminUserEditor />}/>
                     <Route path={"issues"} element={<AdminIssueManager />}/>
+                    <Route path={"companies"} element={<AdminCompanyManager />} />
+                    <Route path={"reports"} element={<AdminReportManager />} />
                     <Route path={"import"} element={ <CSVUploadPage/>}/>
                     <Route path={"new-machine"} element={<AdminAddMachine />}/>
                     <Route path={"units"} element={<AdminAddUnit />}/>
+                    <Route path={"logs"} element={<AdminLog/>}/>
+
                 </Route>
                 <Route path="/employee">
                     <Route path={"users"} element={<EmployeeUserList />}/>
@@ -62,6 +71,9 @@ root.render(
                     <Route path={"403"} element={<ErrPage403 />}/>
                     <Route path={"issue/:issueId"} element={<IssuePage />}/>
                     <Route path={"my-issues"} element={<MyIssuesPage />}/>
+                    <Route path={"report/:reportId"} element={<ViewReport />}/>
+                    <Route path={"map"} element={<Map />} />
+                    <Route path={"UserSettings"} element={<UserSettings />}/>
                 </Route>
             </Routes>
         </BrowserRouter>

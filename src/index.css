@@ -587,6 +587,11 @@ a:hover {
     grid-template-rows: repeat(auto-fit, 32px);
     grid-gap: 8px;
 }
+.changepasswordbutton{
+grid-column: 1 / -1;
+width: 50%;
+margin: 0 auto;
+}
 
 .select-button {
     display: flex;
@@ -894,7 +899,7 @@ a:hover {
     width: 32px;
 }
 
-.issue-header button {
+.resolve-issue {
     margin-left: auto;
     height: fit-content;
     background-color: var(--accent);
@@ -1037,6 +1042,12 @@ a:hover {
     border-radius: 1px;
 }
 
+.popup-form-field-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .popup-form-footer {
     display: grid;
     width: 100%;
@@ -1052,6 +1063,35 @@ a:hover {
     background-color: var(--text);
     color: var(--background);
     font-weight: 600;
+}
+
+.markdown-options {
+    padding: 8px;
+    display: flex;
+    justify-content: right;
+}
+
+.markdown-options .text-icon {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.markdown-input {
+    display: flex;
+}
+
+.markdown-input textarea {
+    border: 1px;
+    font-size: 14px;
+    resize: none;
+    width: 100%;
+    margin-bottom: 8px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.markdown-preview {
+    font-size: 14px;
+    margin-bottom: 12px;
 }
 
 .text-bold {
@@ -1083,6 +1123,134 @@ a:hover {
 
 .login-text {
     color : var(--background-2);
+}
+
+.map-container {
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.map-sidebar {
+    display: none;
+    flex-direction: column;
+    padding: 8px;
+    transition: display 500ms ease;
+}
+
+.map-sidebar > button {
+    background-color: transparent;
+    color: var(--text);
+    align-items: center;
+}
+
+.map-sidebar > button:hover {
+    transform: scale(120%);
+}
+
+.map-sidebar > h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding: 2px 2px 4px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--text);
+}
+
+.map-sidebar > p {
+    padding: 2px;
+    margin-bottom: 2px;
+}
+
+.map-sidebar-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.map-sidebar-list > div {
+    background-color: var(--background-3);
+    height: 64px;
+    border-radius: 4px;
+    padding: 8px;
+    transition: transform 100ms, background-color 100ms;
+}
+
+.map-sidebar-list > div:hover {
+    cursor: pointer;
+    background-color: var(--accent);
+    transform: scale(101.5%);
+}
+
+.map-sidebar-list > div > p > svg {
+    width: 24px;
+    margin-right: 4px;
+}
+
+.map-sidebar-list > div > .i-title {
+    font-size: 1.25rem;
+}
+
+.map-sidebar-list > div > .i-machine {
+    font-size: 1rem;
+}
+
+.map-sidebar-list > div > .i-user {
+    font-size: 1rem;
+}
+
+/* UserSettings.css */
+.page-content {
+    padding: 20px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.page-header h1 {
+    font-size: 24px;
+}
+
+.user-details {
+/* should be next to eachother in groups of 2, but there should be a big gap between them horizontally, never more then 2 next to eachother*/
+
+
+}
+
+.user-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    grid-gap: 20px; 
+  }
+
+.user-detail p {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.user-detail input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.user-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.button-grow-on-hover:hover
+{
+    transform: scale(105%);
+    transition: transform 0.2s ease;
+}
+
+.read-only {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
 }
 
 .forgot-password-confirmation {

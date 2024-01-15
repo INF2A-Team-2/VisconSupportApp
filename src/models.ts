@@ -11,6 +11,12 @@ export enum Priority {
     Critical
 }
 
+export enum Status {
+    Open,
+    Closed,
+    Archived
+}
+
 export interface User {
     id: number;
     username: string;
@@ -29,6 +35,9 @@ export interface Unit {
 export interface Company {
     id: number;
     name: string;
+    latitude: number;
+    longitude: number;
+    phoneNumber : string
 }
 
 export type Machine = {
@@ -47,6 +56,8 @@ export type Issue = {
     timeStamp: string;
     userId: number;
     machineId: number;
+    priorty: Priority;
+    status: Status;
 }
 
 export type Message = {
@@ -88,10 +99,13 @@ export enum FieldType {
     Text,
     Password,
     Number,
+    Float,
     Selection,
     TextArea,
     Files,
-    Slider
+    Slider,
+    Markdown,
+    Checkbox,
 }
 
 export type Field = {
@@ -105,4 +119,14 @@ export type Field = {
     }>,
     sliderValues?: Array<string>,
     isNumber?: boolean
+}
+
+export type Report = {
+    id: number,
+    title: string,
+    body: string,
+    public: boolean,
+    machineId: number,
+    companyId: number,
+    timeStamp: string,
 }
