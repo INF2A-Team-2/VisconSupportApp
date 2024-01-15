@@ -23,8 +23,8 @@ const AdminLog = () => {
         logs.forEach(l => {
             _data.push([
                 l.id,
-                strftime("%F %T", l.timeStamp),
-                users.find(u => l.authorId == u.id)?.id,
+                strftime("%F %H:%M", new Date(l.timeStamp)),
+                users.find(u => l.authorId == u.id)?.username ?? "null",
                 l.description
             ]);
         });

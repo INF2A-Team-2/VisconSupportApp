@@ -11,6 +11,12 @@ export enum Priority {
     Critical
 }
 
+export enum Status {
+    Open,
+    Closed,
+    Archived
+}
+
 export interface User {
     id: number;
     username: string;
@@ -50,6 +56,8 @@ export type Issue = {
     timeStamp: string;
     userId: number;
     machineId: number;
+    priorty: Priority;
+    status: Status;
 }
 
 export type Message = {

@@ -1,6 +1,6 @@
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
-import {AccountType} from "../models.ts";
+import {AccountType, Priority, Status} from "../models.ts";
 import {useEffect, useState} from "react";
 import TableList from "../components/TableList.tsx";
 import strftime from "strftime";
@@ -31,6 +31,8 @@ const AdminIssueManager = () => {
             _data.push([
                 i.id,
                 i.headline,
+                Priority[i.priority],
+                Status[i.status],
                 strftime("%F %H:%M", new Date(i.timeStamp)),
                 user !== undefined ? `${user.username} [${user.id}]` : "null",
                 machine !== undefined ? `${machine.name} [${machine.id}]` : "null"
@@ -45,7 +47,7 @@ const AdminIssueManager = () => {
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Issues</h1>
-            <TableList columns={["ID", "Headline", "Date", "User", "Machine"]}
+            <TableList columns={["ID", "Headline", "Priority", "Status", "Date", "User", "Machine"]}
                        data={data}
                        defaultSort={{key: 2, desc: true}}
                        buttons={[

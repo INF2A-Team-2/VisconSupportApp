@@ -9,6 +9,7 @@ import PageFooter from "../components/PageFooter.tsx";
 import useAuth from "../api/auth.ts";
 import strftime from "strftime";
 import TableList from "../components/TableList.tsx";
+import { Priority, Status } from "../models.ts";
 
 
 
@@ -30,6 +31,7 @@ const MyIssuesPage = () => {
             _data.push([
                 i.id,
                 i.headline,
+                Priority[i.priority],
                 strftime("%F %H:%M", new Date(i.timeStamp)),
                 machine !== undefined ? `${machine.name} [${machine.id}]` : "null"
             ]);
@@ -43,7 +45,7 @@ const MyIssuesPage = () => {
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Issues</h1>
-            <TableList columns={["ID", "Headline", "Date", "Machine"]}
+            <TableList columns={["ID", "Headline", "Priority", "Date", "Machine"]}
                        data={data}
                        defaultSort={{key: 2, desc: true}}
                        buttons={[

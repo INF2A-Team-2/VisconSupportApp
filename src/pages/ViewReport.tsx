@@ -20,9 +20,14 @@ const ViewReport = () => {
     return (<>
         <NavigationHeader />
         <div className={"page-content"}>
-            <h1>{report?.title}</h1>
-            <h2><i className="fa-solid fa-gears"></i>{machine?.name}</h2>
-            <div dangerouslySetInnerHTML={{__html: sanitizeHtml(marked(report?.body))}}></div>
+            <div className={"issue-header"}>
+                <h1>Report: {report?.title}</h1>
+                <h2><i className="fa-solid fa-gears"></i>{machine?.name}</h2>
+            </div>
+            <div className={"issue-content"}>
+                <h2>Body</h2>
+                <div dangerouslySetInnerHTML={{__html: sanitizeHtml(marked(report?.body))}}></div>
+            </div>
         </div>
     </>);
 };
