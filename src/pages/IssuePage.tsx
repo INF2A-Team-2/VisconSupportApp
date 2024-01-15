@@ -4,7 +4,7 @@ import MessageBox from "../components/MessageBox";
 import React, { useEffect, useRef, useState } from "react";
 import {newIssueMessage, resolveIssue, useIssue, useIssueAttachments, useIssueMessages} from "../api/issues.ts";
 import useAuth from "../api/auth.ts";
-import {AccountType, Attachment, Priority, Field, FieldType} from "../models.ts";
+import {AccountType, Attachment, Priority, Field, FieldType, Status} from "../models.ts";
 import { getConnection } from "../api/socket.ts";
 import { HubConnection, HubConnectionState } from "@microsoft/signalr";
 import {useUser} from "../api/users.ts";
@@ -34,7 +34,7 @@ const IssuePage = () => {
     const {user: issueUser} = useUser({ userId: issue?.userId });
 
     const {machine} = useMachine({ machineId: issue?.machineId });
-    const markDownRef = useRef<MarkdownInput>();;
+    const markDownRef = useRef<MarkdownInput>();
     const [connection, setConnection] = useState<HubConnection>(null);
     const popupForm = useRef<PopupForm>();
     const popupFieds: Array<Array<Field>> = [
@@ -141,6 +141,7 @@ const IssuePage = () => {
                 <h1>{issue?.headline}</h1>
                 <h2><i className="fa-solid fa-user"></i>{issueUser?.username}</h2>
                 <h2><i className="fa-solid fa-gears"></i>{machine?.name}</h2>
+                <h2><i className="fa-solid fa-thermometer"></i>{Status[issue?.status]}</h2>
                 <h2><i className="fa-solid fa-phone"></i>{issue?.phoneNumber ?? "No phone number found!"}</h2>
                 <h2><i className="fa-solid fa-bell"></i>{Priority[issue?.priority]}</h2>
             </div>

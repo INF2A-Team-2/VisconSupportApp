@@ -30,6 +30,7 @@ const MyIssuesPage = () => {
 
             _data.push([
                 i.id,
+                Status[i.status],
                 i.headline,
                 Priority[i.priority],
                 strftime("%F %H:%M", new Date(i.timeStamp)),
@@ -45,7 +46,7 @@ const MyIssuesPage = () => {
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Issues</h1>
-            <TableList columns={["ID", "Headline", "Priority", "Date", "Machine"]}
+            <TableList columns={["ID", "Status", "Headline", "Priority", "Date", "Machine"]}
                        data={data}
                        defaultSort={{key: 3, desc: true}}
                        buttons={[

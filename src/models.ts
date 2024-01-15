@@ -13,7 +13,7 @@ export enum Priority {
 
 export enum Status {
     Open,
-    Closed,
+    InProgress,
     Archived
 }
 
@@ -49,6 +49,7 @@ export type Machine = {
 export type Issue = {
     id : number;
     priority: Priority;
+    status: Status;
     headline : string;
     actual : string;
     expected: string;
@@ -57,7 +58,6 @@ export type Issue = {
     timeStamp: string;
     userId: number;
     machineId: number;
-    status: Status;
 }
 
 export type Message = {
