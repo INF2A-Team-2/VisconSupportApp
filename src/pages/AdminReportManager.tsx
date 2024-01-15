@@ -33,7 +33,7 @@ const AdminReportManager = () => {
     return <>
         <NavigationHeader/>
         <div className={"page-content"}>
-            <h1>Logs</h1>
+            <h1>Reports</h1>
             <TableList columns={["Id", "Title", "Company", "Visibility", "Date"]}
                        data={data}
             ></TableList>

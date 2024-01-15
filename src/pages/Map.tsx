@@ -1,15 +1,21 @@
-import {GoogleMap, useLoadScript, Marker} from "@react-google-maps/api";
+import {GoogleMap, Marker, useLoadScript} from "@react-google-maps/api";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import useAuth from "../api/auth.ts";
-import {AccountType, Company} from "../models.ts";
+import {AccountType, Company, Status} from "../models.ts";
 import config from "../../config.json";
 import {useCompanies} from "../api/companies.ts";
 import {useRef, useState} from "react";
+import {useIssues} from "../api/issues.ts";
+import {useUsers} from "../api/users.ts";
+import {useMachines} from "../api/machines.ts";
+import {useNavigate} from "react-router-dom";
 
 const API_KEY = config.map_api_key;
 
 const Map = () => {
     const user = useAuth([AccountType.HelpDesk, AccountType.Admin]);
+
+    const navigate = useNavigate();
 
     const { companies } = useCompanies();
 
@@ -17,6 +23,10 @@ const Map = () => {
     const mapSidebarRef = useRef<HTMLDivElement>();
 
     const [selectedCompany, setSelectedCompany] = useState<Company>(null);
+
+    const {issues} = useIssues();
+    const {users} = useUsers();
+    const {machines} = useMachines();
 
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: API_KEY
@@ -71,11 +81,26 @@ const Map = () => {
                 <h1>{selectedCompany?.name}</h1>
                 <p>Recent issues</p>
                 <div className={"map-sidebar-list"}>
-                    <div>
-                        <p className={"i-title"}>Test Issue</p>
-                        <p className={"i-machine"}><i className="fa-solid fa-gears"></i>Test Machine</p>
-                        <p className={"i-user"}><i className="fa-solid fa-user"></i>Customer</p>
-                    </div>
+                    {issues.map(i => {
+                        const user = users.find(u => u.id == i.userId);
+                        const machine = machines.find(m => m.id == i.machineId);
+
+                        if (user?.companyId !== selectedCompany?.id) {
+                            return;
+                        }
+
+                        if (i.status !== Status.Open) {
+                            return;
+                        }
+
+                        return <>
+                            <div key={i.id} onClick={() => navigate(`/issue/${i.id}`)}>
+                                <p className={"i-title"}>{i.headline}</p>
+                                <p className={"i-machine"}><i className="fa-solid fa-gears"></i>{machine.name}</p>
+                                <p className={"i-user"}><i className="fa-solid fa-user"></i>{user.username}</p>
+                            </div>
+                        </>;
+                    })}
                 </div>
             </div>
         </div>

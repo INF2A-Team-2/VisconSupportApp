@@ -24,6 +24,7 @@ export interface User {
     phoneNumber: string;
     unitId: number;
     companyId: number;
+    email: string;
 }
 
 export interface Unit {
@@ -56,7 +57,6 @@ export type Issue = {
     timeStamp: string;
     userId: number;
     machineId: number;
-    priorty: Priority;
     status: Status;
 }
 
