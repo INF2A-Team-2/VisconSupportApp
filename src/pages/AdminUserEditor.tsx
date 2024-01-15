@@ -161,65 +161,86 @@ const AdminUserEditor = () => {
         },
     ];
 
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const u = {...editedUser};
+        u.email = e.target.value;
+        setEditedUser(u);
+    };
 
-return (
-    <>
-        <NavigationHeader />
-        <div className={"page-content user-editor"}>
-            <div className={"page-header"}>
-                <h1>Edit user</h1>
-                <button onClick={submitData}>Apply changes</button>
-            </div>
-            <div className="user-details">
-                {editedUser && (
-                    <>
-                        <div className={"user-detail"}>
-                            <p>Username</p>
-                            <input
-                                type={"text"}
-                                autoComplete={"off"}
-                                value={editedUser.username ?? ""}
-                                onChange={(e) => handleInput("username", e.target.value)}
-                            />
-                        </div>
-                        <div className={"user-detail"}>
-                            <p>Type</p>
-                            <Dropdown
-                                options={accTypes}
-                                onChange={(e) => handleInput("type", parseInt(e.value))}
-                                value={editedUser.type.toString()}
-                            />
-                        </div>
-                        {(editedUser.type === AccountType.User) && (
+    const emailField: Field = {
+        name: "Email",
+        key: "email",
+        type: FieldType.Text,
+        required: true,
+    };
+
+    return (
+        <>
+            <NavigationHeader />
+            <div className={"page-content user-editor"}>
+                <div className={"page-header"}>
+                    <h1>Edit user</h1>
+                    <button onClick={submitData}>Apply changes</button>
+                </div>
+                <div className="user-details">
+                    {editedUser && (
+                        <>
                             <div className={"user-detail"}>
-                                <p>Company</p>
-                                <Dropdown
-                                    options={companyData}
-                                    onChange={(e) => handleInput("companyId", parseInt(e.value))}
-                                    value={editedUser.companyId?.toString() ?? "None"}
+                                <p>Username</p>
+                                <input
+                                    type={"text"}
+                                    autoComplete={"off"}
+                                    value={editedUser.username ?? ""}
+                                    onChange={(e) => handleInput("username", e.target.value)}
                                 />
                             </div>
-                        )}
-                        <div className={"user-detail"}>
-                            <p>Unit</p>
-                            <Dropdown
-                                options={unitData}
-                                onChange={(e) => handleInput("unitId", parseInt(e.value))}
-                                value={editedUser.unitId?.toString() ?? "0"}
-                            />
-                        </div>
-                        <button className="changepasswordbutton button-grow-on-hover" onClick={() => userSettingsPopup.current.show()}>
-                            Change Password
-                        </button>
-                    </>
-                )}
-            </div>
+                            <div className={"user-detail"}>
+                                <p>Email</p>
+                                <input
+                                    type={"email"}
+                                    autoComplete={"off"}
+                                    value={editedUser.email ?? ""}
+                                    onChange={handleEmailChange}
+                                />
+                            </div>
+                            <div className={"user-detail"}>
+                                <p>Type</p>
+                                <Dropdown
+                                    options={accTypes}
+                                    onChange={(e) => handleInput("type", parseInt(e.value))}
+                                    value={editedUser.type.toString()}
+                                />
+                            </div>
+                            {(editedUser.type === AccountType.User) && (
+                                <div className={"user-detail"}>
+                                    <p>Company</p>
+                                    <Dropdown
+                                        options={companyData}
+                                        onChange={(e) => handleInput("companyId", parseInt(e.value))}
+                                        value={editedUser.companyId?.toString() ?? "None"}
+                                    />
+                                </div>
+                            )}
+                            <div className={"user-detail"}>
+                                <p>Unit</p>
+                                <Dropdown
+                                    options={unitData}
+                                    onChange={(e) => handleInput("unitId", parseInt(e.value))}
+                                    value={editedUser.unitId?.toString() ?? "0"}
+                                />
+                            </div>
+                            <button className="changepasswordbutton button-grow-on-hover" onClick={() => userSettingsPopup.current.show()}>
+                                Change Password
+                            </button>
+                        </>
+                    )}
+                </div>
 
-            <PopupForm ref={userSettingsPopup} title={"Change Password"} forms={[passwordChangeFields]} onSubmit={handlePasswordChange} />
-        </div>
-        <PageFooter />
-    </>
-);
-                        }
+                <PopupForm ref={userSettingsPopup} title={"Change Password"} forms={[passwordChangeFields]} onSubmit={handlePasswordChange} />
+            </div>
+            <PageFooter />
+        </>
+    );
+}
 
 export default AdminUserEditor;
