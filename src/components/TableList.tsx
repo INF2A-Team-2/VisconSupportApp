@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-export default function TableList({ columns, data, buttons = [], defaultSort = {key: 0, desc: false}}) {
+export default function TableList({ columns, data, buttons = [], defaultSort = {key: 0, desc: false}, colorSelector = null}) {
     const [sortMode, setSortMode] = useState(defaultSort);
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -73,7 +73,8 @@ export default function TableList({ columns, data, buttons = [], defaultSort = {
                 <div className={"tablelist-list-item"}
                      key={x[0]}
                      style={{
-                         gridTemplateColumns: `repeat(${columns.length}, minmax(50px, 1fr)) ${buttons.length !== 0 ? `${32 * buttons.length}px` : ""}`
+                         gridTemplateColumns: `repeat(${columns.length}, minmax(50px, 1fr)) ${buttons.length !== 0 ? `${32 * buttons.length}px` : ""}`,
+                         borderLeft: colorSelector === null ? "none" : `8px solid ${colorSelector(x)}`
                      }}>
                     {x.map((k, i) => <p key={i}>{k}</p>)}
                     <div className={"tablelist-buttons-wrapper"}>
