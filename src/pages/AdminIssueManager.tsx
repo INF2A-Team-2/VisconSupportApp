@@ -12,7 +12,7 @@ import PageFooter from "../components/PageFooter.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const AdminIssueManager = () => {
-    useAuth([AccountType.Admin]);
+    const currUser = useAuth([AccountType.Admin]);
 
     const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ const AdminIssueManager = () => {
                 Priority[i.priority],
                 Status[i.status],
                 strftime("%F %H:%M", new Date(i.timeStamp)),
-                user !== undefined ? `${user.username} [${user.id}]` : "null",
+                user !== undefined ? `${user.username} [${user.id}]` : currUser.username ?? "null",
                 machine !== undefined ? `${machine.name} [${machine.id}]` : "null"
             ]);
         });
