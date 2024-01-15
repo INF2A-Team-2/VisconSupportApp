@@ -47,7 +47,7 @@ const MyIssuesPage = () => {
             <h1>Issues</h1>
             <TableList columns={["ID", "Headline", "Priority", "Date", "Machine"]}
                        data={data}
-                       defaultSort={{key: 2, desc: true}}
+                       defaultSort={{key: 3, desc: true}}
                        buttons={[
                            {
                                text: <i className="fa-solid fa-arrow-right"></i>,
