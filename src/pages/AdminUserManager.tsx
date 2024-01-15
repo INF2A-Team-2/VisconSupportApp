@@ -52,7 +52,8 @@ const AdminUserManager = () => {
                 u.username,
                 getType(u.type),
                 companies.find(c => c.id == u.companyId)?.name,
-                units.find(un => un.id == u.unitId)?.name,]);
+                units.find(un => un.id == u.unitId)?.name,
+                u.email]);
         });
 
         setData(_data);
@@ -87,6 +88,7 @@ const AdminUserManager = () => {
         type: number,
         unitId?: number,
         company?: number;
+        email? : string;
     }) => {
         console.log("Received data:", data);
         if (data.password !== data.passwordControl) {
@@ -108,7 +110,8 @@ const AdminUserManager = () => {
             password: data.password,
             type: data.type,
             unitId: data.unitId,
-            companyId: data.company
+            companyId: data.company,
+            email: data.email
         });
 
         toast.promise(promise, {
@@ -181,6 +184,12 @@ const AdminUserManager = () => {
             isNumber: true
         },
         {
+            name: "Email",
+            key: "email",
+            type: FieldType.Text,
+            required: false
+        },
+        {
             name: "Password",
             key: "password",
             type: FieldType.Password,
@@ -205,7 +214,7 @@ const AdminUserManager = () => {
                     }}>
                 Add user <i className="fa-solid fa-user-plus"></i>
             </button>
-            <TableList columns={["ID", "Username", "Type", "Company", "Unit"]}
+            <TableList columns={["ID", "Username", "Type", "Company", "Unit", "Email"]}
                        data={data}
                        buttons={[
                            {

@@ -96,11 +96,16 @@ const UserSettings = () => {
                         <div className="user-detail">
                             <p>Company Phone Number</p>
                             <input type="text" className="read-only" value={company.phoneNumber ?? "Loading..."} readOnly />
-                            </div>
+                        </div>
+                        <div className="user-detail">
+                            <p>Email Address</p>
+                            <input type="text" className="read-only" value={editedUser.email ?? "Loading..."} readOnly />
+                        </div>
                         <div className="user-detail">
                             <p>Unit</p>
                             <input type="text" className="read-only" value={unit ? unit.name : "Loading..."} readOnly />
                         </div>
+
                     </div>
                 )}
                 <div className="user-actions">

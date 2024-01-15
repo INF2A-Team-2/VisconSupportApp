@@ -26,7 +26,7 @@ const EmployeeUserInformation = () => {
 
     useEffect(() => {
         const combinedData = issues.map(issue => {
-            const machineName = machines.find(machine => machine.id === issue.machineId)?.name || 'Loading';
+            const machineName = machines.find(m => m.id == issue.machineId) || "Loading...";
             return [issue.id, issue.headline, machineName, strftime("%F %H:%M", new Date(issue.timeStamp))];
         });
 
