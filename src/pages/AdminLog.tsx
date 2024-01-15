@@ -1,5 +1,5 @@
 import useAuth from "../api/auth.ts";
-import {AccountType} from "../models.ts";
+import {AccountType, Log} from "../models.ts";
 import {useLogs} from "../api/logs.ts";
 import NavigationHeader from "../components/NavigationHeader.tsx";
 import TableList from "../components/TableList.tsx";
@@ -18,6 +18,22 @@ const AdminLog = () => {
 
     const {users} = useUsers();
 
+    const getColor = (x) => {
+        if (x[3]?.includes("deleted")) {
+            return "#D3212C";
+        }
+
+        if (x[3]?.includes("edited")) {
+            return "#FF980E";
+        }
+
+        if (x[3]?.includes("created")) {
+            return "#006B3D";
+        }
+
+        return "rgba(0, 0, 0, 0)";
+    };
+
     useEffect(() => {
         const _data = [];
         logs.forEach(l => {
@@ -29,8 +45,8 @@ const AdminLog = () => {
             ]);
         });
 
-        setData(_data)
-    }, [logs]);
+        setData(_data);
+    }, [logs, users]);
 
     return <>
         <NavigationHeader/>
@@ -38,6 +54,7 @@ const AdminLog = () => {
             <h1>Logs</h1>
             <TableList columns={["Id", "TimeStamp", "Author", "Description"]}
                        data={data}
+                       colorSelector={getColor}
             ></TableList>
         </div>
         <PageFooter/>

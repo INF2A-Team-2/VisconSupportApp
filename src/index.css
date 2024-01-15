@@ -1162,6 +1162,7 @@ margin: 0 auto;
 .map-sidebar-list {
     display: flex;
     flex-direction: column;
+    gap: 4px;
 }
 
 .map-sidebar-list > div {
