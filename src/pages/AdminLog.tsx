@@ -16,7 +16,7 @@ const AdminLog = () => {
 
     const [data , setData ] = useState([]);
 
-    const {users} = useUsers()
+    const {users} = useUsers();
 
     useEffect(() => {
         const _data = [];
