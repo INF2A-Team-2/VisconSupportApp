@@ -49,7 +49,7 @@ const AdminIssueManager = () => {
             <h1>Issues</h1>
             <TableList columns={["ID", "Headline", "Priority", "Status", "Date", "User", "Machine"]}
                        data={data}
-                       defaultSort={{key: 2, desc: true}}
+                       defaultSort={{key: 4, desc: true}}
                        buttons={[
                            {
                                text: <FontAwesomeIcon icon={"arrow-right"}/>,
