@@ -1252,3 +1252,15 @@ margin: 0 auto;
     background-color: #f5f5f5;
     cursor: not-allowed;
 }
+
+.forgot-password-confirmation {
+    width: 300px;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #346c34;
+    margin: 0 auto;
+}
+
+.forgot-password-title {
+    text-align: center;
+}

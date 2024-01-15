@@ -27,6 +27,7 @@ import AdminCompanyManager from "./pages/AdminCompanyManager.tsx";
 import Map from "./pages/Map.tsx";
 import UserSettings from './pages/UserSettings.tsx';
 import AdminReportManager from "./pages/AdminReportManager.tsx";
+import ForgotPassword from "./pages/ForgotPassword.tsx";
 
 library.add(faB);
 
@@ -64,6 +65,7 @@ root.render(
                 <Route path="/">
                     <Route path={"login"} element={<LoginPage />}/>
                     <Route path={"logout"} element={<LogoutPage />}/>
+                    <Route path={"forgot-password"} element={<ForgotPassword />}/>
                     <Route path={"404"} element={<ErrPage404 />}/>
                     <Route path={"solved-issues"} element={<SolvedIssuesPage />}/>
                     <Route path={"403"} element={<ErrPage403 />}/>
