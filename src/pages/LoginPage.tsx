@@ -31,7 +31,7 @@ const LoginPage = (): JSX.Element => {
     };
 
     const handleForgot = () => {
-        toast.error("You may not reset your password at this time, please contact your administrator.");
+        navigate("/forgot-password");
     };
 
     const onLogin = (username: string, password: string) => {

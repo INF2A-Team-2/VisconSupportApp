@@ -61,6 +61,18 @@ export async function getToken(username: string, password: string) : Promise<boo
     return true;
 }
 
+export async function submitPasswordResetRequest(email: string): Promise<boolean> {
+    const res = await axios.get(SERVER_URL + `/api/login/forgot-password?email=${email}`);
+
+    return res.status === 200;
+}
+
+export async function changePassword(token: string, password: string): Promise<boolean> {
+    const res = await axios.post(SERVER_URL + `/api/login/forgot-password?token=${token}&password=${password}`);
+
+    return res.status === 200;
+}
+
 export const RequestConfig = () => {
     return {
         headers: {

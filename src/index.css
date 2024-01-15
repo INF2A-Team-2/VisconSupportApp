@@ -1084,3 +1084,15 @@ a:hover {
 .login-text {
     color : var(--background-2);
 }
+
+.forgot-password-confirmation {
+    width: 300px;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #346c34;
+    margin: 0 auto;
+}
+
+.forgot-password-title {
+    text-align: center;
+}

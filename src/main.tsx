@@ -22,6 +22,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faB }from "@fortawesome/free-solid-svg-icons";
 import AdminAddUnit from "./pages/AddUnits.tsx";
 import ThemeProvider from './components/ThemeProvider.tsx';
+import ForgotPassword from "./pages/ForgotPassword.tsx";
 
 library.add(faB);
 
@@ -55,6 +56,7 @@ root.render(
                 <Route path="/">
                     <Route path={"login"} element={<LoginPage />}/>
                     <Route path={"logout"} element={<LogoutPage />}/>
+                    <Route path={"forgot-password"} element={<ForgotPassword />}/>
                     <Route path={"404"} element={<ErrPage404 />}/>
                     <Route path={"solved-issues"} element={<SolvedIssuesPage />}/>
                     <Route path={"403"} element={<ErrPage403 />}/>
