@@ -26,6 +26,7 @@ import ViewReport from './pages/ViewReport.tsx';
 import AdminCompanyManager from "./pages/AdminCompanyManager.tsx";
 import Map from "./pages/Map.tsx";
 import UserSettings from './pages/UserSettings.tsx';
+import AdminReportManager from "./pages/AdminReportManager.tsx";
 
 library.add(faB);
 
@@ -49,6 +50,7 @@ root.render(
                     <Route path={"users/edit/:userId"} element={<AdminUserEditor />}/>
                     <Route path={"issues"} element={<AdminIssueManager />}/>
                     <Route path={"companies"} element={<AdminCompanyManager />} />
+                    <Route path={"reports"} element={<AdminReportManager />} />
                     <Route path={"import"} element={ <CSVUploadPage/>}/>
                     <Route path={"new-machine"} element={<AdminAddMachine />}/>
                     <Route path={"units"} element={<AdminAddUnit />}/>
