@@ -22,7 +22,7 @@ const AdminReportManager = () => {
                 r.id,
                 r.title,
                 companies.find(c => c.id == r.companyId)?.name ?? "null",
-                r.public,
+                r.public ? "Public" : "Not Public",
                 strftime("%F", new Date(r.timeStamp)),
             ]);
         });
@@ -34,7 +34,7 @@ const AdminReportManager = () => {
         <NavigationHeader/>
         <div className={"page-content"}>
             <h1>Logs</h1>
-            <TableList columns={["Id", "Title", "Company", "Public", "TimeStamp"]}
+            <TableList columns={["Id", "Title", "Company", "Visibility", "Date"]}
                        data={data}
             ></TableList>
         </div>
