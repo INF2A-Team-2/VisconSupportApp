@@ -31,9 +31,9 @@ const AdminNavigationHeader = () => {
         <a href={"/admin/reports"}>Reports</a>
         <a href={"/admin/users"}>Users</a>
         <a href={"/admin/companies"}>Companies</a>
-        <a href={"/admin/logs"}>Logs</a>
         <a href={"/admin/units"}>Units</a>
         <a href={"/map"}>Map</a>
+        <a href={"/admin/logs"}>Logs</a>
     </>);
 };
 
