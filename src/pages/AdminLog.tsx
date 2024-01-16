@@ -10,7 +10,8 @@ import strftime from "strftime";
 
 const AdminLog = () => {
 
-    useAuth([AccountType.Admin]);
+    const currentUser = useAuth([AccountType.Admin]);
+    
 
     const {logs} = useLogs();
 
@@ -40,7 +41,7 @@ const AdminLog = () => {
             _data.push([
                 l.id,
                 strftime("%F %H:%M", new Date(l.timeStamp)),
-                users.find(u => l.authorId == u.id)?.username ?? "null",
+                users.find(u => l.authorId == u.id)?.username ?? currentUser.username ?? "Loading...",
                 l.description
             ]);
         });
