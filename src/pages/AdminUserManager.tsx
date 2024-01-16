@@ -49,7 +49,7 @@ const AdminUserManager = () => {
         users.forEach(u => {
             _data.push([
                 u.id,
-                u.username,
+                u.username ?? "Loading...",
                 getType(u.type),
                 companies.find(c => c.id == u.companyId)?.name,
                 units.find(un => un.id == u.unitId)?.name,
